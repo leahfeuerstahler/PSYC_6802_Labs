@@ -15,6 +15,7 @@ format:
     link-external-icon: true
 execute: 
   echo: true
+  freeze: auto
 ---
 
 ## R
