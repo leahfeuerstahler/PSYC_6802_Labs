@@ -40,7 +40,7 @@ In this course, we'll focus on steps 2 and 3, but you will also learn some data 
 
 -   Quarto is a text-processing language that is built into RStudio. It is used to **generate reports** (pdf, html, Word) that **integrate text, R code, R output, and R-generated plots**.
 
--   Quarto is the "next generation" of a tool known as R Markdown.
+-   Quarto is the "next generation" of a tool known as **R Markdown**.
 
     -   Quarto files have ".qmd" extensions, R Markdown files have ".Rmd" extensions
 
