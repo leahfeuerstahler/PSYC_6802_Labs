@@ -1,0 +1,196 @@
+---
+title: "Lab 3: Chi Square"
+author: "PSYC 6802"
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+  freeze: auto
+---
+
+## Categorical Data
+
+This week we're talking all about **categorical data**. This might include
+
+* Whether there are the same number of each flavor of gummy bear in a package
+  * Flavors of gummy bears represent categories
+* Diagnoses offered by clinicians
+  * Clinicians use different types of information to determine whether a patient belongs in a diagnostic category
+* Number of correct items on a test
+  * When grading a test, we have to categorize students responses as either "correct" or "incorrect"
+
+## Overview
+
+Tests & Functions
+
+* $\chi^2$ Goodness-of-Fit (`chisq.test, correct = FALSE`)
+
+* $\chi^2$ Test of Independence (`chisq.test, correct = FALSE`)
+
+* Yates' Correction for Continuity (`chisq.test, correct = TRUE`)
+
+* Fisher's Exact Test (`fisher.test`)
+
+* McNemar's Test (`mcnemar.test`) (see lecture slides)
+
+* Cohen's Kappa (`psych::cohen.kappa`) (see lecture slides)
+
+The `psych` package is very useful for psychometrics applications
+
+## Chi-Square Goodness-of-Fit
+
+The $\chi^2$ Goodness-of-Fit statistic checks whether the number of observations in each possible category matches some hypothesis about the expected distribution of those categories.
+
+The `chisq.test` function always takes counts, rather than raw data. For simple examples, it's easiest to enter the count data ourselves. 
+
+Recall from lecture that we had 117 raspberry, 55 pineapple, 62 lemon, 58 orange, and 62 strawberry gummy bears in the big bag of gummy bears.
+
+```{r}
+obs <- c(117, 55, 62, 58, 62)
+chisq.test(obs, correct = FALSE)
+```
+
+## Chi-Square Goodness-of-Fit
+
+The default null hypothesis is the equal category hypothesis: we expect the same number of observations for each category.
+
+We can specify the `p` argument to specify other null hypotheses.
+
+```{r}
+chisq.test(obs, p = c(1/3, 1/6, 1/6, 1/6, 1/6), 
+           correct = FALSE)
+```
+
+We retain the null hypothesis that all gummy bear flavors are equally represented, except for raspberry gummy bears which are twice as frequent as each other flavor ($\chi^2(4) = .60, p = .96$).
+
+## Tests of Independence
+
+Tests of *independence* check whether membership in one category *depends* on membership in another category.
+
+For example, in the data we'll look at today, we'll be considering whether the observed number of delays depends on which airline operates flights. 
+
+If the number of delays is similar regardless of which airline operates the flights, we would call delays *independent* of which airline operates the flights.
+
+If the number of delays is different depending on which airline operates the flights, we would say that delays are *dependent* which airline operates the flights.
+
+
+## Data for Today
+
+For the rest of today, we'll work with the `Lab_03_Airlines.csv` data. We will focus on the association between flight delays (the `Delay` variable) and airlines (the `Airline` variable).
+
+```{r message=FALSE, warning=FALSE, include=TRUE}
+library(tidyverse)
+library(rio)
+
+flights <- import("Lab_03_Airlines.csv") %>% 
+              mutate(Delay = factor(Delay,
+                                    levels = c("0", "1"),
+                                    labels = c("On Time", "Delay")))
+```
+
+
+Note that I turned the `Delay` variable into a factor and assigned labels right after importing the data.  
+
+## Chi-Square Test of Independence
+
+Let us look at delays and two airlines, American Airlines (`AA`) and Delta (`DL`).
+
+- Select only the rows with either `AA` or `DL` in the `Airline` variable. 
+
+```{r}
+AA_vs_DL <- flights %>% 
+              filter(Airline %in% c("AA", "DL"))
+
+tabl <- table(AA_vs_DL$Airline, AA_vs_DL$Delay)
+
+tabl
+```
+## Chi-Square Test of Independence
+
+Without Yates' correction for continuity:
+
+```{r}
+chisq.test(tabl, correct = FALSE)
+```
+
+## Chi-Square Test of Independence
+
+With Yates' correction for continuity:
+
+```{r}
+chisq.test(tabl, correct = TRUE)
+```
+
+How to interpret this result?
+
+## Effect Sizes for the Test of Independence
+
+From the previous slide, $\chi^2 = 410.66$
+
+$W$ coefficient (very small effect size):
+
+```{r}
+N <- sum(tabl)
+sqrt(410.66 / N)
+```
+
+Cramer's $V$ coefficient:
+
+* $k$ is the smaller of # rows and # columns
+
+```{r}
+k <- 2
+sqrt(410.66 / (N * (2 - 1)))
+```
+
+Because $k=2$, these two coefficients are identical
+
+
+## Fisher's Exact Test
+
+```{r}
+fisher.test(tabl)
+```
+
+
+
+## Pretty Math in Quarto
+
+When writing reports with R Markdown, we might want to use mathematical notation or symbols.
+
+To type math in-line, put the expression between two `$` signs. 
+
+* For example: `$\chi^2$` renders as $\chi^2$
+* The backslash `\` precedes a special character, such as a Greek letter
+* See \url{https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols} for a list of the most useful characters
+* You can also look at our Rmd lab slides for examples
+
+
+For centered equations, put the expression between double $ signs: 
+
+
+`$$\chi^2(1) = 410.66, p < .001$$`
+
+$$\chi^2(1) = 410.66, p < .001$$
+
+## The Greek Alphabet and Math Symbols
+
+<https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols>
+
+Examples: 
+
+* `$\alpha$` produces $\alpha$
+
+* `$\infty$` produces $\infty$
+
+
+
