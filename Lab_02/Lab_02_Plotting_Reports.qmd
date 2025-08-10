@@ -1,0 +1,703 @@
+---
+title: "Lab 2: Quarto, Summary Statistics, and Plotting"
+author: "PSYC 6802"
+date: September 10, 2025
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+  freeze: auto
+---
+
+## The Data Lifecycle
+
+1.  **Data entry, import, cleaning**
+
+2.  **Data analysis**
+
+    -   Creating plots
+
+    -   Running $t$ tests, ANOVAs, etc.
+
+3.  **Reporting & Documentation**
+
+    -   Archiving every step you did to manipulate your raw data
+
+    -   Communicating your results clearly to (a) your audience, (b) your collaborators, and (c) your future self
+
+In this course, we'll focus on steps 2 and 3, but you will also learn some data cleaning & manipulation methods along the way
+
+## Quarto
+
+-   Quarto is a text-processing language that is built into RStudio. It is used to **generate reports** (pdf, html, Word) that **integrate text, R code, R output, and R-generated plots**.
+
+-   Quarto is the "next generation" of a tool known as R Markdown.
+
+    -   Quarto files have ".qmd" extensions, R Markdown files have ".Rmd" extensions
+
+    -   Most (but not all) functionality is the same between Quarto and R Markdown
+
+-   This document is written using Quarto!
+
+-   You are expected to complete your homework assignments with Quarto.
+
+## Quarto
+
+To start a Quarto document (follow along!):
+
+1.  File -\> New File -\> Quarto Document...
+
+-   Or from the drop-down menu at the upper-left side of the RStudio window
+
+2.  Select "Document" on the left-hand side
+
+-   The "Presentation" and "Interactive" tabs are outside the scope of this class
+
+3.  Choose the output type that you want (pdf or Word)
+
+4.  Set "Engine: knitr" if this is not set already
+
+5.  **De-select** "Use visual markdown editor"
+
+::: aside
+Although the visual editor might be useful to you, it can also cause unexpected errors that may be more frustrating than helpful. I recommend **not** using the visual editor while you learn Quarto.
+:::
+
+## Quarto
+
+-   Hit "OK", a new file will open in your script pane.
+
+    -   You might see a banner near the top of your script pane that says "Package rmarkdown required but is not installed." If so, hit "Install".
+
+::: {.callout-tip appearance="simple"}
+**Review**: how do we check if packages are installed??
+:::
+
+-   Quarto gives us an example document that illustrates some of the features of Markdown.
+
+-   To compile the document, hit the "Render" button above the script, go to File -\> Render Document, or type Cmd/Ctrl + Shift + K
+
+    -   You will be asked to save the qmd file first
+
+-   In the same folder in which you saved the qmd document, a pdf or Word document should be produced (it might even open automatically). Take a minute or two to look at and compare the pdf document and the qmd script.
+
+## Quarto
+
+If you want create **pdfs** with Quarto, you need to install something called a LaTeX distribution. This just takes a couple of lines of code:
+
+```{r eval = FALSE}
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+Either pdfs or Word documents are acceptable for lab activities/homework
+
+-   **Don't** submit html documents for lab activities/homework
+
+## Quarto
+
+Let's take a closer look at the first few lines of the qmd file. The first few lines will look something like this:
+
+```         
+---
+title: "Untitled"
+format: docx
+---
+```
+
+This is called A YAML header. You can change the title to anything that you want, so long as it is within quotation marks. The "format" line only understands certain inputs, and it's easiest to specify the type of output through the point-and-click menu we used to create this file.
+
+. . .
+
+You can also add an author and date to this section like this.
+
+```         
+---
+title: "My First Quarto Document"
+format: docx
+author: Brave New PhD Student
+date: today
+---
+```
+
+## Quarto
+
+-   Documentation for Quarto is available on its website: <https://quarto.org/docs/guide/>
+
+-   On your own, you might want learn about some of the basic features: <https://quarto.org/docs/authoring/markdown-basics.html>
+
+-   There are **many** features, so the documentation might be overwhelming at first. Next, we'll guide you through some of the most useful-to-you features.
+
+<!-- Add information about how you can have text mixed with code chunks -->
+
+## Quarto
+
+After the YAML header, you can write any text you'd like.
+
+Quarto also has some features to mark up your text:
+
+-   Put 1 asterisk before and after text to make \**italics*\*
+
+-   Put 2 asterisks before and after text to make \*\***bold**\*\*
+
+-   Use hash marks to delineate different sections of your text
+
+\# Level 1 Header
+
+\## Level 2 Header
+
+## Quarto Example: Word Output
+
+::::: columns
+::: column
+**Quarto Document**::
+
+```         
+---
+title: "My First Quarto Document"
+format: docx
+author: Brave New PhD Student
+date: today
+---
+
+# A Fun Day in New York City
+
+1. **People watch** in Central Park
+
+2. Get a **cookie** at [Levain Bakery](https://levainbakery.com/)
+
+3. Walk the **High Line**: <https://maps.app.goo.gl/uJwdVLhYy4KULBBJ6>
+
+# Shopping List
+
+## Grocery List
+
+* Bananas
+
+* Rice
+
+## Drug Store
+
+* *Pick up prescriptions*
+
+* Shampoo
+```
+:::
+
+::: column
+**Word Document:**
+
+![](My_First_Quarto_Word.png)
+:::
+:::::
+
+## Quarto Example PDF Output
+
+::::: columns
+::: column
+**Quarto Document**::
+
+```         
+---
+title: "My First Quarto Document"
+format: pdf
+author: Brave New PhD Student
+date: today
+---
+
+# A Fun Day in New York City
+
+1. **People watch** in Central Park
+
+2. Get a **cookie** at [Levain Bakery](https://levainbakery.com/)
+
+3. Walk the **High Line**: <https://maps.app.goo.gl/uJwdVLhYy4KULBBJ6>
+
+# Shopping List
+
+## Grocery List
+
+* Bananas
+
+* Rice
+
+## Drug Store
+
+* *Pick up prescriptions*
+
+* Shampoo
+```
+:::
+
+::: column
+**PDF Document:**
+
+![](My_First_Quarto_PDF.png)
+:::
+:::::
+
+## Including R Code in Quarto
+
+-   To begin an R code "chunk", type 3 back ticks (the button above "Tab" on most keyboards), followed by {r}
+
+-   To end an R code "chunk" type 3 back ticks.
+
+-   R code chunks look like the following (without the extra spaces):
+
+```         
+` ` ` {r}
+x <- 2 + 3 # R code goes in between the sets of tick marks
+` ` `
+```
+
+**Keyboard shortcut**: Cmd/Ctrl + Opt + i
+
+## Including R Code in Quarto
+
+-   As with ordinary R scripts, you can use Cmd/Ctrl + Enter/Return to run R commands
+
+    -   Click within the code chunk first
+
+-   By default, output (e.g., plots) are displayed within the Rmd pane
+
+    -   If you want move output to its usual spot, click on the gear icon (to the right of the Render button) and check "Chunk Output in Console"
+
+## Including R Code in Quarto
+
+Within the curly brackets that open an R code chunk, you can specify several options. A full list is on the cheat sheet, but these are the options I use most often.
+
+{r echo = TRUE, eval = TRUE, include = TRUE, fig.height = 7, out.height = "3in"}
+
+-   `echo`: TRUE or FALSE, whether to include the R code along with the output
+
+-   `eval`: TRUE or FALSE, whether to include the R output along with the code
+
+-   `include`: TRUE or FALSE, if FALSE evaluate but don't include input or output
+
+-   `fig.height/fig.width`: dimension of plot in the graphics engine (in inches)
+
+-   `out.height/out.width`: dimension of plot output in the final document (must specify unit manually)
+
+## Practice
+
+How would you implement the following?
+
+1.  A chunk that shows the code for multiplying 2 \* 3, but not the output
+
+2.  A chunk that shows the output for multiplying 3 \* 4, but not the code
+
+3.  A chunk that shows both the code and output for multiplying 4 \* 5
+
+## Practice Answers
+
+1.  A chunk that shows the code for multiplying 2 \* 3, but not the output
+
+-   `{r echo = TRUE, eval = FALSE}`
+
+```{r echo = TRUE, eval = FALSE}
+2 * 3
+```
+
+2.  A chunk that shows the output for multiplying 3 \* 4, but not the code
+
+`{r echo = FALSE, eval = TRUE}`
+
+```{r echo = FALSE, eval = TRUE}
+3 * 4
+```
+
+3.  A chunk that shows both the code and output for multiplying 4 \* 5
+
+`{r echo = TRUE, eval = TRUE}`
+
+```{r echo = TRUE, eval = TRUE}
+4 * 5
+```
+
+## Summary Statistics with R
+
+Today, we'll work with the ChickWeight dataset that's found in R's `datasets` package. The `datasets` package should come with your installation of R, so there is no need to install it.
+
+To load in the data, we can use the `data` function. Take a minute to look at the help page for this dataset to understand what information is given.
+
+```{r}
+library(tidyverse)
+data("ChickWeight", package = "datasets")
+help("ChickWeight")
+```
+
+## Summary Statistics with R
+
+We can turn `ChickWeight` into a `tibble` for use with tidyverse functions.
+
+```{r}
+ChickWeight <- ChickWeight %>% as_tibble
+# ChickWeight <- as_tibble(ChickWeight) # equivalent to the above code
+```
+
+Inspect the data:
+
+```{r}
+ChickWeight %>% glimpse
+```
+
+**Notes**:
+
+-   `weight` and `Time` are both numeric (**dbl**) type variables
+
+-   `Chick` is an **ord**ered factor (ordered by final weight within diet)
+
+-   `Diet` is a **f**a**ct**or
+
+## Summary Statistics with R
+
+The summary() function gives summary statistics based on the object type.
+
+```{r}
+summary(ChickWeight)
+```
+
+-   For numeric variables, min, IQ, median, mean, 3Q, and max
+
+-   For factors, the number of observations at each factor level
+
+## Summary Statistics with R
+
+**Frequencies**:
+
+```{r}
+table(ChickWeight$Diet)
+```
+
+**Proportions**:
+
+```{r}
+table(ChickWeight$Diet) / nrow(ChickWeight)
+```
+
+**Percentages**:
+
+```{r}
+table(ChickWeight$Diet) / nrow(ChickWeight) * 100
+```
+
+## Summary Statistics with R
+
+**Quantiles**: .25 (1Q), .50 (median), and .75 (3Q)
+
+```{r}
+quantile(ChickWeight$weight, probs = c(.25, .5, .75))
+```
+
+## Summary Statistics with R
+
+Measures of central tendency:
+
+-   **Mean**:
+
+```{r}
+mean(ChickWeight$weight)
+```
+
+-   **Median**:
+
+```{r}
+median(ChickWeight$weight)
+```
+
+-   **5% Trimmed Mean**:
+
+```{r}
+mean(ChickWeight$weight, trim = .05)
+```
+
+## Summary Statistics with R
+
+Frequencies by factor levels:
+
+```{r}
+table(ChickWeight$Diet)
+```
+
+The **mode**:
+
+```{r}
+which.max(table(ChickWeight$Diet))
+```
+
+## Summary Statistics with R
+
+Measures of variability:
+
+```{r}
+var(ChickWeight$weight) # variance
+sd(ChickWeight$weight) # standard deviation
+IQR(ChickWeight$weight) # interquartile range
+```
+
+## Summary Statistics with R
+
+The functions `skewness` and `kurtosis` are available in the `e1071` package (named for someone's stats course). You might need to install the package first.
+
+
+```{r eval = FALSE}
+install.packages("e1071")
+```
+
+Once `e1071` is installed, run `library()` to load it into your `R` session. You will need to do this each time you load a new session and want to use `e1071`.
+
+```{r}
+library(e1071)
+```
+
+And finally, skewness and kurtosis:
+
+```{r}
+skewness(ChickWeight$weight)
+kurtosis(ChickWeight$weight)
+```
+
+::: callout-caution
+
+**Only run `install.packages` if a package is not already installed!** 
+
+* Running `install.packages` in a Quarto document can prevent your document from compiling. Avoid adding this to your homework to avoid headaches!
+:::
+
+
+
+## Summary Statistics with R
+
+We can also use "tidy" functions to compute summary statistics. Here, we compute the mean, standard deviation, skewness and kurtosis of weights for each of the four Diet groups.
+
+```{r}
+ChickWeight %>% group_by(Diet) %>%
+  summarize(mean = mean(weight), sd = sd(weight),
+            skew = skewness(weight), kurt = kurtosis(weight))
+```
+
+## Summary Statistics with R
+
+Correlations are computed with the cor() command.
+
+```{r}
+cor(ChickWeight$Time, ChickWeight$weight)
+```
+
+## Plotting with ggplot2
+
+`ggplot2` is part of the tidyverse, and is especially useful for creating pretty plots quickly for datasets
+
+`ggplot2` is loaded in with the tidyverse, or we can load it in separately
+
+```{r}
+library(tidyverse) # load in several tidyverse packages
+# library(ggplot2) # load in only the ggplot2 package
+```
+
+Note: "`ggplot2`" is the package name, "`ggplot`" is the plotting command.
+
+## Grammar of ggplot
+
+Every ggplot begins with the `ggplot` command.
+
+```{r}
+ggplot(ChickWeight)
+```
+
+An empty plotting window shows up, because `ggplot` doesn't know what we want to plot!
+
+## Grammar of ggplot
+
+To tell `ggplot` what goes on the x/y axes, we use the aesthetics argument `aes`. The following code tells ggplot to put `Time` on the x axis and `weight` on the y axis. This works becuase `Time` and `weight` are both column names in the `ChickWeight` dataset.
+
+```{r fig.height=3}
+ggplot(ChickWeight, aes(x = Time, y = weight))
+```
+
+Now, we have axis labels, but nothing else. Next, we need to tell `ggplot` what type of plot we want.
+
+## Grammar of ggplot
+
+Additional features (such as the type of plot) are added on with the `+` operator.
+
+`geom_point()` is the command for a scatterplot.
+
+```{r fig.height=4}
+ggplot(ChickWeight, aes(Time, weight)) + geom_point()
+```
+
+## ggplot "geoms"
+
+Different plot types are specified with different "`geom`" functions added on to the `ggplot` command
+
+-   `geom_point()`: scatterplots
+
+-   `geom_path()`: line graphs
+
+-   `geom_histogram()`: histograms
+
+-   `geom_boxplot()`: box plots
+
+-   `geom_bar()` and `geom_col()`: bar plots
+
+-   `geom_qq()` with `geom_qq_line()`: qq plots
+
+-   and many others! Look at the help page for `ggplot2` for a list.
+
+## Histograms
+
+For histograms, only one variable needs to be specified in aes().
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(weight)) + geom_histogram()
+```
+
+## Histograms
+
+`ggplot` usually complains about the number of bins. To change, use the `bins` (change \# bins) or `binwidth` (change bin width) arguments.
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(weight)) + geom_histogram(bins = 15)
+```
+
+## Histograms with Normal Overlay
+
+As we learned about in Lecture 2, sometimes we want to draw a normal distribution on top of a histogram with the same mean and standard deviation as the data.
+
+Unfortunately, the code for this is complicated. Graph on next slide.
+
+```{r eval = FALSE}
+ggplot(ChickWeight, aes(x = weight)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15) +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(ChickWeight$weight),
+                            sd = sd(ChickWeight$weight)),
+                color = "blue")
+```
+
+## Histograms with Normal Overlay
+
+```{r echo = FALSE}
+ggplot(ChickWeight, aes(x = weight)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15) +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(ChickWeight$weight),
+                            sd = sd(ChickWeight$weight)),
+                color = "blue")
+```
+
+## Bar Plots
+
+Use geom_bar() to let R compute frequencies for you (`aes` takes 1 variable)
+
+```{r fig.height=5}
+ggplot(ChickWeight, aes(Diet)) + geom_bar()
+```
+
+## Bar Plots
+
+Use geom_col() to specify column heights yourself (`aes` takes 2 variables)
+
+```{r fig.height=4.5}
+avg_table <- ChickWeight %>% group_by(Diet) %>%
+  summarize(avgWeight = mean(weight), .groups = "keep")
+ggplot(avg_table, aes(Diet, avgWeight)) + geom_col()
+```
+
+## Box Plots
+
+Box plot of one variable:
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(y = weight)) + geom_boxplot()
+```
+
+## Box Plots
+
+Box plots of one variable conditional on another variable:
+
+```{r fig.height = 4.5}
+ggplot(ChickWeight, aes(Diet,  weight)) + geom_boxplot()
+```
+
+## Normal QQ Plots
+
+In Lecture 2, we will learn about QQ plots for assessing normality.
+
+For QQ plots, need to specify the variable with `aes(sample = ...)`.
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(sample = weight)) +
+  geom_qq() + geom_qq_line()
+```
+
+## Making Beautiful Plots
+
+There are a lot of ways to customize ggplot to create exactly the plot you want. Here, I've customized the box plot function. Spend some time looking at the documentation for the arguments used, and try omitting some parts of the plot to see their effects. Output shown on the next slide.
+
+```{r eval = FALSE}
+ggplot(ChickWeight, aes(Diet, weight, fill = Diet)) +
+  geom_boxplot(notch = TRUE, outlier.shape = 4) +
+  labs(x = "Diet Number", y = "weight (grams)",
+       title = "Chick Weights on Different Diets") +
+  theme_minimal() +
+  coord_flip() +
+  guides(fill = "none") +
+  scale_fill_manual(values = c("maroon", "chocolate2",
+                               "seagreen4", "dodgerblue2")) +
+  theme(plot.title = element_text(hjust = 0.5, size = 18),
+        axis.title = element_text(size = 14))
+```
+
+## Making Beautiful Plots
+
+```{r echo = FALSE, fig.height=6.5}
+ggplot(ChickWeight, aes(Diet, weight, fill = Diet)) +
+  geom_boxplot(notch = TRUE, outlier.shape = 4) +
+  labs(x = "Diet Number", y = "weight (grams)",
+       title = "Chick Weights on Different Diets") +
+  theme_minimal() +
+  coord_flip() +
+  guides(fill = "none") +
+  scale_fill_manual(values = c("maroon", "chocolate2",
+                               "seagreen4", "dodgerblue2")) +
+  theme(plot.title = element_text(hjust = 0.5, size = 18),
+        axis.title = element_text(size = 14))
+```
+
+## Some More Resources
+
+Run the following commands in the console:
+
+```{r eval = FALSE}
+colors() ## see all the named colors available in R
+
+vignette("ggplot2-specs") # more about ggplot customizations
+```
+
+Or, just search for what you want to do - seriously!
+
+## Hang In There!
+
+You don't need to be an R pro by the end of this course
+
+-   We all have different backgrounds
+
+-   Use each other as resources
+
+For this course, we just want you to master the basics:
+
+-   Import data
+-   Generate simple plots
+-   Run statistical tests
+-   Make simple reports

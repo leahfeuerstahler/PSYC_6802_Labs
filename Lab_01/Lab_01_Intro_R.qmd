@@ -62,7 +62,7 @@ execute:
 
 Step 1: Install R
 
-<https://cran.r-project.org/>
+[https://cran.r-project.org/](https://cran.r-project.org/)
 
 Download R for Linux / (Mac) OS X / Windows
 
@@ -70,7 +70,7 @@ Follow instructions under whatever link is appropriate for your computer
 
 Step 2: Install RStudio
 
-Download RStudio from [ttps://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+Download RStudio from [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
 
 -   FREE Download
 
@@ -86,7 +86,7 @@ For full functionality, you will also want to install a LaTeX distribution
 
 `tinytex` installation within RStudio is the easiest option:
 
--   Tools -\> Install Packages
+-   Tools -> Install Packages
 
 -   Type `tinytex` under "Packages" and make sure "install dependencies" is checked
 
