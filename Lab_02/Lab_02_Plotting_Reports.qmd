@@ -48,7 +48,9 @@ In this course, we'll focus on steps 2 and 3, but you will also learn some data 
 
 -   This document is written using Quarto!
 
--   You are expected to complete your homework assignments with Quarto.
+-   You are expected to complete your homework assignments with Quarto if possible
+
+-   With instructor permission, you may use R Markdown (.Rmd) instead of Quarto
 
 ## Quarto
 
