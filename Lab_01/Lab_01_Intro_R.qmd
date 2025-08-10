@@ -771,7 +771,7 @@ Use Quarto for this class if you can
 
 1. File -> New File -> Quarto Document
 
-2. Hit "Create" without changing any options
+2. Hit **"Create"** without changing any options
 
 3. Save the document as a `.qmd` file (to the Desktop is fine, you won't need this document again later)
 
