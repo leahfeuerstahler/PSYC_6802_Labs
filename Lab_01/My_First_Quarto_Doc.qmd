@@ -1,0 +1,28 @@
+---
+title: "My First Quarto Document"
+format: pdf
+author: Brave New PhD Student
+date: today
+---
+
+# A Fun Day in New York City
+
+1. **People watch** in Central Park
+
+2. Get a **cookie** at [Levain Bakery](https://levainbakery.com/)
+
+3. Walk the **High Line**: <https://maps.app.goo.gl/uJwdVLhYy4KULBBJ6>
+
+# Shopping List
+
+## Grocery List
+
+* Bananas
+
+* Rice
+
+## Drug Store
+
+* *Pick up prescriptions*
+
+* Shampoo

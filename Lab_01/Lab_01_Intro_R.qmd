@@ -1,0 +1,783 @@
+---
+title: "Lab 1: Introduction to R"
+author: "PSYC 6802"
+date: August 27, 2025
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+---
+
+## R
+
+::::: columns
+::: column
+![](Rlogo.png)
+:::
+
+::: column
+![](Rstudio-Ball.png)
+:::
+:::::
+
+## Why R?
+
+1.  Transparency
+
+    -   Record of every step in data cleaning and analysis
+
+    -   Can easily reproduce all output
+
+2.  Access
+
+    -   R and RStudio are free to download and use
+
+3.  Popularity
+
+    -   One of the most popular data science tools
+
+    -   Large online community of users
+
+4.  Ease of learning what comes next
+
+    -   But, I don't expect R to go away anytime soon
+
+## R Popularity
+
+![](SPSS-R-from-Scopus.png)
+
+[http://r4stats.com/2019/07/15/is-scholarly-use-of-r-use-beating-spss-already/](http://r4stats.com/2019/07/15/is-scholarly-use-of-r-use-beating-spss-already)
+
+## Installation
+
+Step 1: Install R
+
+<https://cran.r-project.org/>
+
+Download R for Linux / (Mac) OS X / Windows
+
+Follow instructions under whatever link is appropriate for your computer
+
+Step 2: Install RStudio
+
+Download RStudio from [ttps://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+
+-   FREE Download
+
+-   Choose appropriate installer for your computer
+
+Be sure to update both R and RStudio periodically
+
+-   R 4.51 and RStudio 2025.05.1+513 are newest as of August 2025
+
+## LaTeX Distribution
+
+For full functionality, you will also want to install a LaTeX distribution
+
+`tinytex` installation within RStudio is the easiest option:
+
+-   Tools -\> Install Packages
+
+-   Type `tinytex` under "Packages" and make sure "install dependencies" is checked
+
+-   Click "Install"
+
+-   On Windows, also need Rtools installed: <https://cran.r-project.org/bin/windows/Rtools/>
+
+Alternatives for overachievers:
+
+-   Windows: MikTeX <https://miktex.org/download>
+
+-   Mac: MacTeX <http://www.tug.org/mactex/>
+
+## Other Options for Accessing RStudio:
+
+-   <https://fordham.apporto.com/>
+
+    -   Select "Virtual Desktop"
+
+    -   May not have full RMarkdown functionality
+
+-   <https://mydesktop.fordham.edu/>
+
+    -   Currently has an older version of RStudio
+
+    -   May not have full RMarkdown functionality
+
+-   Online RStudio server: <https://posit.cloud/>
+
+    -   Free version is limited to 25 hours per month, 1 GB RAM
+
+## Your RStudio Window - Follow Along!
+
+![](RStudio1.png) \## Your RStudio Window - Follow Along!
+
+![](RStudio2.png)
+
+## Your RStudio Window - Follow Along!
+
+![](RStudio3.png)
+
+## Your RStudio Window - Follow Along!
+
+![](RStudio4.png)
+
+## Your RStudio Window - Follow Along!
+
+![](RStudio5.png)
+
+## Your RStudio Window - Follow Along!
+
+![](RStudio6.png)
+
+## R as a Calculator
+
+Try typing the following into your script document:
+
+```{r echo = TRUE, eval = FALSE}
+4 * (3 + 2)
+```
+
+-   We want to send this command to the console
+
+-   First, click on the line you want to run
+
+-   Then, hit the run button ![](runbutton.png)
+
+    -   OR (preferred): type Cmd + Return (Mac) or Ctrl + Enter (Windows)
+
+Output appears in the console. What output do you expect?
+
+. . .
+
+```{r}
+4 * (3 + 2)
+```
+
+The \[1\] indicates the first line of output
+
+## Good to Know
+
+Some things to know about `R` code:
+
+-   Spaces don't matter: `2 + 3` and `2+3` are processed the same way
+
+```{r echo = TRUE}
+2 + 3
+2+3
+```
+
+. . .
+
+-   **Comments** follow the pound/hash sign: `#` and can occur at the end of a line or on its own line
+
+```{r echo = TRUE}
+2^6 # 2 to the 6th power
+```
+
+## Good to Know
+
+Line breaks don't matter, so long as `R` doesn't think you're at the end of the command
+
+```{r echo = TRUE}
+# one command on two lines of code:
+2 +
+3
+```
+
+```{r echo = TRUE, eval = FALSE}
+# two separate commands:
+2
++ 3
+```
+
+```{r}
+2
++ 3
+```
+
+## Help!!!
+
+Two equivalent ways to get help on specific functions within `R`:
+
+```{r echo = TRUE}
+?sum
+```
+
+```{r echo = TRUE}
+help(sum)
+```
+
+Don't be afraid to search for help online!
+
+-   You will get better at searching for `R` help with practice
+
+## Some Operators in R
+
+::::: columns
+::: column
+**Arithmetic Operators**
+
+| Operator | Description    |
+|----------|----------------|
+| \+       | addition       |
+| \-       | subtraction    |
+| \*       | multiplication |
+| /        | division       |
+| \^       | exponentiation |
+
+**Other Operators**
+
+| Operator | Description                    |
+|----------|--------------------------------|
+| \<-      | assignment                     |
+| x:y      | sequence from x to y           |
+| %\>%     | pipe operator (tidyverse only) |
+:::
+
+::: column
+**Logical (True/False) Operators**
+
+| Operator | Description              |
+|----------|--------------------------|
+| \<       | less than                |
+| \<=      | less than or equal to    |
+| \>       | greater than             |
+| \>=      | greater than or equal to |
+| ==       | exactly equal to         |
+| !=       | not equal to             |
+| !x       | not x                    |
+| x \| y   | x OR y                   |
+| x & y    | x AND y                  |
+:::
+:::::
+
+## Operators
+
+Try out the following:
+
+```{r echo = TRUE, eval = FALSE}
+1:8
+```
+
+. . .
+
+```{r echo = FALSE, eval = TRUE}
+1:8
+```
+
+```{r echo = TRUE, eval = FALSE}
+(2 + 2) == 4
+```
+
+. . .
+
+```{r echo = FALSE, eval = TRUE}
+(2 + 2) == 4
+```
+
+```{r echo = TRUE, eval = FALSE}
+1 > 1
+```
+
+. . .
+
+```{r echo = FALSE, eval = TRUE}
+1 > 1
+```
+
+```{r echo = TRUE, eval = FALSE}
+1 >= 1
+```
+
+. . .
+
+```{r echo = FALSE, eval = TRUE}
+1 >= 1
+```
+
+```{r echo = TRUE, eval = FALSE}
+1 != 2
+```
+
+. . .
+
+```{r echo = FALSE, eval = TRUE}
+1 != 2
+```
+
+## Assignment
+
+One of the most important operators is the **assignment** operator: `<-`
+
+Assignment allows you to save an expression as an **object** in your **environment**.
+
+-   Object name goes on the left-hand side
+
+    (can be anything beginning in a letter)
+
+-   Expression to save goes on the right-hand side
+
+Run the following code:
+
+```{r echo = TRUE}
+x <- 4 * (3 + 2) # does not produce any output in the console
+```
+
+Notice that the object `x` now appears in your environment (upper right-hand panel). Now, you can refer to the value of `x` in further commands:
+
+```{r echo = TRUE}
+x + 2
+```
+
+## Practice
+
+1.  The high temperature in Manhattan on August 1, 2025 was 73$^{\circ}$F. Save this number as an object named `aug1_F`.
+
+2.  Convert the temperature in #1 to $^{\circ}$C by calling the `aug1_F` object. Save the output as `aug1_C`.
+
+$$C = \frac{5}{9}(F-32)$$
+
+3.  Print the value stored in `aug1_C`.
+
+. . .
+
+#1:
+
+```{r echo = TRUE}
+aug1_F <- 73
+```
+
+#2:
+
+```{r echo = TRUE}
+aug1_C <- 5/9 * (aug1_F - 32)
+```
+
+#3:
+
+```{r echo = TRUE}
+aug1_C 
+```
+
+## Concatenation
+
+One of the most important `R` functions is the `c()` function
+
+-   Technically, "concatenate"
+
+-   It might help to think of this as "collect" or "combine"
+
+-   Creates a **vector** of information
+
+```{r echo = TRUE}
+x <- c(98, 76, 87, 92, 93, 96)
+mean(x)
+```
+
+. . .
+
+Notice that the `x` object we defined earlier is now overwritten (and gone forever!) - **BE CAREFUL** never to overwrite anything important.
+
+-   (Though your script should be fully **reproducible**, so you should be always be able to backtrack)
+
+## Object Types
+
+Most objects are one of the following types:
+
+| Description                      | Object type | Appearance in Environment |
+|----------------------------------|-------------|---------------------------|
+| vector of numbers                | numeric     | `num[1:4]`                |
+| vector of floating-point numbers | double      | `dbl[1:4]`                |
+| vector of integers               | integer     | `int[1:4]`                |
+| vector of quoted text            | character   | `chr[1:4]`                |
+| vector of TRUE/FALSE             | logical     | `logi[1:4]`               |
+| vector of named factor levels    | factor      | `fct[1:4]`                |
+
+It's also possible to have an object be a vector of length 1 (only one element)
+
+## Object Types and Useful Functions
+
+```{r echo = TRUE}
+x <- 1:5
+```
+
+```{r echo = TRUE}
+class(x) # view the class of the object x
+```
+
+. . .
+
+```{r echo = TRUE}
+str(x) # view the structure of the object x
+```
+
+. . .
+
+```{r echo = TRUE}
+y <- c("Manhattan", "Bronx", "Brooklyn")
+```
+
+. . .
+
+```{r echo = TRUE}
+class(y)
+```
+
+. . .
+
+```{r echo = TRUE}
+length(y) # number of elements in object y
+```
+
+## Object Structures
+
++--------------------+-------------------------+------------------------------------------------------------------------------------+
+| Structure          | Appearance              | Description                                                                        |
++====================+=========================+====================================================================================+
+| matrix             | `num[1:5,1:2]`          | -   two-dimensional collection                                                     |
+|                    |                         | -   this example has 5 rows, 2 columns                                             |
+|                    |                         | -   elements can be `num`, `int`, `chr`, or `logi`                                 |
++--------------------+-------------------------+------------------------------------------------------------------------------------+
+| data.frame         | `5 obs. of 2 variables` | -   two-dimensional collection                                                     |
+|                    |                         | -   different columns can be different types                                       |
++--------------------+-------------------------+------------------------------------------------------------------------------------+
+| tibble             | `5 obs. of 2 variables` | -   very similar to data.frame                                                     |
+|                    |                         | -   part of the **tidyverse** (later)                                              |
++--------------------+-------------------------+------------------------------------------------------------------------------------+
+| list               | `List of 5`             | -   collection that doesn't require the same type or length for different elements |
++--------------------+-------------------------+------------------------------------------------------------------------------------+
+
+## Functions
+
+We've already seen some **functions** in `R`
+
+`R` functions take in some **input** and produce some **output**
+
+Function inputs are called **arguments** and are separated by commas
+
+For example:
+
+```{r echo = TRUE}
+sum(2, 3, 4, 5)
+```
+
+**Note**: Capitalization matters! `sum()` is a command; `Sum()` is not
+
+. . .
+
+```{r echo = TRUE, error = TRUE}
+Sum(2, 3, 4, 5)
+```
+
+## Functions
+
+Many of the things we want to do in `R` can be done with built-in functions
+
+Examples:
+
+-   `c()`
+
+-   `mean()`
+
+-   `sum()`
+
+See the base `R` cheat sheet to learn more:
+
+[http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf](http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf)
+
+## Functions
+
+Most functions have **named** arguments. The `log` (logarithm) function has two arguments, `x` and `base`:
+
+```{r echo = TRUE, eval = FALSE}
+args(log) # see the arguments of the log function
+```
+
+```{r comment = "  "}
+args(log)
+```
+
+The first argument is the number to take the logarithm of
+
+The second argument is the base of the logarithm (defaults to the natural number $e$)
+
+. . .
+
+It is not necessary (but a good idea) to explicitly name arguments
+
+Notice how the following commands behave (base 2 log of 10):
+
+```{r echo = TRUE}
+log(10, 2) # implicitly named arguments
+log(x = 10, base = 2) # explicitly named arguments
+log(base = 2, 10)
+```
+
+## Packages
+
+Sometimes `R`'s built-in functions (base `R`) are not enough
+
+-   **Packages** are collections of functions, data sets, etc. contributed by `R` users
+
+-   Many packages are hosted on the comprehensive R archive network (CRAN): <https://cran.r-project.org/web/packages/index.html>
+
+-   You can click on the "Packages" tab (lower right-hand panel) to see packages you have installed
+
+## Installing Packages - Follow along!
+
+Example: installing the `tidyverse` package:
+
+```{r eval=FALSE, echo = TRUE}
+install.packages("tidyverse", dependencies = TRUE)
+```
+
+-   First argument: `"tidyverse"` this is the name of the package
+
+-   Second argument: `dependencies = TRUE` this will install other packages that `tidyverse` uses
+
+You can also install packages by searching for packages under "Install" in the "Packages" tab (lower right-hand panel)
+
+You only need to **install** packages once per machine, except after major software updates
+
+However, you should **update** packages (as well as `R` and RStudio) regularly
+
+If your `R` version is outdated, you may get a warning message
+
+## Loading Packages - Follow along!
+
+The `library` function loads in the package's contents
+
+-   Packages need to be loaded in every `R` session
+
+```{r echo = TRUE}
+library(tidyverse)
+```
+
+The above code loads in a number of packages for "tidy" evaluation, which we'll use soon
+
+## Tidyverse
+
+The [tidyverse](https://www.tidyverse.org/) contains many packages that follow the same philosophy and grammar of data analysis
+
+-   Current "best practices" for using `R`
+
+Some tidy packages:
+
+-   `ggplot2`: plotting data
+
+-   `dplyr`, `tidyr`: data cleaning & manipulation
+
+-   `haven`, `readr`, `readxl`: import/export data
+
+-   `forcats`: tools for handling categorical variables
+
+I like to simply run `library(tidyverse)` to load in *most* of these packages
+
+## Your Working Directory
+
+To read in data or to save output, you want to set your **working directory**
+
+```{r eval = FALSE, echo = TRUE}
+getwd() # get the path for the current working directory
+```
+
+```{r eval = FALSE, echo = TRUE}
+setwd("~/Desktop") # set a new working directory (Mac)
+```
+
+```{r eval = FALSE, echo = TRUE}
+setwd("C:/Users/Leah/Desktop") # (Windows)
+```
+
+You can also set the working directory via point-and-click
+
+Session $\rightarrow$ Set Working Directory $\rightarrow$ Choose Directory
+
+But it's better to put all commands into your final script (document everything)
+
+## Practice
+
+1.  On your computer, create a folder for today's lab
+
+2.  From Blackboard, download the 4 files that begin with "mtcars" to that folder
+
+3.  In `R`, set your working directory to the folder that you just created
+
+4.  Run the command `dir()`
+
+-   This will list the files in your current working directory
+
+-   If all steps are done correctly, you should see the 4 "mtcars" files in that folder
+
+## Reading in Data
+
+The `readr` package (part of the tidyverse) can read in csv and similar files
+
+```{r echo = TRUE}
+dat <- read_csv("mtcars.csv")
+```
+
+Now, there should be an object in your environment named `dat`
+
+-   How many rows and columns are in `dat`?
+
+## Reading in Data: Other Options
+
+Tab-delimited:
+
+```{r eval = FALSE, echo = TRUE}
+dat <- read_delim("mtcars.txt", delim = "\t")
+```
+
+Excel:
+
+```{r eval = FALSE, echo = TRUE}
+library(readxl) # you may need to install the readxl package
+dat <- read_xlsx("mtcars.xlsx")
+# see also read_excel() and read_xls()
+```
+
+SPSS:
+
+```{r eval = FALSE, echo = TRUE}
+library(haven) # you may need to install the haven package
+dat <- read_sav("mtcars.sav")
+# see also read_stata(), read_sas()
+```
+
+In `R`, there are (nearly always) multiple ways to do the same thing. These are the tidy methods of reading in data that I recommend, but there are other options out there. For example, you may like the `rio` package which has one `import` function that is supposed to work for all data types.
+
+## Exploring Data
+
+`dat` is a tibble (a tidy data frame)
+
+```{r echo = TRUE}
+dat
+```
+
+## Exploring Data
+
+`glimpse` is a "tidy" function that provides another brief summary of a data frame
+
+```{r echo = TRUE}
+glimpse(dat)
+```
+
+## Exploring Data
+
+```{r echo = TRUE}
+summary(dat)
+```
+
+## Extracting Parts of Data
+
+For rectangular data structures (tibbles, data.frames, matrices), elements can be extracted using square brackets
+
+```{r echo = TRUE}
+dat[1, ] # first row
+```
+
+::::: columns
+::: column
+```{r echo = TRUE}
+dat[2, 3] # second row of third column
+```
+:::
+
+::: column
+```{r echo = TRUE}
+dat[, 4] # fourth column
+```
+:::
+:::::
+
+## Select a Column
+
+Notice that there is often more than one way to do something in `R`
+
+The following commands all extract the first column named "model"
+
+```{r eval = FALSE, echo = TRUE}
+dat$model
+dat[, 1]
+dat[, "model"]
+```
+
+```{r}
+dat[, 1]
+```
+
+## Select Columns
+
+Select some columns (tidy):
+
+```{r echo = TRUE}
+dat %>% 
+  dplyr::select(model, mpg, cyl)
+```
+
+-   `%>%` is the **pipe operator** (used with tibbles in the tidyverse)
+
+. . .
+
+-   The `::` notation means that the `select` function is part of the `dplyr` package
+
+    -   It can be useful to use this syntax when the command might conflict with a command from another package
+
+    -   In my experience, `select` is especially prone to conflicts
+
+## Filter Rows
+
+## Some Resources
+
+-   RStudio cheat sheets: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets)
+
+-   More about tidy data: <https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html>
+
+-   R bloggers:<https://www.r-bloggers.com/>
+
+-   Posit Learn: <https://education.rstudio.com/learn/>
+
+-   Learning Statistics with R textbook, chapters 3-8: <https://learningstatisticswithr.com/book/part-ii-an-introduction-to-r.html>
+
+## And One More Thing...
+
+**I lied to you**
+
+Instead of using plain "R Script" files (with a .R extension), in this class we will learn to use a **markdown language**
+
+* **R Markdown** is a well-established way to integrate word processing and `R`
+
+* **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
+
+::: {.callout-important}
+Use Quarto for this class if you can
+
+* Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors may have particular difficulties)
+:::
+
+## How To Check if Quarto Works for You
+
+1. File -> New File -> Quarto Document
+
+2. Hit "Create" without changing any options
+
+3. Save the document as a `.qmd` file (to the Desktop is fine, you won't need this document again later)
+
+4. Hit the "Render" button.
+
+5. If successful: 
+
+  - No error messages should display 
+
+  - In the same folder where you saved the file, you should find an html file with the same name
