@@ -12,10 +12,8 @@ format:
     slide-number: true
     chalkboard: true
     highlight-style: arrow
-    link-external-icon: true
 execute: 
   echo: true
-  freeze: auto
 ---
 
 ## R
@@ -62,7 +60,7 @@ execute:
 
 Step 1: Install R
 
-[https://cran.r-project.org/](https://cran.r-project.org/)
+<https://cran.r-project.org/>
 
 Download R for Linux / (Mac) OS X / Windows
 
@@ -70,7 +68,7 @@ Follow instructions under whatever link is appropriate for your computer
 
 Step 2: Install RStudio
 
-Download RStudio from [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+Download RStudio from <https://posit.co/download/rstudio-desktop/>
 
 -   FREE Download
 
@@ -86,7 +84,7 @@ For full functionality, you will also want to install a LaTeX distribution
 
 `tinytex` installation within RStudio is the easiest option:
 
--   Tools -> Install Packages
+-   Tools -\> Install Packages
 
 -   Type `tinytex` under "Packages" and make sure "install dependencies" is checked
 
@@ -120,7 +118,9 @@ Alternatives for overachievers:
 
 ## Your RStudio Window - Follow Along!
 
-![](RStudio1.png) \## Your RStudio Window - Follow Along!
+![](RStudio1.png)
+
+## Your RStudio Window - Follow Along!
 
 ![](RStudio2.png)
 
@@ -152,7 +152,7 @@ Try typing the following into your script document:
 
 -   First, click on the line you want to run
 
--   Then, hit the run button ![](runbutton.png)
+-   Then, hit the run button ![](runbutton.png){width="104"}
 
     -   OR (preferred): type Cmd + Return (Mac) or Ctrl + Enter (Windows)
 
@@ -395,14 +395,21 @@ Notice that the `x` object we defined earlier is now overwritten (and gone forev
 
 Most objects are one of the following types:
 
-| Description                      | Object type | Appearance in Environment |
-|----------------------------------|-------------|---------------------------|
-| vector of numbers                | numeric     | `num[1:4]`                |
-| vector of floating-point numbers | double      | `dbl[1:4]`                |
-| vector of integers               | integer     | `int[1:4]`                |
-| vector of quoted text            | character   | `chr[1:4]`                |
-| vector of TRUE/FALSE             | logical     | `logi[1:4]`               |
-| vector of named factor levels    | factor      | `fct[1:4]`                |
++----------------------------------+---------------+---------------------------+
+| Description                      | Object type   | Appearance in Environment |
++==================================+===============+===========================+
+| vector of numbers                | numeric       | `num[1:4]`                |
++----------------------------------+---------------+---------------------------+
+| vector of floating-point numbers | double        | `dbl[1:4]`                |
++----------------------------------+---------------+---------------------------+
+| vector of integers               | integer       | `int[1:4]`                |
++----------------------------------+---------------+---------------------------+
+| vector of quoted text            | character     | `chr[1:4]`                |
++----------------------------------+---------------+---------------------------+
+| vector of TRUE/FALSE             | logical       | `logi[1:4]`               |
++----------------------------------+---------------+---------------------------+
+| vector of named factor levels    | factor        | `fct[1:4]`                |
++----------------------------------+---------------+---------------------------+
 
 It's also possible to have an object be a vector of length 1 (only one element)
 
@@ -442,21 +449,21 @@ length(y) # number of elements in object y
 
 ## Object Structures
 
-+--------------------+-------------------------+------------------------------------------------------------------------------------+
-| Structure          | Appearance              | Description                                                                        |
-+====================+=========================+====================================================================================+
-| matrix             | `num[1:5,1:2]`          | -   two-dimensional collection                                                     |
-|                    |                         | -   this example has 5 rows, 2 columns                                             |
-|                    |                         | -   elements can be `num`, `int`, `chr`, or `logi`                                 |
-+--------------------+-------------------------+------------------------------------------------------------------------------------+
-| data.frame         | `5 obs. of 2 variables` | -   two-dimensional collection                                                     |
-|                    |                         | -   different columns can be different types                                       |
-+--------------------+-------------------------+------------------------------------------------------------------------------------+
-| tibble             | `5 obs. of 2 variables` | -   very similar to data.frame                                                     |
-|                    |                         | -   part of the **tidyverse** (later)                                              |
-+--------------------+-------------------------+------------------------------------------------------------------------------------+
-| list               | `List of 5`             | -   collection that doesn't require the same type or length for different elements |
-+--------------------+-------------------------+------------------------------------------------------------------------------------+
++-------------+-------------------------+------------------------------------------------------------------------------------+
+| Structure   | Appearance              | Description                                                                        |
++=============+=========================+====================================================================================+
+| matrix      | `num[1:5,1:2]`          | -   two-dimensional collection                                                     |
+|             |                         | -   this example has 5 rows, 2 columns                                             |
+|             |                         | -   elements can be `num`, `int`, `chr`, or `logi`                                 |
++-------------+-------------------------+------------------------------------------------------------------------------------+
+| data.frame  | `5 obs. of 2 variables` | -   two-dimensional collection                                                     |
+|             |                         | -   different columns can be different types                                       |
++-------------+-------------------------+------------------------------------------------------------------------------------+
+| tibble      | `5 obs. of 2 variables` | -   very similar to data.frame                                                     |
+|             |                         | -   part of the **tidyverse** (later)                                              |
++-------------+-------------------------+------------------------------------------------------------------------------------+
+| list        | `List of 5`             | -   collection that doesn't require the same type or length for different elements |
++-------------+-------------------------+------------------------------------------------------------------------------------+
 
 ## Functions
 
@@ -494,7 +501,7 @@ Examples:
 
 See the base `R` cheat sheet to learn more:
 
-[http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf](http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf)
+<http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf>
 
 ## Functions
 
@@ -757,28 +764,28 @@ dat %>%
 
 Instead of using plain "R Script" files (with a .R extension), in this class we will learn to use a **markdown language**
 
-* **R Markdown** is a well-established way to integrate word processing and `R`
+-   **R Markdown** is a well-established way to integrate word processing and `R`
 
-* **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
+-   **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
 
-::: {.callout-important}
+::: callout-important
 Use Quarto for this class if you can
 
-* Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors may have particular difficulties)
+-   Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors may have particular difficulties)
 :::
 
 ## How To Check if Quarto Works for You
 
-1. File -> New File -> Quarto Document
+1.  File -\> New File -\> Quarto Document
 
-2. Hit **"Create"** without changing any options
+2.  Hit **"Create"** without changing any options
 
-3. Save the document as a `.qmd` file (to the Desktop is fine, you won't need this document again later)
+3.  Save the document as a `.qmd` file (to the Desktop is fine, you won't need this document again later)
 
-4. Hit the "Render" button.
+4.  Hit the "Render" button.
 
-5. If successful: 
+5.  If successful:
 
-  - No error messages should display 
+-   No error messages should display
 
-  - In the same folder where you saved the file, you should find an html file with the same name
+-   In the same folder where you saved the file, you should find an html file with the same name
