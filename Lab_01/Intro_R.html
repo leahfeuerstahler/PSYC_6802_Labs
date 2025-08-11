@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="Lab_01_Intro_R_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Lab_01_Intro_R_files/libs/quarto-html/tabby.min.js"></script>
-<script src="Lab_01_Intro_R_files/libs/quarto-html/popper.min.js"></script>
-<script src="Lab_01_Intro_R_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="Lab_01_Intro_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Lab_01_Intro_R_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Lab_01_Intro_R_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="Intro_R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Intro_R_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Intro_R_files/libs/quarto-html/popper.min.js"></script>
+<script src="Intro_R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Intro_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Intro_R_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Intro_R_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="PSYC 6802">
@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="Lab_01_Intro_R_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="Lab_01_Intro_R_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="Intro_R_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Intro_R_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -95,13 +95,13 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Lab_01_Intro_R_files/libs/revealjs/dist/theme/quarto-0c22b6e252e162282a19289aa8a4686d.css">
-  <link href="Lab_01_Intro_R_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-  <link href="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-  <link href="Lab_01_Intro_R_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="Intro_R_files/libs/revealjs/dist/theme/quarto-0c22b6e252e162282a19289aa8a4686d.css">
+  <link href="Intro_R_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Intro_R_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Intro_R_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Intro_R_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Intro_R_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Intro_R_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
@@ -1090,8 +1090,8 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 </div>
 </div></div>
 </section>
-<section id="select-a-column" class="slide level2">
-<h2>Select a Column</h2>
+<section id="select-columns" class="slide level2">
+<h2>Select Columns</h2>
 <p>Notice that there is often more than one way to do something in <code>R</code></p>
 <p>The following commands all extract the first column named “model”</p>
 <div class="cell">
@@ -1099,6 +1099,7 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <span id="cb82-2"><a href=""></a>dat[, <span class="dv">1</span>]</span>
 <span id="cb82-3"><a href=""></a>dat[, <span class="st">"model"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Output of running any of the above methods:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a>dat[, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1119,7 +1120,7 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 </div>
 </div>
 </section>
-<section id="select-columns" class="slide level2">
+<section id="select-columns-1" class="slide level2">
 <h2>Select Columns</h2>
 <p>Select some columns (tidy):</p>
 <div class="cell">
@@ -1157,6 +1158,30 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 </section>
 <section id="filter-rows" class="slide level2">
 <h2>Filter Rows</h2>
+<p>Filtering allows you to retain only those rows that meet a certain criterion</p>
+<p>Below, I filter for cars that have more than 6 cylinders:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a>dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(cyl <span class="sc">&gt;</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 12
+   model         mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 Hornet Spo…  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+ 2 Duster 360   14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+ 3 Merc 450SE   16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+ 4 Merc 450SL   17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
+ 5 Merc 450SLC  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+ 6 Cadillac F…  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+ 7 Lincoln Co…  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+ 8 Chrysler I…  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+ 9 Dodge Chal…  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+10 AMC Javelin  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+11 Camaro Z28   13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+12 Pontiac Fi…  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
+13 Ford Pante…  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
+14 Maserati B…  15       8  301    335  3.54  3.57  14.6     0     1     5     8</code></pre>
+</div>
+</div>
 </section>
 <section id="some-resources" class="slide level2">
 <h2>Some Resources</h2>
@@ -1185,7 +1210,7 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <p><strong>Important</strong></p>
 </div>
 <div class="callout-content">
-<p>Use Quarto for this class if you can</p>
+<p><strong>Use Quarto for this class if you can</strong></p>
 <ul>
 <li>Use R Markdown if you can’t get Quarto to work on your computer (Windows machines with ARM processors may have particular difficulties)</li>
 </ul>
@@ -1198,13 +1223,13 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <ol type="1">
 <li><p>File -&gt; New File -&gt; Quarto Document</p></li>
 <li><p>Hit <strong>“Create”</strong> without changing any options</p></li>
-<li><p>Save the document as a <code>.qmd</code> file (to the Desktop is fine, you won’t need this document again later)</p></li>
+<li><p>Save the document as a <code>.qmd</code> file to your Desktop</p></li>
 <li><p>Hit the “Render” button.</p></li>
 <li><p>If successful:</p></li>
 </ol>
 <ul>
 <li><p>No error messages should display</p></li>
-<li><p>In the same folder where you saved the file, you should find an html file with the same name</p></li>
+<li><p>On your Desktop, you should find an html file with the same name</p></li>
 </ul>
 
 </section>
@@ -1216,20 +1241,20 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 </div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="Intro_R_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="Lab_01_Intro_R_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Intro_R_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

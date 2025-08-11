@@ -710,7 +710,7 @@ dat[, 4] # fourth column
 :::
 :::::
 
-## Select a Column
+## Select Columns
 
 Notice that there is often more than one way to do something in `R`
 
@@ -721,6 +721,8 @@ dat$model
 dat[, 1]
 dat[, "model"]
 ```
+
+Output of running any of the above methods:
 
 ```{r}
 dat[, 1]
@@ -747,6 +749,15 @@ dat %>%
 
 ## Filter Rows
 
+Filtering allows you to retain only those rows that meet a certain criterion 
+
+Below, I filter for cars that have more than 6 cylinders:
+
+```{r}
+dat %>% filter(cyl > 6)
+```
+
+
 ## Some Resources
 
 -   RStudio cheat sheets: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets)
@@ -770,7 +781,7 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 -   **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
 
 ::: callout-important
-Use Quarto for this class if you can
+**Use Quarto for this class if you can**
 
 -   Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors may have particular difficulties)
 :::
@@ -781,7 +792,7 @@ Use Quarto for this class if you can
 
 2.  Hit **"Create"** without changing any options
 
-3.  Save the document as a `.qmd` file (to the Desktop is fine, you won't need this document again later)
+3.  Save the document as a `.qmd` file to your Desktop
 
 4.  Hit the "Render" button.
 
@@ -789,4 +800,4 @@ Use Quarto for this class if you can
 
 -   No error messages should display
 
--   In the same folder where you saved the file, you should find an html file with the same name
+-   On your Desktop, you should find an html file with the same name
