@@ -179,9 +179,10 @@ Some things to know about `R` code:
 
 . . .
 
--   **Comments** follow the pound/hash sign: `#` and can occur at the end of a line or on its own line
+-   **Comments** follow the pound/hash sign: `#` and can occur at the end of a line or on a separte line line
 
 ```{r echo = TRUE}
+# example of taking powers:
 2^6 # 2 to the 6th power
 ```
 
@@ -242,7 +243,7 @@ Don't be afraid to search for help online!
 |----------|--------------------------------|
 | \<-      | assignment                     |
 | x:y      | sequence from x to y           |
-| %\>%     | pipe operator (tidyverse only) |
+| %\>%     | pipe operator (tidyverse) |
 :::
 
 ::: column
