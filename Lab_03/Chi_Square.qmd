@@ -91,7 +91,7 @@ For the rest of today, we'll work with the `Lab_03_Airlines.csv` data. We will f
 library(tidyverse)
 library(rio)
 
-flights <- import("Lab_03_Airlines.csv") %>% 
+flights <- import("Airlines.csv") %>% 
               mutate(Delay = factor(Delay,
                                     levels = c("0", "1"),
                                     labels = c("On Time", "Delay")))
