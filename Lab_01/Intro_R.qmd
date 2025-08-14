@@ -801,3 +801,6 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 -   No error messages should display
 
 -   On your Desktop, you should find an html file with the same name
+
+## Office Hour
+On Mondays, in Room xxx
