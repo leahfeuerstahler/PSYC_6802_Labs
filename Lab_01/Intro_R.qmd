@@ -805,4 +805,4 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 ## Office Hour
 
 
-Zhixing's Office hours: On Mondays, in Room xxx
+Zhixing's Office hours: 1:00 PM - 2:00 PM on Mondays, Room TBD
