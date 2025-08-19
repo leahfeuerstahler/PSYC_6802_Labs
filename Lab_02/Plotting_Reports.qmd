@@ -46,7 +46,7 @@ In this course, we'll focus on steps 2 and 3, but you will also learn some data 
 
     -   Most (but not all) functionality is the same between Quarto and R Markdown
 
--   This document is written using Quarto!
+-   These slides were written using Quarto!
 
 -   You are expected to complete your homework assignments with Quarto if possible
 
@@ -277,7 +277,7 @@ x <- 2 + 3 # R code goes in between the sets of tick marks
 
 Within the curly brackets that open an R code chunk, you can specify several options. A full list is on the cheat sheet, but these are the options I use most often.
 
-{r echo = TRUE, eval = TRUE, include = TRUE, fig.height = 7, out.height = "3in"}
+{r echo = TRUE, eval = TRUE, include = TRUE, fig.height = 7, fig.width = 5}
 
 -   `echo`: TRUE or FALSE, whether to include the R code along with the output
 
@@ -286,8 +286,6 @@ Within the curly brackets that open an R code chunk, you can specify several opt
 -   `include`: TRUE or FALSE, if FALSE evaluate but don't include input or output
 
 -   `fig.height/fig.width`: dimension of plot in the graphics engine (in inches)
-
--   `out.height/out.width`: dimension of plot output in the final document (must specify unit manually)
 
 ## Practice
 
@@ -516,11 +514,11 @@ Every ggplot begins with the `ggplot` command.
 ggplot(ChickWeight)
 ```
 
-An empty plotting window shows up, because `ggplot` doesn't know what we want to plot!
+An empty plotting window shows up, because `ggplot` doesn't know what type of plot we want!
 
 ## Grammar of ggplot
 
-To tell `ggplot` what goes on the x/y axes, we use the aesthetics argument `aes`. The following code tells ggplot to put `Time` on the x axis and `weight` on the y axis. This works becuase `Time` and `weight` are both column names in the `ChickWeight` dataset.
+To tell `ggplot` what variables go on the x/y axes, we use the aesthetics argument `aes`. The following code tells ggplot to put `Time` on the x axis and `weight` on the y axis. This works becuase `Time` and `weight` are both column names in the `ChickWeight` dataset.
 
 ```{r fig.height=3}
 ggplot(ChickWeight, aes(x = Time, y = weight))
@@ -634,7 +632,7 @@ ggplot(ChickWeight, aes(Diet,  weight)) + geom_boxplot()
 
 ## Normal QQ Plots
 
-In Lecture 2, we will learn about QQ plots for assessing normality.
+In Lecture 2, we learned about QQ plots for assessing normality.
 
 For QQ plots, need to specify the variable with `aes(sample = ...)`.
 
@@ -703,3 +701,5 @@ For this course, we just want you to master the basics:
 -   Generate simple plots
 -   Run statistical tests
 -   Make simple reports
+
+For the rest of class today, work on the Lab 2 Activity
