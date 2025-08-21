@@ -19,14 +19,19 @@ execute:
 
 ## Categorical Data
 
-This week we're talking all about **categorical data**. This might include
+This week we're talking all about **categorical data**. This might include:
 
-* Whether there are the same number of each flavor of gummy bear in a package
-  * Flavors of gummy bears represent categories
-* Diagnoses offered by clinicians
-  * Clinicians use different types of information to determine whether a patient belongs in a diagnostic category
-* Number of correct items on a test
-  * When grading a test, we have to categorize students responses as either "correct" or "incorrect"
+1. Whether there are the same number of each flavor of gummy bear in a package
+
+    - Flavors of gummy bears represent categories
+
+2. Diagnoses offered by clinicians
+ 
+    - Clinicians use different types of information to determine whether a patient belongs in a diagnostic category
+
+3. Number of correct items on a test
+
+    - When grading a test, we may categorize student responses as either "correct" or "incorrect"
 
 ## Overview
 
@@ -44,102 +49,190 @@ Tests & Functions
 
 * Cohen's Kappa (`psych::cohen.kappa`) (see lecture slides)
 
-The `psych` package is very useful for psychometrics applications
+
+::: {.callout-tip}
+The `psych` package that includes the `cohen.kappa` function is very useful for psychometrics applications (e.g., evaluating scale reliability)
+:::
 
 ## Chi-Square Goodness-of-Fit
 
-The $\chi^2$ Goodness-of-Fit statistic checks whether the number of observations in each possible category matches some hypothesis about the expected distribution of those categories.
+* The $\chi^2$ Goodness-of-Fit test checks whether the number of observations in each possible category matches some hypothesis about the expected distribution of those categories.
 
-The `chisq.test` function always takes counts, rather than raw data. For simple examples, it's easiest to enter the count data ourselves. 
+* The `chisq.test` function always takes counts, rather than raw data. For simple examples, it's easiest to enter the count data ourselves. 
 
-Recall from lecture that we had 117 raspberry, 55 pineapple, 62 lemon, 58 orange, and 62 strawberry gummy bears in the big bag of gummy bears.
+* Recall from lecture that we had 117 raspberry, 55 pineapple, 62 lemon, 58 orange, and 62 strawberry gummy bears in the big bag of gummy bears.
+
+* We can conduct a standard goodness-of-fit test as follows:
 
 ```{r}
 obs <- c(117, 55, 62, 58, 62)
-chisq.test(obs, correct = FALSE)
+chisq.test(obs)
 ```
 
 ## Chi-Square Goodness-of-Fit
 
-The default null hypothesis is the equal category hypothesis: we expect the same number of observations for each category.
+* In the `chisq.test` function, the default null hypothesis is the equal category hypothesis: we expect the same number of observations for each category.
 
-We can specify the `p` argument to specify other null hypotheses.
+* We can use the `p` argument to specify other null hypotheses, as follows:
 
 ```{r}
-chisq.test(obs, p = c(1/3, 1/6, 1/6, 1/6, 1/6), 
-           correct = FALSE)
+chisq.test(obs, p = c(1/3, 1/6, 1/6, 1/6, 1/6))
 ```
 
-We retain the null hypothesis that all gummy bear flavors are equally represented, except for raspberry gummy bears which are twice as frequent as each other flavor ($\chi^2(4) = .60, p = .96$).
+We **retain** the null hypothesis that all gummy bear flavors are equally represented, except for raspberry gummy bears which are twice as frequent as each other flavor ($\chi^2(4) = .60, p = .96$).
 
 ## Tests of Independence
 
-Tests of *independence* check whether membership in one category *depends* on membership in another category.
+* Tests of **independence** check whether membership in one category **depends** on membership in another category.
 
-For example, in the data we'll look at today, we'll be considering whether the observed number of delays depends on which airline operates flights. 
+* For example, in the data we'll look at today, we'll be considering whether the observed number of delays depends on which airline operates flights. 
 
-If the number of delays is similar regardless of which airline operates the flights, we would call delays *independent* of which airline operates the flights.
+* If the number of delays is similar regardless of which airline operates the flights, we would call delays **independent** of which airline operates the flights.
 
-If the number of delays is different depending on which airline operates the flights, we would say that delays are *dependent* which airline operates the flights.
+* If the number of delays is different depending on which airline operates the flights, we would say that delays are **dependent** which airline operates the flights.
 
 
 ## Data for Today
 
-For the rest of today, we'll work with the `Lab_03_Airlines.csv` data. We will focus on the association between flight delays (the `Delay` variable) and airlines (the `Airline` variable).
+For the rest of today, we'll work with the `Airlines.csv` data. We will focus on the association between flight delays (the `Delay` variable) and airlines (the `Airline` variable).
 
-```{r message=FALSE, warning=FALSE, include=TRUE}
+```{r message=FALSE}
 library(tidyverse)
-library(rio)
 
-flights <- import("Airlines.csv") %>% 
-              mutate(Delay = factor(Delay,
-                                    levels = c("0", "1"),
-                                    labels = c("On Time", "Delay")))
+flights <- read_csv("Airlines.csv")
+flights %>% glimpse
 ```
 
 
-Note that I turned the `Delay` variable into a factor and assigned labels right after importing the data.  
+## Data for Today
+
+`Delay` is read in as a `dbl` type variable. We can use `tidyverse` functions to transform the `Delay` variable into a factor and assigned labels right after importing the data.  
+
+
+```{r}
+flights <- flights %>% 
+              mutate(Delay = factor(Delay,
+                                    levels = c("0", "1"), # values observed in the data
+                                    labels = c("On Time", "Delay"))) # meaningful labels
+flights %>% glimpse
+```
+
+::: {.callout-warning}
+Make sure that you enter the labels in the same order that you enter the levels!
+:::
+
 
 ## Chi-Square Test of Independence
 
 Let us look at delays and two airlines, American Airlines (`AA`) and Delta (`DL`).
 
-- Select only the rows with either `AA` or `DL` in the `Airline` variable. 
+- Use `filter` to retain only the rows with either `AA` or `DL` in the `Airline` variable:
 
 ```{r}
 AA_vs_DL <- flights %>% 
               filter(Airline %in% c("AA", "DL"))
+```
 
+- Create a contingency table of the data:
+
+```{r}
 tabl <- table(AA_vs_DL$Airline, AA_vs_DL$Delay)
 
 tabl
 ```
+
+
 ## Chi-Square Test of Independence
 
-Without Yates' correction for continuity:
+Run the test **without** Yates' correction for continuity:
 
 ```{r}
 chisq.test(tabl, correct = FALSE)
 ```
 
-## Chi-Square Test of Independence
 
-With Yates' correction for continuity:
+Run the test **with** Yates' correction for continuity:
 
 ```{r}
 chisq.test(tabl, correct = TRUE)
 ```
 
-How to interpret this result?
+**How to interpret these results?**
 
 ## Effect Sizes for the Test of Independence
 
-From the previous slide, $\chi^2 = 410.66$
+We might want to know the **risk** and **odds** of a delay with either airline.
+
+* Because there are different types of risks and odds that *could* be calculated, it is easier to do these calculations manually than with an `R` function.
+
+```{r}
+tabl
+```
+```{r}
+# risk of delay with AA:
+17736 / (17736 + 27920)
+
+# risk of delay with DL:
+27452 / (27452 + 33488)
+
+# odds of delay with AA:
+17736 / 27920
+
+# odds of delay with DL:
+27452 / 33488
+```
+
+
+## Effect Sizes for the Test of Independence
+
+We might also calculate risk ratios and odds ratios.
+
+Load in the `epitools` package:
+
+::: {.callout-important}
+**Review**: When do you use `install.packages()` vs. `library()`?
+:::
+
+```{r}
+# install.packages("epitools")
+
+library(epitools)
+```
+
+::: {.panel-tabset}
+
+## Risk Ratio
+
+The **risk** of a delay with DL is 1.596x higher with DL than with AA
+
+```{r}
+0.4504759 / 0.3884703 # from previous slide
+
+riskratio(tabl)
+```
+
+## Odds Ratio
+
+The **odds** of a delay with DL are 1.29x higher with DL than with AA
+
+
+```{r}
+0.8197563 / 0.6352436 # from previous slide
+
+oddsratio(tabl)
+```
+
+
+:::
+
+## Effect Sizes for the Test of Independence
+
+From before, $\chi^2 = 410.66$
 
 $W$ coefficient (very small effect size):
 
 ```{r}
-N <- sum(tabl)
+N <- sum(tabl) # total sample size
 sqrt(410.66 / N)
 ```
 
@@ -157,6 +250,12 @@ Because $k=2$, these two coefficients are identical
 
 ## Fisher's Exact Test
 
+We could also use Fisher's exact test to test this hypothesis:
+
+::: {.callout-important}
+**Review**: What are the differences in assumptions between Fisher's exact test and the $\chi^2$ test of independence?
+:::
+
 ```{r}
 fisher.test(tabl)
 ```
@@ -167,12 +266,12 @@ fisher.test(tabl)
 
 When writing reports with R Markdown, we might want to use mathematical notation or symbols.
 
-To type math in-line, put the expression between two `$` signs. 
+To type math in-line (not in code chunks), put the expression between two `$` signs. 
 
 * For example: `$\chi^2$` renders as $\chi^2$
 * The backslash `\` precedes a special character, such as a Greek letter
-* See \url{https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols} for a list of the most useful characters
-* You can also look at our Rmd lab slides for examples
+* See \url{https://latexmathsymbols.com/} for a list of the most useful characters
+* You can also look at the `.qmd` version of the lab slides for examples
 
 
 For centered equations, put the expression between double $ signs: 
@@ -184,7 +283,7 @@ $$\chi^2(1) = 410.66, p < .001$$
 
 ## The Greek Alphabet and Math Symbols
 
-<https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols>
+<https://latexmathsymbols.com/>
 
 Examples: 
 
