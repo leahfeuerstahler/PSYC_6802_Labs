@@ -1,6 +1,7 @@
 ---
 title: "Lab 3: Chi Square"
 author: "PSYC 6802"
+date: "September 17, 2025"
 date-format: long
 format: 
   revealjs:
