@@ -1,0 +1,227 @@
+---
+title: "Lab 5: Power Analysis"
+author: "PSYC 6802"
+date: "October 1, 2025"
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+  freeze: auto
+---
+
+## Packages for Today (Install If Needed)
+
+```{r, message = FALSE}
+library(tidyverse)
+library(pwr)
+```
+
+
+## Overview
+
+The primary package we'll use for conducting power analyses is `pwr`.
+
+Functions we will be using today: 
+
+* `pwr.norm.test`
+* `pwr.t.test`
+* `pwr.t2n.test`
+* `pwr.chisq.test`
+
+
+## The Logic of the `pwr` Package Functions
+
+Most of the functions of the `pwr` structure work ins the same way in that the usually have four main arguments:
+
+- The effect size, `d =`, in the case of *t*-tests.
+- The sample size, `n =`
+- The type I error rate, `sig.level =`
+- The power of your experiment, `power =` 
+
+The `pwr` functions always return the value of the one argument that you leave blank out of these four. 
+
+- These arguments may be named differently depending on the type of power analysis, so always check the function help menu. 
+
+ 
+## Power for $z$-tests
+
+In the case of a *z*-test, to get **power** given effect size, sample size, and desired type I error rate:
+
+```{r}
+pwr.norm.test(d = .5, 
+              n = 10, 
+              sig.level = .05, 
+              power = NULL,
+              alternative = "two.sided")
+```
+
+
+## Power for $z$-tests
+
+In the case of a *z*-test, to get required **sample size** given effect size, desired type I error rate, and power:
+
+```{r}
+pwr.norm.test(d = .5, 
+              n = NULL, 
+              sig.level = .05, 
+              power = .8,
+              alternative = "two.sided")
+```
+
+## Power for $z$-tests
+
+The `pwr` package also includes a plotting method. This means that we can use the function `plot()` with the output from any power calculation results. (they don't look very attractive)
+
+```{r, fig.height=4}
+plot(pwr.norm.test(d = .5, 
+              n = 10, 
+              sig.level = .05, 
+              power = NULL,
+              alternative = "two.sided"))
+```
+
+
+## One-sample $t$-test
+
+In lab 4 we ran a one sample *t*-test to test whether average restaurant ratings were significantly different from 3. with $d = .21$ and $N = 200$ we can do a retrospective power calculation: 
+
+```{r}
+pwr.t.test(n = 200, 
+           d = .21, 
+           sig.level = .05, 
+           power = NULL, 
+           type = "one.sample", 
+           alternative = "two.sided")
+```
+
+Our power was around .84. What does this mean?
+
+## One-sample $t$-test
+
+What if I want to repeat the previous "experiment", and I want to know the sample size that I would need to have .8, .9, and .95 power?
+
+```{r, eval = FALSE}
+pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .80,
+           type = "one.sample", alternative = "two.sided")
+
+pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .90,
+           type = "one.sample", alternative = "two.sided")
+
+pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .95,
+           type = "one.sample", alternative = "two.sided")
+```
+
+For a priori power analysis, we want to round up, so $N = 180, 240, 297$ for 80%, 90%, and 95% power.
+
+Power analysis for a paired-sample *t*-test is the same. 
+
+## Independent-samples $t$-test
+
+For the independent samples $t$-test, we can use `pwr.t.test` if we have equal sample sizes, or `pwr.t2n.test` for unequal sample sizes. 
+
+In the case of lab 4, where we were testing whether males ($n_{1} = 112$) and females ($n_{2} = 82$) were significantly different on average food rating. the estimate effect was $d = .17$, but the difference was not significant $p = .224$:
+
+```{r}
+pwr.t2n.test(n1 = 112, n2 = 82, d = .17, sig.level = .05,
+             power = NULL, alternative = "two.sided")
+```
+
+In retrospect, their power to detect an effect was only .21! 
+
+## Independent-samples $t$-test
+
+When planning data collection, you ideally want to plan for groups to have an equal size if possible. So, we can calculate a priori power assuming equal sample sizes and $d = .17$ as an effect size estimate. 
+
+```{r, eval = FALSE}
+pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .80,
+           type = "two.sample", alternative = "two.sided")
+pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .90,
+           type = "two.sample", alternative = "two.sided")
+pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .95,
+           type = "two.sample", alternative = "two.sided")
+
+```
+
+It turns out that $n$ = 545, 729, and 901 (quite large!) are the minimum sample sizes **in each group** for 80%, 90%, and 95% power.
+
+## Power for $\chi^2$ tests
+
+We can do the same for $\chi^2$ tests using the `pwr.chi.test` function. The test does not distinguish between $\chi^2$ goodness-of-fit and $\chi^2$ test of independence. 
+
+Let's use the airplane delays example from Lab 3. $\chi^2(1) = 410.66$ with $N = 106596$. Our $W$ coefficient was $.06$. 
+
+```{r}
+pwr.chisq.test(w = .06, N = 106596, df = 1, sig.level = .05, power = NULL)
+```
+
+Power is essentially 1, we are guaranteed to always reject the null hypothesis under these circumstances. 
+
+## Power for $\chi^2$ tests
+
+Next, let's conduct a priori power for this study.
+
+```{r}
+pwr.chisq.test(w = .06, N = NULL, df = 1, 
+               sig.level = .05, power = .80)
+pwr.chisq.test(w = .06, N = NULL, df = 1, 
+               sig.level = .05, power = .90)
+pwr.chisq.test(w = .06, N = NULL, df = 1, 
+               sig.level = .05, power = .95)
+```
+
+For this effect size, we would just need $N = 2181, 2919, 3610$ for 80%, 90%, and 95% power.
+
+
+# My Quarto file Won't Compile :(
+
+## Let's work together
+
+On Blackboard, there is a Quarto file that contains errors that will cause it not to render Download the `Debugging_Quarto.qmd` file and let's try to solve the errors together until the file renders!
+
+- We will also need the `sat_data.csv` dataset to run the code. 
+
+- Don't worry too much about understanding the *content* of the document, focus on trying to get the output to render and look as it should
+
+The following slides are not very detailed, as the process of solving rendering issues varies greatly.
+
+
+## Step 1: Make sure R code works
+
+Before you even attempt to render the document, it is good practice to clean your environment and run all your R code chunks sequentially.
+
+- To quickly run all the code chunks either navigate to the `run` option in the to right of the source pane and click `Run All`, or use the shortcut `CMD + Option + R` on MAC or `CTRL + Alt + R` on Windows
+
+Let's solve the code errors until all the chunks run sequentially. 
+
+## Step 2: Render and solve LaTeX errors
+
+If all your R chunks run fine and your document still does not render, there is probably some problem with other parts of your text. 
+
+Read the error messages, but know that some messages are more helpful than others.
+
+* Some error messages reference lines in your .qmd file
+
+* Some error messages reference lines in a .tex or .log file
+
+If your Quarto file fails to render, you may find a **.tex** file and/or a **.log** file in the same folder as the .qmd document.
+
+* Don't edit the .tex file directly, but inspecting this file may give you more information about what causes the problem
+
+## Some More Debugging Strategies
+
+* Pay attention to which file that the error message references - line numbers will be the line number in that file
+
+* Do an internet search for the error message
+
+* Run smaller parts of the document to help diagnose where the problem lies (delete or comment out other sections)
+
+* **Persevere!** Take breaks, give yourself enough time to deal with these potential logistical problems. Debugging often takes longer than you think that it should
