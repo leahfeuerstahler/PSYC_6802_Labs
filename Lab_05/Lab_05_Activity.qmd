@@ -1,9 +1,6 @@
 ---
 title: "Lab 5 Activity"
-output: pdf_document
-header-includes:
-  - \usepackage{setspace}
-  - \onehalfspacing
+format: pdf
 ---
 
 ```{r echo = FALSE, eval = FALSE}
