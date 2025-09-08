@@ -1,0 +1,90 @@
+---
+title: "Lab 6 Activity"
+format: pdf
+---
+
+```{r echo = FALSE, eval = FALSE}
+library(tidyverse)
+```
+
+
+## 1
+
+In this activity, we will work with the `Prestige` data in the `carData` package.
+
+```{r eval=FALSE, include=TRUE}
+data("Prestige", package = "carData")
+```
+
+
+Look at the help page to better understand these data. Here, we want to predict the `income` of occupational incumbents from the average `education` of occupational incumbents. Use `ggplot` to create a scatterplot with one or more best-fit curves. What type of relationship do you think best characterizes the relationship between these variables?
+
+```{r echo = FALSE, eval = FALSE}
+data("Prestige", package = "carData")
+
+ggplot(Prestige, aes(education, income)) + 
+  geom_point() + geom_smooth(method = lm, formula = 'y ~ x', se = FALSE) +
+  geom_smooth(method = loess, formula = 'y ~ x', col = "red", se = FALSE) +
+  geom_smooth(method = lm, formula = y ~ poly(x, 2), col = "green", se = FALSE) + 
+  geom_smooth(method = lm, formula = y ~ poly(x, 3), col = "purple", se = FALSE)
+
+# quadratic might be a better descriptor than linear
+```
+
+## 2
+
+Fit a simple linear regression model predicting `intensity` from `inequality` and evaluate assumptions. What do you conclude?
+
+```{r echo = FALSE, eval = FALSE}
+mod <- lm(income ~ education, Prestige)
+summary(mod)
+
+Prestige <- Prestige %>% mutate(residuals = residuals(mod))
+
+ggplot(Prestige, aes(education, residuals)) + 
+  geom_smooth() + geom_point() # probably some heteroscedasticity
+ggplot(Prestige, aes(sample = residuals)) + 
+  stat_qq() + stat_qq_line() # very non-normal
+
+# there is a statistically significant relationship between education and
+#  income (R^2 = .33), but also some major violations of assumptions
+```
+
+## 3
+
+Looking ahead: the `lm` function takes formula input like we used with `geom_smooth()`. Fit a regression equation for the best-fit quadratic/cubic curve predicting `intensity` from `inequality`. You can find the model residuals in the same way as we did for the linear model. Do the quadratic or cubic models do a better job meeting our assumptions about residuals? If not, can you think of what might be a better solution?
+
+```{r echo = FALSE, eval = FALSE}
+mod2 <- lm(income ~ poly(education, 2), Prestige) # quadratic
+mod3 <- lm(income ~ poly(education, 3), Prestige) # cubic
+
+summary(mod2)
+summary(mod3)
+# both models have statistically significant R^2
+#  and both have higher R^2 than the linear model
+
+Prestige <- Prestige %>%
+  mutate(residuals2 = residuals(mod2),
+         residuals3 = residuals(mod3))
+
+ggplot(Prestige, aes(education, residuals2)) + 
+  geom_point() + geom_smooth(formula = y ~ x) # still heteroscedastic
+ggplot(Prestige, aes(sample = residuals2)) + 
+  stat_qq() + stat_qq_line() # still highly non-normal
+
+ggplot(Prestige, aes(education, residuals3)) + 
+  geom_point() + geom_smooth(formula = y ~ x) # better, but there are still outliers
+ggplot(Prestige, aes(sample = residuals3)) + 
+  stat_qq() + stat_qq_line() # still not great
+
+# although the quadratic and cubic models do appear to perform better,
+# they still don't meet assumptions well
+# a better solution *might* be to log-transform the income variable:
+
+ggplot(Prestige, aes(education, log(income))) + 
+  geom_point() + geom_smooth(method = lm)
+# although there still are a couple outlying points, this does seem to 
+# better meet the regression assumptions
+plot(lm(log(income) ~ education, Prestige))
+```
+
