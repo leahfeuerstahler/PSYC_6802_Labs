@@ -269,7 +269,7 @@ x <- 2 + 3 # R code goes in between the sets of tick marks
 
     -   Click within the code chunk first
 
--   By default, output (e.g., plots) are displayed within the Rmd pane
+-   By default, output (e.g., plots) are displayed within the Qmd pane
 
     -   If you want move output to its usual spot, click on the gear icon (to the right of the Render button) and check "Chunk Output in Console"
 
