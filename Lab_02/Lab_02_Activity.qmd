@@ -3,7 +3,7 @@ title: "Lab 2 Activity"
 format: pdf
 ---
 
-In this lab, we will create some visualizations of the `diamonds` dataset. Use R Markdown to create a Word or pdf document of your results. When you are done (or when lab time runs out), check in with the TA to receive participation credit for the day. **This assignment is not graded aside from participation credit**
+In this lab, we will create some visualizations of the `diamonds` dataset. Use Quarto to create a Word or pdf document of your results. When you are done (or when lab time runs out), check in with the TA to receive participation credit for the day. **This assignment is not graded aside from participation credit**
 
 First make sure that you download the "diamonds.csv" dataset. Make sure that this file is in your working directory (you may want to change your working directory). See Lab 1 for help with this step. 
 
