@@ -1,0 +1,288 @@
+---
+title: "Lab 6: Correlation and Regression"
+author: "PSYC 6802"
+date: "October 8, 2025"
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+  freeze: auto
+---
+
+
+```{r include = FALSE}
+library(knitr)
+opts_chunk$set(class.output='sh', comment = "")
+```
+
+## Packges for Today (Install if Needed)
+
+```{r, message = FALSE}
+library(tidyverse)
+library(pwr)
+library(readxl)
+library(psych)
+```
+
+## Overview
+
+Functions: 
+
+* `cor()` and `cov()`: compute covariance/correlation with arguments:
+  + `use`: how to treat missing data, specify "everything", "complete.obs", "pairwise.complete.obs"
+  + `method`: which type of correlation, specify "pearson", "kendall", or "spearman"
+
+* `geom_smooth()`: adding best-fit lines to a scatterplot with `ggplot`, with arguments:
+  + `method`: `lm` for a linear model or `loess`
+  + `formula`: specify the form of a linear model (e.g., quadratic, cubic)
+  
+* `lm()`: fit a linear regression model
+
+* `scale()`: standardize a variable
+
+* `cor.test()`: hypothesis test for the correlation coefficient ("nil" hypothesis)
+
+* `pwr::pwr.r.test`: power analysis for correlations and simple linear regression
+
+* `poly()`: create polynomial formulas
+
+* `psych::tetrachoric()`: compute tetrachoric correlations
+
+* `psych::biserial()`: compute biserial correlations
+
+## Housing data example
+
+Today, we'll consider the `woodard.xls` dataset:
+
+```{r}
+dat <- read_xls("woodard.xls")
+```
+
+This data contains information about house features/prices of 100 houses in Raleigh, North Carolina. 
+
+```{r}
+dat %>% glimpse
+```
+
+
+## gg-Plotting with Best-Fit Lines
+
+First, we'll look at the relationship between `Building $` and `Sq. Ft.` conditions. 
+
+```{r, fig.height = 4.5}
+ggplot(dat, aes(x = `Sq. Ft.`, y = `Building $`)) + 
+  geom_point()
+```
+
+## gg-Plotting with Best-Fit Lines
+
+We can add different types of best-fit lines using `geom_smooth()`. 
+
+The `method` argument tells `ggplot` which type of best-fit line to draw. The `lm` option indicates a linear model, and the `formula = y ~ x` option indicates simple linear regression.
+
+```{r, fig.height = 3.5}
+ggplot(dat, aes(x = `Sq. Ft.`, y = `Building $`)) + 
+  geom_point() + 
+  geom_smooth(method = lm, formula = y ~ x) 
+```
+
+## gg-Plotting with Best-Fit Lines
+
+By default, `ggplot` adds an error band around the best-fit line. We can turn this off using the argument `se = FALSE`.
+
+\footnotesize
+
+```{r, fig.height = 4.5}
+ggplot(dat, aes(x = `Sq. Ft.`, y = `Building $`)) + 
+  geom_point() + 
+  geom_smooth(method = lm, formula = y ~ x, se = FALSE) 
+```
+
+## gg-Plotting with Best-Fit Lines
+
+To add the nonparametric loess line, use `method = loess`:
+
+```{r, fig.height = 4.5}
+ggplot(dat, aes(x = `Sq. Ft.`, y = `Building $`)) + 
+  geom_point() + 
+  geom_smooth(method = loess, formula = y ~ x) 
+```
+
+## gg-Plotting with Best-Fit Lines
+
+For polynomial best-fit lines, we need to change the `formula` argument. For quadratic regression (a polynomial of degree 2), specify `method = lm` and `formula = y ~ poly(x, 2)`. Here, the method is `lm` because polynomial regression is part of the general linear model.
+
+```{r}
+ggplot(dat, aes(x = `Sq. Ft.`, y = `Building $`)) + 
+  geom_point() + 
+  geom_smooth(method = lm, se = FALSE, 
+              formula = y ~ poly(x, 2)) + 
+  geom_smooth(method = lm, se = FALSE, 
+              formula = y ~ poly(x, 3), col = "red")
+```
+
+
+## Correlations
+
+The `cov()` and `cor()` functions are the easiest ways to calculate the covariance and the correlation.
+
+```{r}
+cov(dat$`Year Built`, dat$`Building $`)
+cor(dat$`Year Built`, dat$`Building $`)
+```
+
+## When `cor()` function does not work :(
+
+Most R functions **will not** handle missing values automatically (it is a good thing). You usually need to tell the function what to do with missing values. For example with `cor()` and `cov()`:
+
+```{r}
+cor(dat$`No. Baths`, dat$`Building $`)
+```
+- the `No. Baths` variable has a missing value, so we need to include the `use =` argument to tell the `cor()` function what to do when missing data is encountered:
+
+```{r}
+cor(dat$`No. Baths`, dat$`Building $`, 
+    use = "complete.obs")
+```
+- the `cov()` function works in a similar way
+
+## Correlations: Hypothesis Test
+
+To do a hypothesis test of the Pearson product-moment (PPM) correlation, use the `cor.test()` function:
+
+```{r}
+cor.test(dat$`Year Built`, dat$`Building $`)
+```
+
+This correlation is significantly different from 0, $r = .29$, $t(98) = 3.01$, $p = .003$, 95% CI[.09, .46]. This function also gives us the confidence interval.
+
+## Correlations: Power Analysis
+
+Finally, we can use the `pwr` package to conduct power analyses, in much the same way as we did for other tests. For example, for an estimated correlation of -0.05. What sample size would be needed to find that this is significantly different than zero with 80% power?
+
+```{r}
+pwr.r.test(n = NULL, r = -0.05, sig.level = .05,
+           power = .80, alternative = "two.sided")
+```
+
+## Correlation Matrices
+
+If you give a matrix of numeric values where the columns represent your variables, the `cor()` function will create a correlation matrix. Here I am entering the first 4 columns of the `dat` object:
+
+```{r}
+cor(dat[,1:4])
+```
+
+
+## Other correlation coefficients
+
+For the sake of illustration, let's dichotomize
+
+- `No. Baths` variable to above vs. at/below 2
+- `Building $` above and at/below the median price
+
+```{r}
+dat <- dat %>%
+  mutate(`No. Baths_binary` = as.numeric(`No. Baths`> 2),
+         `Building $_binary` = as.numeric(`Building $`> median(`Building $`)))
+```
+
+```{r}
+table(dat[, c("No. Baths_binary", "Building $_binary")])
+```
+
+
+## Phi Correlations
+
+The correlation between $`No. Baths_binary` and `No. Baths_binary` can be analyzed as either a phi or tetrachoric correlation. Phi correlations are PPMs:
+
+```{r}
+cor(dat$`No. Baths_binary`, dat$`Building $_binary`, 
+    use = "complete.obs")
+```
+
+
+## Tetrachoric Correlations
+
+Tetrachoric correlations are available from the `psych` package and requires a contingency table as input. 
+
+```{r}
+tab <- table(dat$`No. Baths_binary`, dat$`Building $_binary`)
+tetrachoric(tab)
+```
+
+## (Point-) Biserial Correlations
+
+Biserial correlations treat the binary variable as as dichotom*ized* normal variable. Biserial correlations can be computed using the `biserial` command from the `psych` package. Notice that the dichomized variable must be the *second* variable specified. 
+
+```{r}
+cor(dat$`Building $`, dat$`No. Baths_binary`, 
+    use = "complete.obs")
+biserial(dat$`Building $`, dat$`No. Baths_binary`)
+```
+
+## Regression
+
+Finally, let's run a linear regression with `Building $` as the DV and `Sq. Ft.` as the IV. This will give us the equation for the linear best-fit line that we drew on the scatterplot earlier. 
+
+Linear regression in `R` is done with the `lm` function. `lm` takes as input a formula of the form: "DV ~ IV", and you can specify the dataset as the second argument. Usually, you will use the `summary()` function to look at your regression results.
+
+```{r echo = T}
+reg <- lm(`Building $` ~ `Sq. Ft.`, dat)
+summary(reg)
+```
+
+Note that the $t$-test for the regression slope and the $F$-test for $R^2$ is the exact same test in two different forms. The $p$-value is *exactly* the same, and $t^2 = 21.116^2 = 445.9 = F$. 
+
+## Regression
+
+The output tells us that $\widehat{\mathrm{Build.price}} = -52468.43 + 107.18\times \mathrm{Sq.Ft}$. 
+
+* What does the intercept of -52468.43 represent? Is the intercept by itself a useful piece of information in this case?
+
+* For a one-unit increase in `Sq. Ft.`, `Building $` is expected to increase by $107.18 on average.
+
+These interpretations assume that a straight line is an "appropriate" representation of the relationship between our variables.
+
+## Standardized Regression Coefficients
+
+We can find standardized regression coefficients by using `scale()` to standardize each of the variables we input into `lm()`. 
+
+```{r}
+summary(lm(scale(`Building $`) ~ scale(`Sq. Ft.`), dat))
+```
+
+Is the output what you expect? What pieces are redundant with output we found earlier?
+
+## Regression Assumptions
+
+To be careful about our hypothesis test conclusions, we will want to evaluate our assumptions. With regression, most of our assumptions are about the **residuals**. We can find residuals from the output of `lm()` using the `residuals` function. It can be useful to add these directly to the original data set. 
+
+```{r}
+dat <- dat %>% mutate(residuals = residuals(reg))
+```
+
+## Evaluting Homoscedasticity
+
+```{r, fig.height=5.5}
+ggplot(dat, aes(`Sq. Ft.`, residuals)) + geom_point() + 
+  geom_smooth(method = loess, formula = y ~ x) +
+  geom_hline(yintercept = 0)
+```
+
+## Evaluating Normality
+
+```{r, fig.height = 5.5}
+ggplot(dat, aes(sample = residuals)) + 
+  stat_qq() + stat_qq_line()
+```
+

@@ -1,0 +1,119 @@
+---
+title: "Lab 2 Activity"
+format: pdf
+---
+
+In this lab, we will create some visualizations of the `diamonds` dataset. Use R Markdown to create a Word or pdf document of your results. When you are done (or when lab time runs out), check in with the TA to receive participation credit for the day. **This assignment is not graded aside from participation credit**
+
+First make sure that you download the "diamonds.csv" dataset. Make sure that this file is in your working directory (you may want to change your working directory). See Lab 1 for help with this step. 
+
+```{r message = FALSE}
+library(tidyverse)
+diamonds <- read.csv("diamonds.csv")
+```
+
+You can run the `?diamonds` command in your console to get a description of the variables in the dataset. Additionally, check out [this page](https://www.brilliantearth.com/diamond/buying-guide) for even more diamond knowledge!  
+
+Recreate the following graphs to the best of your ability (feel free to start with any one you please). Use the `ggplot` help pages and the internet to help you! We don't expect you reproduce every aspect of every plot today, but we want to give you some real-world problem-solving practice. After lab today, we'll give you the source code for you to review on your own time. 
+
+\newpage
+
+## Plot 1
+
+```{r echo = FALSE}
+diamonds %>% 
+  filter(carat > 1) %>% 
+  mutate(price_thousands = price/1e3) %>% 
+  ggplot(aes(x = carat, 
+             y = price_thousands, 
+             color = cut)) +
+   geom_point() +
+   labs(y = "Price in Thousands") +
+    theme_classic()
+```
+
+Plot 1 checklist:
+
+* Filter only diamonds that are above 1 `carat`
+
+* Transform `price` (in USD) to thousands of USD
+
+* Plot different cuts in different colors
+
+* Create a scatterplot with `price` on x-axis and `carat` on y-axis
+
+* Make sure y axis label matches the plot
+
+* Choose a plotting theme that omits the background grid lines
+
+\newpage
+
+
+## Plot 2
+
+
+```{r echo=FALSE}
+diamonds %>% 
+    ggplot(aes(x = factor(cut), y = carat)) +
+   geom_jitter(width = .2) + 
+    geom_boxplot() +
+    labs(x = "Type of cut", 
+         y = "Weight of diamond in carat") +
+    theme_light() 
+```
+
+Plot 2 checklist
+
+* `cut` should be converted to a factor type variable
+
+* Create boxplots
+
+* Create jittered scatterplots with width of .2
+
+* Choose a theme that matches the picture
+
+* Match x and y axis labels
+
+\newpage
+
+## Plot 3
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+diamonds %>% 
+  group_by(cut, color) %>% 
+   summarise(color_per_cut = n()) %>% 
+   group_by(cut) %>% 
+    mutate(proportion_color = color_per_cut/sum(color_per_cut)) %>% 
+ggplot(aes(x = cut,
+           y = proportion_color,
+           fill = color)) +
+  coord_flip() +
+  geom_bar(stat = "identity", position = "fill") +
+  labs(
+    title = "Proportion of Diamond Colors by Cut",
+    x = "Diamond Cut",
+    y = "Proportion of colors",
+    fill = "Diamond color") + 
+  scale_fill_brewer(palette = "Dark2")
+```
+
+
+Plot 3 checklist:
+
+* For each `cut`, calculate the proportion of each colors. The `group_by()` and `summarise()` functions should be quite helpful to do this. 
+
+* Create a stacked bar plot that fills the plotting space
+
+* Use different colors for different diamond colors
+
+* Different cuts should be on different rows
+
+* Match the axis and the title
+
+* To match colors exactly, use the "Dark2" palette from the `RColorBrewer` package (see `scale_fill_brewer()` function in `ggplot2`)
+
+
+
+
+

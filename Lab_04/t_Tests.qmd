@@ -1,0 +1,415 @@
+---
+title: "Lab 4: $t$-Tests"
+author: "PSYC 6802"
+date: "September 24, 2025"
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+  freeze: auto
+---
+
+```{r include = FALSE}
+library(knitr)
+opts_chunk$set(class.output='sh', comment = "")
+```
+
+## Packages for Today
+
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(effectsize)
+```
+
+## Overview
+
+Tests, Functions, & Arguments
+
+The primary function for conducting $t$-tests in `R` is `t.test()`
+
+* One sample $t$-test: `t.test(..., mu = #)`
+
+* Paired samples $t$-test: `t.test(..., paired = TRUE)`
+
+* Independent samples $t$-test: `t.test(..., var.equal = TRUE)`
+
+* Welch-Satterthwaite corrected $t$-test: `t.test(..., var.equal = FALSE)`
+
+* Wilcoxon signed-rank tests: `wilcox.test()`
+
+    - Most options are the same as the `t.test()` function
+
+* Levene's test (`car::leveneTest`)
+
+The `car` (Companion to Applied Regression) package is one of the best `R` packages for many statistical procedures. We've already used it (in lecture) for Box-Cox transformations.
+
+
+## One-Sample $t$-test
+
+
+Today, we'll work with data about restaurant ratings. A description of the variables in the data can be found at [https://www.kaggle.com/code/sefercanapaydn/eda-on-a-restaurant-s-cuisine-ratings](https://www.kaggle.com/code/sefercanapaydn/eda-on-a-restaurant-s-cuisine-ratings)
+
+```{r}
+dat <- read_csv("Cuisine_rating.csv")
+```
+
+```{r}
+dat %>% glimpse
+```
+
+## One-Sample $t$-test
+
+Let us test that the mean `Food_Rating` is significantly different from the middle scale value of 3. To conduct the one-sample $t$-test: 
+
+* The first argument is the vector of scores
+* `mu = 3` gives the null mean
+* `alternative = "two.sided"` indicates a two-tailed test (other options are `"less"` and `"greater"`)
+* `conf.level = .95` is 1 - type I error rate
+
+```{r}
+t.test(dat$Food_Rating, mu = 3,
+       alternative = "two.sided", conf.level = .95)
+```
+
+
+## Effect Size
+
+Cohen's $d$ effect size is  easily computed by hand:
+
+```{r, message = FALSE, warning = FALSE}
+.22 / sd(dat$Food_Rating) # option 1: (xbar - mu) / sd
+2.2047/ sqrt(200) # option 2: t / sqrt(N)
+```
+
+
+You can also use `cohens_d()` from `effectsize` package:
+
+
+```{r}
+cohens_d(dat$Food_Rating, mu = 3) # option 3
+```
+
+
+## One-Sample $t$-test
+
+APA style conclusion:
+
+We conducted a one sample t-test comparing the average food rating ($M$ = 3.22) to 3. The difference was significant, $t$(199) = 2.2, $p$ < .029, but the effect was small, Cohen’s $d$ = 0.16. 95% CI of the mean score = [0.02, 0.30].
+
+## Paired-Samples $t$-test
+
+We usually use paired samples t-tests when we compare measurements of the same individuals at different time points.
+
+Paired-samples $t$-test two ways:
+
+```{r, eval = FALSE}
+# indicate a paired-samples t-test directly
+t.test(dat$Service_Rating, dat$Food_Rating, 
+       paired = TRUE, alternative = "two.sided")
+
+# or the one-sample t-test way using differences
+
+t.test(dat$Service_Rating - dat$Food_Rating, 
+       alternative = "two.sided")
+```
+
+Output on next slides. 
+
+## Paired-Samples $t$-test
+
+Why do these give the same result? 
+
+```{r}
+t.test(dat$Service_Rating, dat$Food_Rating, 
+       paired = TRUE, alternative = "two.sided")
+```
+
+```{r}
+t.test(dat$Service_Rating - dat$Food_Rating, alternative = "two.sided")
+```
+
+
+## Paired-Samples $t$-test
+
+Calculate the effect size three ways:
+
+* Way 1:
+
+```{r}
+0.01 / (sd(dat$Service_Rating - dat$Food_Rating))
+```
+
+* Way 2:
+
+```{r}
+0.07089 / sqrt(200)
+```
+
+* Way 3:
+
+```{r}
+cohens_d(dat$Service_Rating - dat$Food_Rating)
+```
+
+## Independent Samples $t$-test
+
+To compare the means of two groups that are independent (e.g., treatment and control), we use independent samples t-tests.
+
+- Let us test whether there is a significant difference in `Overall_Rating` between females and males (the only two gender groups in these data).
+
+- First, recode the data to make interpretations easier:
+
+```{r}
+dat <- dat %>%
+  mutate(Gender = dplyr::recode(as_factor(Gender),
+                              "1" = "Female",
+                              "2" = "Male"))
+```
+
+## Independent Samples $t$-test
+
+Ordinary independent samples $t$-test (**not** Welch-Satterthwaite):
+
+* `var.equal = TRUE` means to NOT use the Welch-Sattherthwaite correction
+
+::: {.panel-tabset}
+
+## Way 1
+
+```{r}
+t.test(dat$Overall_Rating[dat$Gender == "Female"],
+       dat$Overall_Rating[dat$Gender == "Male"],
+       alternative = "two.sided", var.equal = TRUE)
+```
+
+## Way 2
+
+```{r}
+t.test(Overall_Rating ~ Gender, dat,
+        alternative = "two.sided", var.equal = TRUE)
+```
+
+:::
+
+## Independent Samples $t$-test
+
+And with Welch-Sattherthwaite correction:
+
+::: {.panel-tabset}
+
+## Way 1
+
+```{r}
+t.test(dat$Overall_Rating[dat$Gender == "Female"],
+       dat$Overall_Rating[dat$Gender == "Male"],
+       alternative = "two.sided", var.equal = FALSE)
+```
+
+## Way 2
+
+```{r}
+t.test(Overall_Rating ~ Gender, dat, 
+        alternative = "two.sided", var.equal = FALSE)
+```
+
+:::
+
+## Testing Assumptions
+
+Before we conduct analyses, it is best practice to evaluate test assumptions.
+
+::: {.panel-tabset}
+
+## **One Sample $t$** 
+
+* Independent observations
+
+* Normally distributed observations (or large $N$), no outliers
+
+## **Paired Samples $t$**
+
+* Independent pairs of observations
+
+* Normally distributed difference scores (or large $N$), no outliers
+
+## **Independent Samples $t$**
+
+* Independent observations
+
+* In each group, normally distributed difference scores (or large $N$), no outliers
+
+* Homogeneity of variance 
+
+:::
+
+**The following slides show assumption checking for the independent samples $t$ only**
+
+* For the one-sample $t$, can do the same analyses for the one group.
+
+* For the paired-samples $t$, can do the same analyses on the difference scores.
+
+
+## Testing for Outliers
+
+We inspect outliers in various ways such as (a) comparing the (group) means to the trimmed (group) means, and (b) boxplots. For comparing group means, it is helpful to use the tidy `group_by` function to calculate statistics separately by group.
+
+```{r}
+dat %>% group_by(Gender) %>% 
+  summarize(mean = mean(Overall_Rating), 
+            tmean = mean(Overall_Rating, trim = .05))
+```
+
+The mean and the 5% trimmed mean are very close for each group.
+
+
+## Testing for Outliers
+
+To construct box plots for multiple groups, set the first `aes()` element to the grouping variable.
+
+```{r, fig.height = 4}
+ggplot(dat, aes(Gender, Overall_Rating)) + geom_boxplot()
+```
+
+No outliers are suggested by the box plot either, so there do not appear to be outliers in this data set. 
+
+## Testing for Normality
+
+Normality can be evaluated in several ways, including (1) skewness and kurtosis for each group, (2) histogram + normal curve for each group, (3) kernal density plot + normal curve for each group, and (4) QQ plot for each group.
+
+Skewness and kurtosis calculations are available from the `e1071` package. These calculations show little skew but some negative kurtosis in each gender group.
+
+```{r}
+library(e1071)
+dat %>% group_by(Gender) %>% 
+  summarize(mean = mean(Overall_Rating), sd = sd(Overall_Rating), 
+            skew = skewness(Overall_Rating), kurt = kurtosis(Overall_Rating))
+```
+
+## Testing for Normality
+
+Next, let's look at histograms and kernel density plots for each group. We use the group means and standard deviations computed in the previous step. These plots also suggest minor deviations from normality, largely due to the discrete-like values.
+
+::: {.panel-tabset}
+
+## Histogram for Females
+
+```{r, fig.height=4.5}
+ggplot(dat %>% filter(Gender == "Female"), aes(Overall_Rating)) + 
+  geom_histogram(aes(y = after_stat(density)), bins = 8) + 
+  stat_function(fun = dnorm, 
+                args = list(mean = 3.34, sd = 1.19), col = "blue")
+```
+
+## Histogram for Males
+
+```{r, fig.height=4.5}
+ggplot(dat %>% filter(Gender == "Male"), aes(Overall_Rating)) + 
+  geom_histogram(aes(y = after_stat(density)), bins = 8) + 
+  stat_function(fun = dnorm, 
+                args = list(mean = 3.15, sd = 1.00), col = "blue")
+```
+
+:::
+
+## Testing for Normality
+
+::: {.panel-tabset}
+
+## Kernel Density Plots for Females
+
+```{r, fig.height=4.5}
+ggplot(dat %>% filter(Gender == "Female"), aes(Overall_Rating)) + 
+  geom_density() + stat_function(fun = dnorm, 
+                args = list(mean = 3.34, sd = 1.19), col = "blue")
+```
+
+## Kernel Density Plots for Males
+
+```{r, fig.height=4.5}
+ggplot(dat %>% filter(Gender == "Male"), aes(Overall_Rating)) + 
+  geom_density() + stat_function(fun = dnorm, 
+                args = list(mean = 3.15, sd = 1.00), col = "blue")
+```
+
+:::
+
+## QQ Plots
+
+Finally, we will construct QQ plots for each group. Here, it is useful to use the `facet_wrap(~group)` option in `ggplot` to draw separate plots for each group. (We didn't use `facet_wrap` for the histograms/kernel density plots because it's tricky to get the correct normal curves imposed.)
+
+```{r, fig.height=3}
+ggplot(dat, aes(sample = Overall_Rating)) + stat_qq() + 
+  stat_qq_line() + facet_wrap(~Gender)
+```
+
+The QQ plots also suggest minor deviations from normality. Overall, because sample size is moderate and the independent samples $t$-test is robust to violations of normality, violations of this assumption likely do not affect our results.
+
+## Testing for Homogeneity of Variance
+
+This test only applies for independent samples data.
+
+We can do Levene's test in two ways and get the same results.
+
+```{r}
+library(car) # note that car's "recode" function overwrites dplyr's version! 
+leveneTest(y = dat$Overall_Rating, group = dat$Gender)
+leveneTest(Overall_Rating ~ Gender, data = dat)
+```
+
+We reject Levene's test, so we definitely want to use the Welch-Satterthwaite correction.
+
+## Welch-Satterthwaite
+
+Let's do the Welch-Satterthwaite correction. This is the default with `t.test`, so we get the same results if we don't specify `var.equal = FALSE`.
+
+* Way 1:
+
+```{r}
+t.test(dat$Overall_Rating ~ dat$Gender, var.equal = FALSE)
+```
+
+* Way 2:
+
+```{r}
+t.test(Overall_Rating ~ Gender, dat)
+```
+
+## Wilcoxon Signed-Rank Tests
+
+If we don't feel comfortable with the assumptions of $t$-tests (particularly the assumption of a normal sampling distribution), we can run Wilcoxon tests instead.
+
+::: {.panel-tabset}
+
+## One-sample
+
+```{r}
+wilcox.test(dat$Food_Rating, mu = 3,
+            alternative = "two.sided", conf.level = .95)
+```
+
+## Paired-samples
+
+```{r}
+wilcox.test(dat$Service_Rating, dat$Food_Rating,
+            paired = TRUE, alternative = "two.sided")
+```
+
+## Independent samples
+
+```{r}
+wilcox.test(Overall_Rating ~ Gender, dat,
+            alternative = "two.sided")
+```
+
+
+:::
+

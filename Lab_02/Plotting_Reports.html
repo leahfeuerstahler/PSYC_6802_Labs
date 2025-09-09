@@ -234,7 +234,7 @@ PSYC 6802
 <li><p>Quarto files have “.qmd” extensions, R Markdown files have “.Rmd” extensions</p></li>
 <li><p>Most (but not all) functionality is the same between Quarto and R Markdown</p></li>
 </ul></li>
-<li><p>This document is written using Quarto!</p></li>
+<li><p>These slides were written using Quarto!</p></li>
 <li><p>You are expected to complete your homework assignments with Quarto if possible</p></li>
 <li><p>With instructor permission, you may use R Markdown (.Rmd) instead of Quarto</p></li>
 </ul>
@@ -445,13 +445,12 @@ x &lt;- 2 + 3 # R code goes in between the sets of tick marks
 <section id="including-r-code-in-quarto-2" class="slide level2">
 <h2>Including R Code in Quarto</h2>
 <p>Within the curly brackets that open an R code chunk, you can specify several options. A full list is on the cheat sheet, but these are the options I use most often.</p>
-<p>{r echo = TRUE, eval = TRUE, include = TRUE, fig.height = 7, out.height = “3in”}</p>
+<p>{r echo = TRUE, eval = TRUE, include = TRUE, fig.height = 7, fig.width = 5}</p>
 <ul>
 <li><p><code>echo</code>: TRUE or FALSE, whether to include the R code along with the output</p></li>
 <li><p><code>eval</code>: TRUE or FALSE, whether to include the R output along with the code</p></li>
 <li><p><code>include</code>: TRUE or FALSE, if FALSE evaluate but don’t include input or output</p></li>
 <li><p><code>fig.height/fig.width</code>: dimension of plot in the graphics engine (in inches)</p></li>
-<li><p><code>out.height/out.width</code>: dimension of plot output in the final document (must specify unit manually)</p></li>
 </ul>
 </section>
 <section id="practice" class="slide level2 scrollable">
@@ -744,11 +743,11 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Plotting_Reports_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"><p>An empty plotting window shows up, because <code>ggplot</code> doesn’t know what we want to plot!</p>
+<img data-src="Plotting_Reports_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"><p>An empty plotting window shows up, because <code>ggplot</code> doesn’t know what type of plot we want!</p>
 </section>
 <section id="grammar-of-ggplot-1" class="slide level2">
 <h2>Grammar of ggplot</h2>
-<p>To tell <code>ggplot</code> what goes on the x/y axes, we use the aesthetics argument <code>aes</code>. The following code tells ggplot to put <code>Time</code> on the x axis and <code>weight</code> on the y axis. This works becuase <code>Time</code> and <code>weight</code> are both column names in the <code>ChickWeight</code> dataset.</p>
+<p>To tell <code>ggplot</code> what variables go on the x/y axes, we use the aesthetics argument <code>aes</code>. The following code tells ggplot to put <code>Time</code> on the x axis and <code>weight</code> on the y axis. This works becuase <code>Time</code> and <code>weight</code> are both column names in the <code>ChickWeight</code> dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> weight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -846,7 +845,7 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <img data-src="Plotting_Reports_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section>
 <section id="normal-qq-plots" class="slide level2">
 <h2>Normal QQ Plots</h2>
-<p>In Lecture 2, we will learn about QQ plots for assessing normality.</p>
+<p>In Lecture 2, we learned about QQ plots for assessing normality.</p>
 <p>For QQ plots, need to specify the variable with <code>aes(sample = ...)</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">sample =</span> weight)) <span class="sc">+</span></span>
@@ -899,6 +898,7 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <li>Run statistical tests</li>
 <li>Make simple reports</li>
 </ul>
+<p>For the rest of class today, work on the Lab 2 Activity</p>
 
 </section>
     </div>

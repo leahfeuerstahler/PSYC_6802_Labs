@@ -783,7 +783,7 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 ::: callout-important
 **Use Quarto for this class if you can**
 
--   Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors may have particular difficulties)
+-   Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors are known to have issues)
 :::
 
 ## How To Check if Quarto Works for You
@@ -801,8 +801,3 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 -   No error messages should display
 
 -   On your Desktop, you should find an html file with the same name
-
-## Office Hour
-
-
-Zhixing's Office hours: 1:00 PM - 2:00 PM on Mondays, Room TBD

@@ -1,0 +1,93 @@
+---
+title: "Lab 3 Activity"
+format: pdf
+---
+
+In the Lab 3 slides, we loaded in and manipulated the `Airlines.csv`  data. Run all of these commands first.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+flights <- read_csv("Airlines.csv")
+
+flights <- flights %>% 
+              mutate(Delay = factor(Delay,
+                                    levels = c("0", "1"), # values observed in the data
+                                    labels = c("On Time", "Delay"))) # meaningful labels
+```
+
+
+## 1
+
+Use the $\chi^2$ test of independence to test whether there is an association between whether a flights gets delayed depending on whether Delta Airlines (`DL`) or Southwest Airlines (`WN`). Do this only for flights originating from Los Angeles (`LAX`) and flying to Salt Lake City (`SLC`). 
+
+- Step 1. Use `filter` to retain only those flights that we want.
+
+-  Step 2. Create a contingency table.
+
+- Step 3. Run a $\chi^2$ test of independence with the continuity correction
+
+```{r eval=FALSE, include=FALSE}
+
+flights_filtered <- flights %>% 
+                      filter(Airline %in% c("WN", "DL"),
+                             AirportFrom == "LAX",
+                             AirportTo == "SLC")
+
+tabl <- table(flights_filtered$Airline, flights_filtered$Delay)
+
+chisq.test(tabl)
+```
+
+
+## 2
+
+Compute the $W$ coefficient.
+
+```{r eval=FALSE, include=FALSE}
+N <- sum(tabl)
+sqrt(chisq.test(tabl)$statistic / N)
+```
+
+## 3
+
+Write $\chi^2(1, N = 242) = 9.71$, $p = .002$, $W = .2$ using Quarto or R Markdown (the outputted document should render the mathematical notation properly).
+
+```{r echo = FALSE, eval = FALSE}
+# See how this appears in the code above 
+```
+
+
+## 4
+
+Run Fisher's exact test on these data. Which test do you think is more appropriate?
+
+```{r eval=FALSE, include=FALSE}
+# Fisher's exact test
+fisher.test(tabl)
+
+# There are no small expected frequencies, so that is not a concern.
+# Either choice is appropriate.
+```
+
+## 5
+
+Based on your results, should you choose Delta or Southwest if you were to fly from Los Angels to Salt Lake city? Feel free to calculate other types of effects to inform your answer
+
+
+```{r eval=FALSE, include=FALSE}
+# Delta seems like the safer option, as Southwest presents a higher proportion of delays
+
+tabl
+```
+
+```{r eval=FALSE, include=FALSE}
+# The risk of a delay is higher for Southwest than Delta
+81 / (81 + 73) # Delta
+65 / (65 + 23) # Southwest
+
+# The odds ratio shows that delays are more than twice (2.55) as likely for Southwest over this route.
+
+(73/81)/(23/65)
+```
+
