@@ -20,7 +20,7 @@ Recreate the following graphs to the best of your ability (feel free to start wi
 
 ## Plot 1
 
-```{r echo = FALSE}
+```{r echo = TRUE}
 diamonds %>% 
   filter(carat > 1) %>% 
   mutate(price_thousands = price/1e3) %>% 
@@ -52,7 +52,7 @@ Plot 1 checklist:
 ## Plot 2
 
 
-```{r echo=FALSE}
+```{r echo = TRUE}
 diamonds %>% 
     ggplot(aes(x = factor(cut), y = carat)) +
    geom_jitter(width = .2) + 
@@ -78,7 +78,7 @@ Plot 2 checklist
 
 ## Plot 3
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo = TRUE, message = FALSE, warning = FALSE}
 
 diamonds %>% 
   group_by(cut, color) %>% 

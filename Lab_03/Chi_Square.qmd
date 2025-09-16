@@ -265,7 +265,7 @@ fisher.test(tabl)
 
 ## Pretty Math in Quarto
 
-When writing reports with R Markdown, we might want to use mathematical notation or symbols.
+When writing reports with R Markdown or Quarto, we might want to use mathematical notation or symbols.
 
 To type math in-line (not in code chunks), put the expression between two `$` signs. 
 
