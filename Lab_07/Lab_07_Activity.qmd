@@ -1,0 +1,117 @@
+---
+title: "Lab 7 Activity"
+format: pdf
+---
+
+## 1
+
+Load in the `PlantGrowth` data from the `datasets` package. You can do so by running:
+
+```{r}
+data("PlantGrowth", package = "datasets")
+```
+
+These are the data discussed in the first part of the one-way ANOVA lecture. The IV is `group` and the DV is `weight`.
+
+## 2
+
+Test the assumptions of your ANOVA using the methods we learned in earlier weeks to test assumptions about normality and outliers.
+
+```{r echo = FALSE, eval = FALSE}
+## outliers
+# from slide 4 in the lecture slides, trt1 might have some outliers
+PlantGrowth %>% group_by(group) %>%
+  summarize(mean = mean(weight), tmean = mean(weight, trim = .1), .groups = "keep") 
+# no highly influential outliers here
+
+## normality
+PlantGrowth %>% group_by(group) %>%
+  summarize(skew = e1071::skewness(weight), 
+            kurt = e1071::kurtosis(weight), .groups = "keep") 
+# potentially significant skew and kurtosis
+ggplot(PlantGrowth, aes(sample = weight)) + 
+  stat_qq() + stat_qq_line() + facet_wrap(~group)
+
+# possibly some deviations from normality, but
+#  n is so small that it's hard to tell
+# Robust tests are more advisable
+```
+
+
+## 3 
+
+Run an ANOVA that is appropriate for these data using the package of your choice, and compute an effect size. 
+
+```{r echo = FALSE, eval = FALSE}
+# a number of options available, a few are shown below
+
+data("PlantGrowth", package = "datasets")
+
+# aov without weighted least squares
+summary(aov(weight ~ group, PlantGrowth))
+
+# aov with weighted least squares
+
+library(tidyverse)
+PlantGrowth <- PlantGrowth %>% group_by(group) %>%
+  mutate(weights = 1 / var(weight)) %>% ungroup
+summary(aov(weight ~ group, PlantGrowth, weights = weights))
+
+# aov with White's adjustment
+car::Anova(aov(weight ~ group, PlantGrowth), white.adjust = TRUE)
+
+# ezANOVA - need to add an ID variable
+library(ez)
+PlantGrowth <- PlantGrowth %>% mutate(ID = 1:nrow(PlantGrowth))
+# ezANOVA 
+ezANOVA(data = PlantGrowth, dv = weight, wid = ID, between = group) # note that Levene's test NOT rejected
+
+# oneway with Welch's correction:
+library(rstatix)
+welch_anova_test(PlantGrowth, weight ~ group)
+
+
+library(effectsize)
+
+res <- aov(weight ~ group, PlantGrowth)
+
+eta_squared(res)
+omega_squared(res)
+
+```
+
+## 4
+
+Identify an *a priori* contrast to test on the `PlantGrowth` data, and test it in `R`.
+
+```{r echo = FALSE, eval = FALSE}
+library(emmeans)
+
+# one option is to compare the control group to the average of the two treatments
+summary(PlantGrowth$group) # factor levels are ordered ctrl, trt1, trt2
+
+aov_res <- aov(weight ~ group, PlantGrowth)
+em1 <- emmeans(aov_res, specs = "group")
+
+contrast(em1, method = list(ctr_v_trt = c(2, -1, -1)))
+# not statistically significant, but bear in mind that n is small
+```
+
+## 5
+
+Conduct post-hoc tests of your choosing on the `PlantGrowth` data. What groups are significantly different from each other with your choice of adjustment for multiple comparisons? In real life, would you recommend conducting these post-hoc tests, and why?
+
+```{r echo = FALSE, eval = FALSE}
+# yes, it's appropriate to look at these post-hoc tests since the original ANOVA
+# is significant at alpha = .05
+
+# any package is fine
+# most methods show that the major difference is between trt1 and trt2
+
+em_res <- emmeans(aov_res, specs = "group")
+pairs(em_res, adjust = "holm")
+pairs(em_res, adjust = "bonferroni")
+pairs(em_res, adjust = "tukey")
+```
+
+
