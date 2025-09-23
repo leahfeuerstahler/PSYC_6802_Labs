@@ -103,7 +103,7 @@ cohens_d(dat$Food_Rating, mu = 3) # option 3
 
 APA style conclusion:
 
-We conducted a one sample t-test comparing the average food rating ($M$ = 3.22) to 3. The difference was significant, $t$(199) = 2.2, $p$ < .029, but the effect was small, Cohen’s $d$ = 0.16. 95% CI of the mean score = [0.02, 0.30].
+We conducted a one sample t-test comparing the average food rating ($M$ = 3.22) to 3. The difference was significant, $t$(199) = 2.2, $p$ = .029, but the effect was small, Cohen’s $d$ = 0.16. 95% CI of the mean score = [0.02, 0.30].
 
 ## Paired-Samples $t$-test
 
