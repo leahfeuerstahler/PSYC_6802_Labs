@@ -1,0 +1,334 @@
+---
+title: "Lab 8: Factorial ANOVA"
+author: "PSYC 6802"
+date: October 29, 2025
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: true
+    slide-number: true
+execute: 
+  echo: true
+---
+
+## Packages for Today
+
+```{r, message = FALSE}
+library(tidyverse)
+library(rio)
+library(effectsize)
+library(labelled)
+library(car)
+library(ez)
+library(sjstats)
+library(emmeans)
+library(ggeffects)
+theme_set(theme_classic())
+```
+
+## Data for Today
+
+Rotten Tomatoes Data
+
+* IVs: Genre (Comedy vs. Drama vs. Sci-Fi) and Rating (PG vs. PG-13 vs. R)
+
+* DV: Box office revenue in millions of US dollars
+
+```{r}
+dat <- read_csv("rotten_tomatoes_clean.csv")
+
+dat %>% summary
+```
+
+## Data Cleaning
+
+The DV of box office revenue (`boxOfficeMil`) is missing for two movies, so we will remove these from the data set:
+
+```{r}
+dat <- dat %>% filter(!is.na(boxOfficeMil))
+```
+
+We also want to omit movies without the PG, PG-13, or R ratings:
+
+```{r}
+dat <- dat %>% filter(rating %in% c("PG", "PG-13", "R"))
+```
+
+Check for a balanced design (equal sample sizes for each combination of groups):
+
+```{r}
+dat %>% select(rating, genre) %>% table
+```
+## Box Plots
+
+Let's first explore the distribution of these data using box plots:
+
+```{r}
+dat %>%
+  ggplot(aes(rating, boxOfficeMil, color = genre)) + 
+  geom_boxplot()
+```
+
+## Data Transformation
+
+We see (as we might have anticipated), a large number of positive outliers. This is an instance in which we might prefer to analyze a transformed outcome variable. This time, we'll use the Box-Cox transformation from Lecture 1.
+
+```{r}
+car::powerTransform(dat$boxOfficeMil)
+
+dat <- dat %>% mutate(boxOffice_transformed = bcPower(boxOfficeMil, lambda = 0.2164347))
+```
+
+* With this transformation, we lose the ability to easily interpret the metric of the DV in favor of better meeting our test assumptions.
+
+* Be sure to always apply the exact same transformation to all values (no group-level transformations!)
+
+
+## Box Plots
+
+```{r}
+dat %>%
+  ggplot(aes(rating, boxOffice_transformed, color = genre)) + 
+  geom_boxplot()
+```
+
+Now, we still have a few outliers, but our data should better meet the normality assumption with the transformed data.
+
+
+## Interaction Plot
+
+The easiest way to make an interaction plot with `ggplot` is to create a new data set that includes group means.
+
+```{r}
+dat_means <- dat %>% 
+  group_by(rating, genre) %>%
+  summarize(mean_boxOffice_transformed = mean(boxOffice_transformed), .groups = "keep")
+```
+
+## Interaction Plot
+
+Then, we can use this to draw an interaction plot.
+
+```{r}
+ggplot(dat_means, 
+       aes(rating, mean_boxOffice_transformed,
+           group = genre, 
+           col = genre)) + 
+  geom_point() + geom_line()
+```
+
+## Formulas in R
+
+Earlier, we saw the `DV ~ IV` notation for formulas.
+
+We can also use `DV ~ IV1 * IV2` to include both main effects and an interaction. 
+
+* A longer way to write the same formula is `DV ~ IV1 + IV2 + IV1:IV2`.
+
+* The formula `DV ~ IV1:IV2` includes only the interaction, not the main effects.
+
+* The "*" notation implies all lower-order terms, and the ":" notation implies only the interaction effect. 
+
+## Two-Way ANOVA with `aov`
+
+**Warning**: Don't try this at home if you have unbalanced data!
+
+* If data are unbalanced, the main effects results depend on the order of the variables. Compare the two solutions:
+
+
+::: {.panel-tabset}
+
+## Rating * Genre
+
+```{r}
+aov_res <- aov(boxOffice_transformed ~ rating * genre, dat)
+summary(aov_res)
+```
+
+## Genre * Rating
+
+```{r}
+aov_res <- aov(boxOffice_transformed ~ genre * rating, dat)
+summary(aov_res)
+```
+:::
+
+
+## Two-Way ANOVA with `ezANOVA`
+
+`ezANOVA` in the `ez` package allows us to choose the sums of squares type. Here, we'll use type 3 SS since we are interested in a potential interaction effect. 
+
+
+```{r}
+ezANOVA(data = dat, dv = boxOffice_transformed,
+        between = c(genre, rating), wid = id,
+        type = 3)
+```
+
+
+## Two-Way ANOVA with `ezANOVA`
+
+We rejected the null hypothesis for Levene's test, so we should use a correction for violations of homogeneity of variance. One option is to use White's adjustment, which is available with `ezANOVA`.
+
+```{r}
+ezANOVA(data = dat, dv = boxOffice_transformed,
+        between = c(genre, rating), wid = id,
+        type = 3, white.adjust = TRUE)
+```
+
+## Two-Way ANOVA with `aov`
+
+Another option if homogeneity is violated is to use weighted least squares. We can calculate and specify weights with the `aov` function.
+
+Calculate weights for each combination of groups:
+
+```{r}
+dat <- dat %>% 
+  group_by(genre, rating) %>%
+  mutate(weight = 1 / var(boxOffice_transformed))
+```
+
+Run WLS ANOVA:
+
+```{r}
+res_aov <- aov(boxOffice_transformed ~ genre * rating, 
+               dat, weights = weight)
+
+```
+
+Because we have unbalanced data, we want to print type 2 or 3 sums of squares. Below, we find type 2 sums of squares using the `Anova` function from the `car` package. Note that we do **not** want to use this function to find type 3 sums of squares (use `ezAnova` instead).
+
+```{r}
+Anova(res_aov, type = 2)
+```
+
+## $r$-Family Effect Sizes 
+
+Now that we have more effects in our ANOVA model, calculating effect size becomes more nuanced. **Partial** effect sizes enter the picture.
+
+- normally, $\eta^2$ and $\omega^2$ compare the variance explained of one of the ANOVA effects against the total variance.
+- *partial* $\eta^2$ and $\omega^2$ compare the variance explained of one of the ANOVA effects against the total variance *after* removing the variance already explained by other terms. 
+
+In practice, the numerator of the formula remains the same, but the denominator is always smaller for partial measures of effect sizes. This means that partial measures are *always* larger than their counterparts. 
+
+## Effect Sizes 
+
+The `sjstats` package includes the `anova_stats` function for calculating $r$-family effect sizes. This is especially useful when you have multiple main effects and interaction effects:
+
+```{r}
+anova_stats(res_aov)
+```
+
+For the interaction effect, $\eta^2 = .006$, partial $\eta^2 = .007$, $\omega^2 = .004$, and partial $\omega^2 = .005$.
+
+## Simple Main Effects by Rating Category
+
+We found that the interaction effect is statistically significant at $\alpha = .05$. To better understand what this result means, let's calculate simple main effects. You should *always* do this whenever an interaction in your model is significant. (If the interaction is **not** significant, look at the ordinary main effects in the ANOVA table instead.)
+
+Let's split the data by the three ratings, then look at the effects of genre on box office revenue within each rating category.
+
+```{r}
+dat_pg <- dat %>% filter(rating == "PG")
+dat_pg13 <- dat %>% filter(rating == "PG-13")
+dat_r <- dat %>% filter(rating == "R")
+```
+
+Next, we want the $MSW$ and $dfW$ from the original model. From before, $MSW = 9.8$ and $dfW = 1895$. (Note that the type of SS doesn't affect these numbers.)
+
+## Simple Main Effects by Rating Category
+
+Next, conduct a one-way ANOVA for each sub-data set.
+
+```{r}
+summary(aov(boxOffice_transformed ~ genre, dat_pg))
+summary(aov(boxOffice_transformed ~ genre, dat_pg13))
+summary(aov(boxOffice_transformed ~ genre, dat_r))
+```
+
+* For the PG rated movies, $MSB = 147.64$ and $dfB = 2$.
+
+* For the PG-13 rated movies, $MSB = 552.1$ and $dfB = 2$.
+
+* For the R rated movies, $MSB = 220.13$ and $dfB = 2$.
+
+## Simple Main Effects by Rating Category
+
+The $F$ test statistic equals $MSB/MSW$, where $MSB$ is from the sub-data sets, and $MSW$ is from the original ANOVA.
+
+```{r}
+F_pg <- 147.64 / 9.8
+F_pg13 <- 552.1 / 9.8
+F_r <- 220.13 / 9.8
+```
+
+To find $p$-values, find the proportion of the $F$ distribution above each $F$ test statistic. Be sure to use $dfB$ from the sub-dataset and $dfW$ from the original dataset.
+
+```{r}
+pf(F_pg, df1 = 2, df2 = 1895, lower.tail = FALSE)
+pf(F_pg13, df1 = 2, df2 = 1895, lower.tail = FALSE)
+pf(F_r, df1 = 2, df2 = 1895, lower.tail = FALSE)
+```
+
+At $\alpha = .05$, there are significant differences in genre at all three rating categories.
+
+
+## Simple Main Effects Using `joint_tests()`
+
+An easier way to do these tests imply is to use the `joint_tests()` function from the `emmeans` package. First we define an object using the `emmeans()` function with both grouping variables under `specs`
+
+
+```{r}
+em1 <- emmeans(aov_res, specs = c("genre","rating"))
+```
+
+Then we can use `joint_tests()` to test whether the effect of `rating` is significant `by` the different levels of `rating``
+
+```{r}
+joint_tests(em1, by = "rating")
+```
+
+The problem with this approach is we get much less detail in the output, some of which we need to compute effect sizes.
+
+## Post-Hoc Tests for Simple Main Effects
+
+If there are 3 or more levels of the IV for simple effects, we can do post-hoc or a priori analyses like we learned about for the one-way ANOVA. For example, we can do Tukey's HSD for each rating separately.
+
+```{r}
+pairs(em1, by = "rating", adjust = "tukey") 
+```
+All pairwise comparisons are statistically significant except for comedy and sci-fi movies with a PG rating.
+
+## Effect Sizes for Simple Main Effects
+
+We can use the equations from lecture and `R` as a calculator to find effect sizes for the simple main effect of genre separately for each rating category. 
+
+$$Partial\ \eta^2_{simple} = \frac{SSB_{simple}}{SSB_{simple} + SSW}$$
+$$\eta^2_{simple} = \frac{SSB_{simple}}{SST}$$
+
+$$Partial\ \omega^2_{simple} = \frac{dfB(MSB_{simple} - MSW)}{SSB_{simple} + (N - dfB)MSW}$$
+$$\omega^2_{simple} = \frac{dfB(MSB_{simple} - MSW)}{SST + MSW}$$
+
+## Calculations: PG Example
+
+```{r}
+summary(aov(boxOffice_transformed ~ genre, dat_pg))
+```
+
+$N 326$, $SS_{simple} = 295.3$, $MS_{simple} = 147.64$ and $df_{simple} = 2$ from the sub-data set. 
+
+```{r}
+summary(aov(boxOffice_transformed ~ genre * rating, dat))
+```
+
+
+$SS_{W} = 18484$, $df_{W} = 1895$, $MS_{W} = 9.8$, and $SS_{T} = 2938 + 1759 + 140 + 18484 = 23321$
+
+```{r}
+295.3 / 23321 # eta-squared
+295.3 / (295.3 + 18484) # partial eta-squared
+2 * (147.64 - 9.8) / (23321 + 9.8) # omega-squared
+2 * (147.64 - 9.8) / (295.3 + (326 - 2) * 9.8)  # partial omega-squared
+```

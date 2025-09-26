@@ -1,0 +1,93 @@
+---
+title: "Lab 8 Activity"
+format: pdf
+---
+
+## 1
+
+Load in the `Ornstein` data from the `carData` package, along with the `tidyverse` package. Read the help page for the `Ornstein` data to better understand these data.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+data("Ornstein", package = "carData")
+```
+
+For today, we will use `interlocks` as the DV, and `sector` and `nation` as IVs. However, we are only interested in whether the nation is Canada or not, so we want to combine the `OTH`, `UK`, and `US` factor levels. One way to accomplish this is to run the following code. (Then use `canada` as an IV instead of `nation`).
+
+```{r eval = FALSE}
+Ornstein <- Ornstein %>%
+  mutate(canada = factor(nation == "CAN"))
+```
+
+Finally, we will omit data from the "BNK", "CON", and "HLD" levels of `sector` because they have relatively few observations.
+
+```{r eval = FALSE}
+Ornstein <- Ornstein %>%
+  filter(!sector %in% c("BNK", "CON", "HLD"), .preserve = FALSE) %>%
+  mutate(sector = factor(sector))
+```
+
+
+## 2
+
+Conduct graphical and numerical exploratory analyses on these data. How do these analyses inform how you set up the ANOVA and what results you expect to find?
+
+```{r echo = FALSE, eval = FALSE}
+# quantitative: we want to check for balanced data among our IVs
+table(Ornstein$sector, Ornstein$canada) # unbalanced data - should use type II or III SS
+
+# graphical: look at interaction plot
+Ornstein2 <- Ornstein %>% group_by(sector, canada) %>%
+  summarize(meanInterlocks = mean(interlocks), .groups = "keep")
+
+ggplot(Ornstein2, aes(canada, meanInterlocks, group = sector)) + 
+  geom_point() + geom_path() # some differences in slope, might expect an interaction - use type III sums of squares
+
+# graphical: look at boxplots for homogeneity of variance
+ggplot(Ornstein, aes(sector, interlocks, col = canada)) + 
+  geom_boxplot() # some major differences in the shape of the boxplots, probably want to not assume homogeneity of variance
+```
+
+## 3
+
+Conduct a two-way ANOVA on these data using options informed by the previous step, and calculate effect sizes. What do you find?
+
+```{r echo = FALSE, eval = FALSE}
+library(ez) # use ezANOVA for correct type III SS
+Ornstein <- Ornstein %>% mutate(ID = factor(1:nrow(Ornstein))) # create ID variable
+
+# White's adjustment
+mod1 <- ezANOVA(data = Ornstein, dv = interlocks, wid = ID,
+                between = c(sector, canada), white.adjust = TRUE, 
+                type = 3, return_aov = TRUE) 
+mod1 # no significant interaction, but both main effects are significant
+
+# probably unwise to use WLS since that requires aov, which doesn't give us an easy option for type III SS
+
+# effect sizes
+library(sjstats)
+anova_stats(mod1$aov)
+# relatively small effects for both factors, sector has a larger effect than canada
+```
+
+## 4
+
+Based on your results in the previous part, calculate either simple main effects or ordinary main effects. What do you conclude?
+
+```{r echo = FALSE, eval = FALSE}
+# want to do ordinary main effects since the interaction is not significant
+
+Ornstein %>% group_by(canada) %>% summarize(mean(interlocks))
+# Canadian companies have more interlocks on average than non-Canadian companies (makes sense)
+
+# for sector, use any post-hoc test for a one-way ANOVA (pairwise t-test with holm shown here)
+pairwise.t.test(x = Ornstein$interlocks, g = Ornstein$sector,
+                p.adjust.method = "holm")
+# significant differences between FIN vs. AGR, MAN, MER, and MIN
+#   also between TRN vs. AGR and MAN
+
+Ornstein %>% group_by(sector) %>% summarize(mean(interlocks))
+
+# FIN has more interlocks than most other, TRN also, to some extent
+```
+
