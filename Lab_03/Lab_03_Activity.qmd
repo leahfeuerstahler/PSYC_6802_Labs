@@ -27,7 +27,7 @@ Use the $\chi^2$ test of independence to test whether there is an association be
 
 - Step 3. Run a $\chi^2$ test of independence with the continuity correction
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 
 flights_filtered <- flights %>% 
                       filter(Airline %in% c("WN", "DL"),
@@ -44,7 +44,7 @@ chisq.test(tabl)
 
 Compute the $W$ coefficient.
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 N <- sum(tabl)
 sqrt(chisq.test(tabl)$statistic / N)
 ```
@@ -53,7 +53,7 @@ sqrt(chisq.test(tabl)$statistic / N)
 
 Write $\chi^2(1, N = 242) = 9.71$, $p = .002$, $W = .2$ using Quarto or R Markdown (the outputted document should render the mathematical notation properly).
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # See how this appears in the code above 
 ```
 
@@ -62,7 +62,7 @@ Write $\chi^2(1, N = 242) = 9.71$, $p = .002$, $W = .2$ using Quarto or R Markdo
 
 Run Fisher's exact test on these data. Which test do you think is more appropriate?
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 # Fisher's exact test
 fisher.test(tabl)
 
@@ -75,13 +75,13 @@ fisher.test(tabl)
 Based on your results, should you choose Delta or Southwest if you were to fly from Los Angels to Salt Lake city? Feel free to calculate other types of effects to inform your answer
 
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 # Delta seems like the safer option, as Southwest presents a higher proportion of delays
 
 tabl
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 # The risk of a delay is higher for Southwest than Delta
 81 / (81 + 73) # Delta
 65 / (65 + 23) # Southwest
