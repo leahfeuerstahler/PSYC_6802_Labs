@@ -3,7 +3,7 @@ title: "Lab 4 Activity"
 format: pdf
 ---
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(tidyverse)
 ```
 
@@ -12,7 +12,7 @@ library(tidyverse)
 
 Load in the `CO2` data from the `datasets` package. Look at the documentation to understand the variables in this dataset. Identify a way to analyze these data using a $t$ test (several possible choices, but `conc` probably won't be an interesting DV). Evaluate each assumption, conduct the $t$ test, compute an effect size, and interpret the results. 
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 data(CO2, package = "datasets")
 ?CO2
 CO2 %>% summary
@@ -99,7 +99,7 @@ Load in the `sleep` data from the `datasets` package. Look at the documentation 
 
 Hint: run the following code to transform the data into "long" format, which will make the dataset easier to work with:
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 sleep2 <- sleep %>% 
   pivot_wider(id_cols = ID, 
               names_from = group, 
@@ -108,7 +108,7 @@ sleep2 <- sleep %>%
 ```
 
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 data(sleep, package = "datasets")
 sleep2 <- sleep %>% 
   pivot_wider(id_cols = ID, 
