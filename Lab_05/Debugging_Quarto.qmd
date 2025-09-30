@@ -1,0 +1,166 @@
+---
+title: "Debugging Quarto"
+format: docx
+---
+
+
+```{r}
+#load data
+dat <- read.csv("sat data.csv",
+                header = TRUE)
+```
+
+
+**1.** Calculate the standard error for the mean SAT score in Condition C.
+
+```{r message=FALSE, warning=FALSE}
+install.packages("dplyr")
+library(dplyr)
+
+(se_c <- as.numeric(dat %>% 
+                    filter(condition == "c") %>% 
+                      summarize(SE = sd(score)/sqrt(nrow(.)))))
+```
+
+
+**2.** Calculate the 95% confidence interval for the mean SAT score in Condition C.
+
+```{r}
+
+n_c <- sum(dat$condition == "c")
+mean_c <- mean(dat$score[dat$condition == "c"])
+
+CI_c <- se_c*qt(p = .025, 
+                df = n_c - 1, 
+                lower.tail = FALSE)
+
+upperCI_c <- mean_c + CI_c  
+lowerCI_c <- mean_c - CI_c
+```
+
+```{r echo=FALSE}
+cat(paste0("95%CI[", round(lowerCI_c, 2), ";", round(upperCI_c, 2), "]"))
+```
+
+**3.** Create a plot of boxplots for SAT score by condition,
+
+```{r message=FALSE, warning=FALSE}
+dat %>% 
+  ggplot(aes(x = condition, y = score)) +
+    geom_boxplot(width = .25) + 
+    ylim(c(200, 800))
+```
+
+**4.** Create Q-Q plots by group for each condition. Make it so the plot matrix has two rows of two plots, instead of one row of four plots.
+
+```{r message=FALSE, warning=FALSE}
+dat %>%
+  ggplot(aes(sample = score)) +
+    geom_qq() +
+    geom_qq_line() +
+    facet_wrap(. ~ condtion)
+```
+
+
+**5. ** Run Levene’s test. Based on these results, as well as visual inspection of the plots you made, comment on whether the assumptions of normality and homogeneity of variance are violated.
+
+```{r message=FALSE, warning=FALSE}
+library(car)
+
+leveneTest(score ~ condition, dat)
+```
+
+
+The assumption of homogeneity of variances has not been violated. However, it certainly seems that the distribution of *group B* presents a noticeable right-skewed, as both the violin plot and QQ plot show  signs of non-normality. In addition, Shapiro-Wilk's test also suggests a violation of the normality assumption for *group B*. Hence, one could be slightly concerned about including *group B* in the final analysis. 
+
+**6.** Find the standardized mean difference between Condition C and Control.
+
+```{r}
+library(effectsize)
+
+cohens_d(dat$score[dat$condition == "c"], dat$score[dat$condition == "control"])
+```
+
+**7.** Perform a one way ANOVA for score based on condition, and call `summary()`. Then, without using `eta_squared()`, find \eta^2. HINT: you may be able to use some of the values from the `summary()` output as a shortcut. Check your work using `eta_squared()`
+
+```{r}
+ANOVA <- aov(score ~ condition, dat)
+
+(AOV_summary <- summary(ANOVA))
+```
+
+```{r echo=FALSE}
+cat("Hand calculation:")
+```
+
+```{r}
+(eta_sq <- (AOV_summary[[1]]$`Sum Sq`[1])/sum(AOV_summary[[1]]$`Sum Sq`))
+```
+
+
+```{r echo=FALSE}
+cat("Function output:")
+```
+
+```{r}
+eta_squared(ANOVA)
+```
+
+
+
+**8.** Use `omega_squared()` to get ω2, then interpret the results of your analysis from questions 8 - 10.
+
+
+```{r}
+omega_squared(ANOVA)
+```
+
+The *F*-ratio is significantly different from 0, which implies that the effect of tutoring on SAT results is unlikely to be due to chance. However, both $\eta^2$ and $\omga^2$ suggest that this effect is rather small, with `condition` only accounting for around 4% of the variance in SAT scores. 
+
+# Extra Credit (10 points) 
+
+The expected population mean of SAT scores on the math section is 500, with SD = 100.
+
+-   Find the 95% confidence interval using a normal distribution for a sample of size 5 with mean = 500, SD = 100.
+
+```{r}
+se_1 <- 100/sqrt(5)
+upperCI_1 <- 500 + (1.96*se_1)
+lowerCI_1 <- 500 - (1.96*se_1)
+
+cat(paste0("95%CI[", round(lowerCI_1, 2), ";", round(upperCI_1, 2), "]"))
+```
+
+-   Find the 95% confidence interval using a normal distribution for a sample of size 500 with mean = 500, SD = 100.
+
+```{r message=FALSE, warning=FALSE}
+se_2 <- 100/sqrt(500)
+
+upperCI_2 <- 500 + (1.96*se_2)
+
+cat(paste0("95%CI[", round(lowerCI_2, 2), ";", round(upperCI_2, 2), "]"))
+
+lowerCI_2 <- 500 - (1.96*se_2)
+```
+
+-   Find the 95% confidence interval using a t-distribution, instead of a normal distribution for a sample of size 5 with mean = 500, SD = 100.
+
+```{r}
+se_3 <- 100/sqrt(5)
+upperCI_3 <- 500 + (qt(p = .025, df = 5 - 1,lower.tail = FALSE)*se_3)
+lowerCI_3 <- 500 - (qt(p = .025, df = 5 - 1,lower.tail = FALSE)*se_3)
+
+cat(paste0("95%CI[", round(lowerCI_3, 2), ";", round(upperCI_3, 2), "]"))
+```
+
+-   Find the 95% confidence interval using a t-distribution, instead of normal distribution, for a sample of size 500 with mean = 500, SD = 100
+
+```{r}
+se_4 <- 100/sqrt(500)
+upperCI_4 <- 500 + (qt(p = .025, df = 500 - 1,lower.tail = FALSE)*se_4)
+lowerCI_4 <- 500 - (qt(p = .025, df = 500 - 1,lower.tail = FALSE)*se_4)
+
+cat(paste0("95%CI[", round(lowerCI_4, 2), ";", round(upperCI_4, 2), "]"))
+```
+
+
