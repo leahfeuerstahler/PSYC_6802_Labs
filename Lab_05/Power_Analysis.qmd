@@ -40,7 +40,7 @@ Functions we will be using today:
 
 ## The Logic of the `pwr` Package Functions
 
-Most of the functions of the `pwr` structure work ins the same way in that the usually have four main arguments:
+Most of the functions of the `pwr` structure work in the same way in that the usually have four main arguments:
 
 - The effect size, `d =`, in the case of *t*-tests.
 - The sample size, `n =`
@@ -109,7 +109,7 @@ Our power was around .84. What does this mean?
 
 What if I want to repeat the previous "experiment", and I want to know the sample size that I would need to have .8, .9, and .95 power?
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .80,
            type = "one.sample", alternative = "two.sided")
 
@@ -141,7 +141,7 @@ In retrospect, their power to detect an effect was only .21!
 
 When planning data collection, you ideally want to plan for groups to have an equal size if possible. So, we can calculate a priori power assuming equal sample sizes and $d = .17$ as an effect size estimate. 
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .80,
            type = "two.sample", alternative = "two.sided")
 pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .90,
@@ -185,7 +185,7 @@ For this effect size, we would just need $N = 2181, 2919, 3610$ for 80%, 90%, an
 
 ## Let's work together
 
-On Blackboard, there is a Quarto file that contains errors that will cause it not to render Download the `Debugging_Quarto.qmd` file and let's try to solve the errors together until the file renders!
+On Blackboard, there is a Quarto file that contains errors that will cause it not to render. Download the `Debugging_Quarto.qmd` file and let's try to solve the errors together until the file renders!
 
 - We will also need the `sat_data.csv` dataset to run the code. 
 
