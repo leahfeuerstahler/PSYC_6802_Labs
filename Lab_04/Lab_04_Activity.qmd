@@ -97,7 +97,7 @@ sp <- sqrt((41 * 94.2 + 41 * 118) / (42 + 42 - 2))
 
 Load in the `sleep` data from the `datasets` package. Look at the documentation to understand the variables in this dataset (but try not to peek at the examples section of the documentation). Identify a way to analyze these data using a $t$ test. Evaluate each assumption, conduct the $t$ test, compute an effect size, and interpret the results. 
 
-Hint: run the following code to transform the data into "long" format, which will make the dataset easier to work with:
+Hint: run the following code to transform the data into "wide" format, which will make the dataset easier to work with:
 
 ```{r eval = TRUE}
 sleep2 <- sleep %>% 
