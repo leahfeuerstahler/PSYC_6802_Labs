@@ -1,0 +1,11 @@
+---
+title: "Lab 9 Activity"
+format: pdf
+---
+
+Pick a variable in the `States` dataset to be the DV. Build a model with 3-5 predictors that you think does a good job predicting the criterion while avoiding redundancies. Graphically explore the data to see whether you want to do any transformations or whether any outliers might exist. Be sure to save your final model and show the TA---you will use this again next week. You may work alone or with a small group.
+
+```{r echo = FALSE}
+# Any number of potential answers
+```
+

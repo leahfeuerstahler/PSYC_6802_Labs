@@ -1,0 +1,234 @@
+---
+title: "Lab 9: Multiple Linear Regression I"
+author: "PSYC 6802"
+date: November 5, 2025
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: true
+    slide-number: true
+execute: 
+  echo: true
+---
+
+## Packages for Today (Install if Needed)
+
+```{r, message = FALSE}
+library(readxl)
+library(tidyverse)
+library(GGally) # used for pairs plots
+library(gridExtra) # used to plot multiple graphs simultaneously
+```
+
+## Data for Today
+
+Today, we'll work with a dataset that includes a large number of assorted variables associated with the 50 U.S. States (including the educational expenditures and SAT information that we worked with in lecture). 
+
+```{r}
+dat <- read_xlsx("States.xlsx", sheet = 1)
+```
+
+The second sheet of the Excel file includes more details about each of the variables in the dataset. Take a few minutes to glance through this dataset. 
+
+## Fitting a Linear Regression Model
+
+The syntax for fitting a regression model is:
+
+```{r, eval = FALSE}
+lm(DV ~ IV1 + IV2 + IV3, dataset)
+```
+
+* Replace "DV" and "IV"s with column names from the dataset
+* Any number of IVs can be added by separating terms with the "+" sign
+* Save the output from `lm` as an object
+
+## Fitting the Regression Model
+
+Example:
+
+Suppose we hypothesize that the number of airports in a state is primarily a function of the size of the state and its population. 
+
+```{r}
+mod1 <- lm(Nairports ~ TotalSqMiles + Population, dat)
+```
+
+There is no printed output from running this code, we have only saved the regression results as a new object in our environment.
+
+## Fitting the Regression Model
+
+To extract the estimated model coefficients, use the `coef()` function around the `lm()` output. It can sometimes help to round these values to 3, 4, or 5 decimal points.
+
+```{r}
+round(coef(mod1), 7)
+```
+
+The predicted # of airports = 2.99 + 0.00003TotalSqMiles + .0000005Population
+
+* 2.99 is the predicted number of airports for a state with no land or water area (impossible) and no population (also somewhat impossible).
+* For every additional square mile in a state, we expect .00003 more airports, *holding population constant*.
+* For every additional person in a state, we expect .0000005 more airports, *holding area constant*.
+
+## Fitting the Regression Model
+
+A more detailed summary of the model is given by the `summary()` command. This gives the model coefficients, $t$-tests for each coefficient, $R^2$, adjusted $R^2$, and the omnibus $F$-test. 
+
+```{r}
+summary(mod1)
+```
+
+The omnibus $F$ test is significant, and each coefficient is significantly different than zero according to the $t$-tests. The multiple $R^2 = .8403$ (adjusted = .8335), indicating very high predictive accuracy. 
+
+## Fitting the Standardized Regression Model
+
+The result on the previous slides may seem a little strange in that both the coefficient for `TotalSqMiles` and the coefficient for `Population` are nearly zero. This has to do with the scale of the variables. 
+
+* One way to put variables "on the same scale" is to fit the standardized regression model. To do this, we can standardize each variable using the `scale()` function.
+
+```{r}
+mod2 <- lm(scale(Nairports) ~ scale(TotalSqMiles) + 
+             scale(Population), dat)
+
+round(coef(mod2), 4)
+```
+
+* For every *standard deviation increase* in total square miles, we expect a .64 standard deviation increase in the number of airports, holding population constant.
+* For every *standard deviation increase* in population, we expect a .58 standard deviation in the number of airports, holding area constant.
+
+## Fitting the Standardized Regression Model
+
+```{r}
+summary(mod2)
+```
+
+The model fit ($t$-tests, omnibus $F$-test, $R^2$, adjusted $R^2$) is identical to the unstandardized model, the only difference is that the coefficients are on a standardized scale.
+
+## Exploring Data
+
+Let's now do what we should have done in the first place - explore the data graphically! A "pairs plot", or scatterplot matrix, is particularly useful for this purpose. The `ggpairs()` function in the `GGally` package allows us to do this.
+
+```{r}
+ggpairs(dat[, c("Nairports", "TotalSqMiles", "Population")])
+```
+
+
+All variables have high positive skew!
+
+## Exploring Data
+
+There are some outliers, and potential nonlinearities in these data. Perhaps if we take the natural logs of `Nairports`, `TotalSquareMiles` and `Population`, these variable will be more linearly related. 
+
+```{r}
+dat <- dat %>% 
+  mutate(logNairports = log(Nairports),
+         logTotalSqMiles = log(TotalSqMiles),
+         logPopulation = log(Population))
+```
+
+## Exploring Data
+
+Then, make the pairs plot again:
+
+```{r}
+ggpairs(dat[,c("logNairports", "logTotalSqMiles", "logPopulation")])
+```
+
+Not only does the skewness of our variables change, but the correlations among the variables also change when taking logs (this will happen with any nonlinear transformation).
+
+## Fitting the Regression Model
+
+Let's next fit the model with the transformed variables.
+
+```{r}
+mod3 <- lm(logNairports ~ logTotalSqMiles + logPopulation, dat)
+summary(mod3)
+```
+
+Notice that the multiple $R^2$ is now much lower. All 3 estimated regression coefficients have also changed substantially.
+
+* Even though $R^2$ is lower, this model may be preferable (e.g., more generalizable) than the previous model.
+
+* Part of the reason why has to do with the effects of outliers, which we'll focus on next week.
+
+* We should also consider model assumptions before trusting these results too much (also next week).
+
+## Categorical Variables
+
+For another example, let's explore what happens when we use categorical variables as IVs. In the dataset, there are three dummy-coded variables (`RegionNortheast`, `RegionSouth`, and `RegionNorthCentral` corresponding to four regions of the U.S (Northeast, South, NorthCentral, and West).
+
+First, run the following to create a new factor-type variable named `Region`.
+
+```{r}
+dat <- dat %>% 
+  mutate(Region = case_when(RegionNorthEast == 1 ~ "Northeast",
+                            RegionSouth == 1 ~ "South",
+                            RegionNorthCentral == 1  ~ "NorthCentral",
+                            # next line says that 3 0s indicates "West"
+                            .default = "West"))
+```
+
+## Regression Model
+
+
+The `lm()` function automatically implements dummy coding when it detects a categorical variable! Just make sure you know what the reference category is.
+
+- You could equivalently use the dummy coded variables directly, but this may use a different reference category
+
+::: {.panel-tabset}
+
+## Automatic Dummies
+
+```{r}
+mod4 <- lm(HighestElevation ~ Region, dat)
+summary(mod4)
+```
+
+## Manual Dummies
+
+```{r}
+mod4b <- lm(HighestElevation ~ RegionNorthEast + 
+              RegionSouth + RegionNorthCentral, dat)
+summary(mod4b)
+```
+:::
+
+
+## Categorical Variables
+
+Because our only IV is discrete with 4 cateogries, we might instead think to run an ANOVA.
+
+A one-way ANOVA predicting the highest elevation by region is identical to a regression model on dummy variables. To see, why let's run both models.
+
+```{r}
+mod5 <- aov(HighestElevation ~ Region, dat)
+summary(mod5)
+```
+The $F$ test for the main effect of region in the ANOVA is identical to the omnibus $F$ test in the regression model!
+
+## Categorical Variables
+
+The main "difference" (not a real difference) between the two models is how the results are analyzed. ANOVA models mostly focus on proportion of variance explained, while regression models put more emphasis on regression coefficients. 
+
+In the fitted regression model, 
+
+Predicted highest elevation = 2828.2 + 838 $\times$ `NorthEast` + 969.8 $\times$ `South` + 11055.9  $\times$ `West`
+
+* 2828.2 is the mean for the `NorthCentral` (reference category)
+* 2828.2 + 830 = 3666.2 is the mean for the `NorthEast`
+* 2828.2 + 969.8 = 3798 is the mean for the `South`
+* 2828.2 + 11055.9 = 13884.1 is the mean for the `West`
+
+## Double Checking
+
+It is good to double check that what we are doing makes sense, even if it is something pretty simple.
+
+Here are the means calculated from the data, which matches the model-predicted averages:
+
+```{r}
+dat %>% 
+  group_by(Region) %>% 
+    summarise(mean = mean(HighestElevation))
+```
+
