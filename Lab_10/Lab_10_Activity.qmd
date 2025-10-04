@@ -1,0 +1,11 @@
+---
+title: "Lab 10 Activity"
+format: pdf
+---
+
+Return to the model you constructed last week. On your own or with your small group, apply each of the methods we learned today to test and interpret your model. Do you observe any outliers in your model? Do the states that you identify as outliers make sense? Can you find any variables to add to your model that might better meet the model assumptions?
+
+```{r echo = FALSE, eval = FALSE}
+# again, a large number of possible answers
+```
+

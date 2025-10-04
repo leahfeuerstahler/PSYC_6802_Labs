@@ -1,0 +1,312 @@
+---
+title: "Lab 10: Multiple Linear Regression II"
+author: "PSYC 6802"
+date: November 12, 2025
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: true
+    slide-number: true
+execute: 
+  echo: true
+---
+
+## Packages for Today (Install if Needed)
+
+```{r, message = FALSE}
+library(readxl)
+library(tidyverse)
+library(ppcor)
+library(car)
+library(gridExtra)
+```
+
+## Overview
+
+Functions: 
+
+* `ppcor::pcor(data)`: partial correlation
+* `ppcor::spcor(data)`: semi-partial correlation
+* `car::vif(lm_output)`: variance inflation factor
+* `hatvalues(lm_output)`: leverage
+* `residuals(lm_output)`: model residuals
+* `rstandard(lm_output)`: internally studentized residuals (distance measure)
+* `rstudent(lm_output)`: externally studentized residuals (preferred distance measure)
+* `dffits(lm_output)`: DFFITS influence measure
+* `dfbetas(lm_output)`: DFBETAS influence measure
+* `cooks.distance(lm_output)`: Cook's distance influence measure
+* `covratio(lm_output)`: COVRATIO influence measure
+
+
+
+## Data
+
+We'll work with the States data again today. 
+
+```{r}
+dat <- read_xlsx("States.xlsx", sheet = 1)
+```
+
+Last week, we predicted the number of airports from total square miles and population. We found that our variables are somewhat more normally distributed with fewer outliers if we take logs of each variable.
+
+```{r}
+dat <- dat %>% 
+  mutate(logNairports = log(Nairports),
+         logTotalSqMiles = log(TotalSqMiles),
+         logPopulation = log(Population))
+```
+
+## Types of Correlations
+
+There are three types of correlations that we can look at for these data. 
+
+* Ordinary bivariate Pearson correlations
+* Partial correlations
+* Semipartial correlations
+
+## Bivariate Pearson Correlations
+
+```{r}
+pears_cor <- cor(dat[, c("logNairports", 
+                         "logTotalSqMiles", 
+                         "logPopulation")])
+pears_cor
+```
+
+These pairwise correlations ignore the existence of the other variable.
+
+## Partial Correlations
+
+Partial and semi-partial correlations can be computed in R using the `ppcor` package. The function `pcor()` function calculates partial correlations, and the function `spcor()` function calculates semi-partial correlations. 
+
+```{r}
+partial_cor <- pcor(dat[, c("logNairports", 
+                            "logTotalSqMiles", 
+                            "logPopulation")])
+partial_cor$estimate
+```
+
+
+
+Partial correlations are at the intersection of the two variables of interest, other variables are partialled out. These reflect the shared variance between the two variables that is not shared by the other variables.
+
+## Semi-partial Correlations
+
+```{r}
+semipartial_cor <- spcor(dat[, c("logNairports", 
+                                 "logTotalSqMiles", 
+                                 "logPopulation")])
+semipartial_cor$estimate
+```
+
+Semi-partial correlations are not symmetric. Look for the DV in the rows, and the IV of interest in the columns. For example, $0.6186764^2 = `r 0.6186764^2`$ is the proportion of variance in `logNairports` that is uniquely predicted by `logTotalSqMiles`, above and beyond `logPopulation`.
+
+## Comparing Three Types of Correlations
+
+Considering the three types of correlations, treating `logNairports` as the DV.
+
+```{r}
+pears_cor[1, 2:3]
+partial_cor$estimate[1, 2:3]
+semipartial_cor$estimate[1, 2:3]
+```
+
+## Comparing Three Types of Correlations
+
+Partial correlations are always larger in magnitude than semi-partial correlations. There is no necessary relationships between these and the bivariate Pearson correlation. In fact, if there are distorting effects, the Pearson correlations can have a different sign than the partial or semi-partial correlations!
+
+
+## Variance Inflation Factor
+
+At this point, we'll add the two-digit state abbreviation as row names to the dataset. Although the tidyverse doesn't particularly like the use of row names, these will help us make sense of our regression diagnostics later.
+
+```{r}
+dat <- dat %>%
+  column_to_rownames("Abbreviation")
+```
+
+We will next fit the regression model (without taking logs) from last week.
+
+```{r}
+mod1 <- lm(Nairports ~ TotalSqMiles + Population, dat)
+vif(mod1)
+```
+
+In this example, the VIF is very close to 1 for both predictors, meaning that the standard errors of the associated regression coefficients is minimally affected by the presence of other predictors. 
+
+## Variance Inflation Factor
+
+As a second example, suppose we think incarceration rates are related to religious and political views.
+
+```{r}
+mod2 <- lm(IncarcerationRate2018 ~ PctIrreligion + 
+             PctHarris2024 + PctTrump2024, dat)
+summary(mod2)$coefficients
+vif(mod2)
+```
+
+## Variance Inflation Factor
+
+(Because the U.S. doesn't have viable third parties,) `PctHarris2024` and `PctTrump2024` are highly (negatively) correlated. As a result, we don't gain much predictive power from including both, and we lose a lot in terms of power, as reflected by the increased standard errors of the estimated coefficients.
+
+`mod2` has moderate predictive power. 
+
+```{r}
+summary(mod2)$r.squared
+```
+
+This is also a good place to remind ourselves that correlation does not equal causation. Even if we can predict a phenomenon fairly well, that does not mean that we have identified the causes of the DV.
+
+
+## Evaluating Model Residuals
+
+For the hypothesis tests to be accurate, we need to satisfy certain assumptions about the residuals:
+
+* Normality
+* Homoscedasticity
+
+Heteroscedasticity of residuals can suggest an omitted varible or an omitted curvilinear relationship between a predictor and the outcome.
+
+## Evaluating Model Residuals
+
+To analyze residuals graphically, it is convenient to add model residuals to the data. Here, we return to predicting airports.
+
+```{r}
+dat2 <- dat %>% mutate(residuals = residuals(mod1))
+```
+
+## Evaluating Model Residuals
+
+To evaluate homoscedasticity, we can plot the residuals against each predictor. Adding a loess line with standard error bar to this plot can help us interpret the results. We want to look for:
+
+* Whether the residuals are centered at the 0 line.
+* Whether the residuals are evenly distributed across all levels of each predictor.
+
+## Evaluating Model Residuals
+
+
+```{r}
+plot1 <- ggplot(dat2, aes(logTotalSqMiles, residuals)) + geom_point() + 
+  geom_smooth(method = loess, se = TRUE, formula = y ~ x) + 
+  scale_x_log10() + geom_hline(yintercept = 0)
+plot2 <- ggplot(dat2, aes(logPopulation, residuals)) + geom_point() + 
+  geom_smooth(method = loess, se = TRUE, formula = y ~ x) + 
+  scale_x_log10() + geom_hline(yintercept = 0)
+gridExtra::grid.arrange(plot1, plot2, nrow = 1)
+```
+
+For both variables, positive residuals have somewhat larger magnitudes than negative residuals. Heteroscedasticity is harder to ascertain because there are only so many data points, but there are no major signs of concern (maybe slightly less variance at low square mileages?) 
+
+## Evaluating Model Residuals
+
+We can also evaluate the normality of residuals using our usual methods such as qq plots. 
+
+```{r}
+ggplot(dat2, aes(sample = residuals)) + 
+  geom_qq() + geom_qq_line()
+```
+
+There is some deviation from normality, possibly caused by the remaining outliers in the data (which we will evaluate next).
+
+## Leverage
+
+For leverage values, we want to take a closer look at values greater than $3(p+1) / N = 9 / 50 = .18$.
+
+```{r}
+leverage <- hatvalues(mod1)
+```
+
+It can be difficult to visually identify individual values. Instead, we pick out leverage values greater than the cutoff for each model.
+
+```{r}
+leverage[leverage > .18]
+```
+
+In `mod1`, Alaska, California, and Texas (the states with the highest total square miles) have the highest leverage.
+
+## Distance
+
+Distance measures consider unusual values of the criterion given the predictors. 
+
+For externally studentized residuals, we want to take a closer look at values greater than 2.5. 
+
+```{r}
+distance <- rstudent(mod1)
+```
+
+```{r}
+distance[distance > 2.5]
+```
+
+Here, the first model identifies Florida and Michigan as possible outliers. 
+
+## Influence
+
+Leverage and distance are useful for telling which observations are unusual relative to the other observations. Neither of these statistics necessarily means that the observation has high impact. 
+
+Influence measures are most useful for this purpose:
+
+* DFFITS
+* DFBETAS
+* Cook's Distance
+* COVRATIO
+
+## Influence
+
+Let's look at DFFITS first, which looks at the standardized change in predicted scores. We want to flag observations higher than $|2\sqrt{(p+1)/N} = 2\sqrt{.06} = .49$ for large sample sizes, and higher than 1 for moderate sample sizes. I consider 50 to be closer to "moderate" than "large", but let's explore both cutoffs. 
+
+```{r}
+dffits_mod1 <- dffits(mod1)
+```
+
+```{r}
+dffits_mod1[abs(dffits_mod1) > .49]
+```
+
+Again, we flag Alaska (high area state), California, and Florida (all high area and high population states). 
+
+## Influence
+
+Next, let's look at DFBETAS, which looks at the standardized change in regression coefficients. We want to flag observations with absolute values higher than $2/\sqrt{N} = 2/\sqrt{50} = .28$ for large samples, and > 1 for moderate samples. This measure considers each regression coefficient separately. 
+
+```{r}
+dfbetas_mod1 <- dfbetas(mod1)
+```
+
+```{r}
+dfbetas_mod1[apply(abs(dfbetas_mod1[, 2:3]) > .28, 1, any), ]
+```
+
+States with the largest physical area or populations - Alaska, California, Florida, New York, and Texas - are identified as influential for either slope coefficients. Alaska is the only state to have high influence on TotSqMiles.
+
+## Influence
+
+Next, let's apply Cook's distance, which looks at the standardized *squared* difference in predicted scores. Here, we use a cutoff of 1. 
+
+```{r}
+cook <- cooks.distance(mod1)
+```
+
+```{r}
+cook[cook > 1]
+```
+
+Only California has high distance.
+
+## Influence
+
+Finally, let's look at COVRATIO, which looks at the change in the standard errors of regression coefficients. Here, we use a cutoff of |COVRATIO-1| $\geq 3p/N$, and because our COVRATIO values are positive, this translates to a cutoff of 1.12. Alaska, California, and Texas are again identified.
+
+```{r}
+covratio_mod1 <- covratio(mod1)
+covratio_mod1[covratio_mod1 > 1.12]
+```
+
+## Summary
+
+This is a tricky example case. Alaska, in particular, seems to be the most influential point. Alaska is indeed unusual in that it has a relatively small population, but it is easily the largest U.S. state and it has a large number of airports (because air travel is either the most convenient, or the only, way to arrive at many Alaskan towns). States with relatively large populations, including California, Texas, New York, and Florida, also seem to have outsized influence, so it may be worthwhile to continue exploring nonlinear transformations of the predictors. 
+
+To improve this model, we might try to identify variables to add to the model that would better reflect the reasons why Alaska is unusual. Another option we could try for modeling these data is to assume a nonlinear relationship between the number of airports and the inputted variables. More advanced generalized linear models (GLMs) such as poisson regression or negative binomial regression (not covered in detail in this course) may be more appropriate, especially because Nairports is a count variable.
