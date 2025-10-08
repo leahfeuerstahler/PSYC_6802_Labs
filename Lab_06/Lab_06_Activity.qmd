@@ -33,7 +33,7 @@ ggplot(Prestige, aes(education, income)) +
 
 ## 2
 
-Fit a simple linear regression model predicting `intensity` from `inequality` and evaluate assumptions. What do you conclude?
+Fit a simple linear regression model predicting `income` from `education` and evaluate assumptions. What do you conclude?
 
 ```{r echo = FALSE, eval = FALSE}
 mod <- lm(income ~ education, Prestige)
@@ -52,7 +52,7 @@ ggplot(Prestige, aes(sample = residuals)) +
 
 ## 3
 
-Looking ahead: the `lm` function takes formula input like we used with `geom_smooth()`. Fit a regression equation for the best-fit quadratic/cubic curve predicting `intensity` from `inequality`. You can find the model residuals in the same way as we did for the linear model. Do the quadratic or cubic models do a better job meeting our assumptions about residuals? If not, can you think of what might be a better solution?
+Looking ahead: the `lm` function takes formula input like we used with `geom_smooth()`. Fit a regression equation for the best-fit quadratic/cubic curve predicting `income` from `education`. You can find the model residuals in the same way as we did for the linear model. Do the quadratic or cubic models do a better job meeting our assumptions about residuals? If not, can you think of what might be a better solution?
 
 ```{r echo = FALSE, eval = FALSE}
 mod2 <- lm(income ~ poly(education, 2), Prestige) # quadratic
