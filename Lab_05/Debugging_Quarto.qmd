@@ -6,7 +6,7 @@ format: docx
 
 ```{r}
 #load data
-dat <- read.csv("sat data.csv",
+dat <- read.csv("sat_data.csv",
                 header = TRUE)
 ```
 
