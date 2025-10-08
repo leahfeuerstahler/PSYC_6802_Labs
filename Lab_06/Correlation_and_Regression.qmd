@@ -203,7 +203,7 @@ table(dat[, c("No. Baths_binary", "Building $_binary")])
 
 ## Phi Correlations
 
-The correlation between `No. Baths_binary` and `No. Baths_binary` can be analyzed as either a phi or tetrachoric correlation. Phi correlations are PPMs:
+The correlation between `No. Baths_binary` and `Building $_binary` can be analyzed as either a phi or tetrachoric correlation. Phi correlations are PPMs:
 
 ```{r}
 cor(dat$`No. Baths_binary`, dat$`Building $_binary`, 
