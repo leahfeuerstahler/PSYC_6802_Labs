@@ -3,7 +3,7 @@ title: "Lab 6 Activity"
 format: pdf
 ---
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(tidyverse)
 ```
 
@@ -19,7 +19,7 @@ data("Prestige", package = "carData")
 
 Look at the help page to better understand these data. Here, we want to predict the `income` of occupational incumbents from the average `education` of occupational incumbents. Use `ggplot` to create a scatterplot with one or more best-fit curves. What type of relationship do you think best characterizes the relationship between these variables?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 data("Prestige", package = "carData")
 
 ggplot(Prestige, aes(education, income)) + 
@@ -35,7 +35,7 @@ ggplot(Prestige, aes(education, income)) +
 
 Fit a simple linear regression model predicting `income` from `education` and evaluate assumptions. What do you conclude?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 mod <- lm(income ~ education, Prestige)
 summary(mod)
 
@@ -54,7 +54,7 @@ ggplot(Prestige, aes(sample = residuals)) +
 
 Looking ahead: the `lm` function takes formula input like we used with `geom_smooth()`. Fit a regression equation for the best-fit quadratic/cubic curve predicting `income` from `education`. You can find the model residuals in the same way as we did for the linear model. Do the quadratic or cubic models do a better job meeting our assumptions about residuals? If not, can you think of what might be a better solution?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 mod2 <- lm(income ~ poly(education, 2), Prestige) # quadratic
 mod3 <- lm(income ~ poly(education, 3), Prestige) # cubic
 
