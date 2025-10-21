@@ -61,7 +61,7 @@ dat <- dat %>% mutate(genre = factor(genre))
 dat %>% 
   ggplot(aes(genre, tomatoMeter)) + geom_boxplot()
 ```
-No obvious outliers or heteroskeasticity (boxes are about the same size)
+No obvious outliers or heteroskedasticity (boxes are about the same size)
 
 # Visualize Data
 
