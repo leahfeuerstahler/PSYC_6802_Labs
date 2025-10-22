@@ -224,7 +224,7 @@ Here, we reject $H_0$ for both cases, so we find that dramas are rated significa
 
 ## Weighted Least Squares with `aov`
 
-First, we need to compute weights for WLS estimation. Weights are the inverse of the group-level variances ($W_{\mathrm{group}} = \frac{1}{S_{\mathrm{group}}}$). 
+First, we need to compute weights for WLS estimation. Weights are the inverse of the group-level variances ($W_{\mathrm{group}} = \frac{1}{S^2_{\mathrm{group}}}$). 
 
 ```{r}
 dat <- dat %>% group_by(genre) %>%

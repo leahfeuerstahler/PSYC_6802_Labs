@@ -18,10 +18,11 @@ These are the data discussed in the first part of the one-way ANOVA lecture. The
 Test the assumptions of your ANOVA using the methods we learned in earlier weeks to test assumptions about normality and outliers.
 
 ```{r echo = FALSE, eval = FALSE}
+library(tidyverse)
 ## outliers
 # from slide 4 in the lecture slides, trt1 might have some outliers
 PlantGrowth %>% group_by(group) %>%
-  summarize(mean = mean(weight), tmean = mean(weight, trim = .1), .groups = "keep") 
+  summarize(mean = mean(weight), tmean = mean(weight, trim = .1), .groups = "keep")
 # no highly influential outliers here
 
 ## normality
@@ -52,7 +53,6 @@ summary(aov(weight ~ group, PlantGrowth))
 
 # aov with weighted least squares
 
-library(tidyverse)
 PlantGrowth <- PlantGrowth %>% group_by(group) %>%
   mutate(weights = 1 / var(weight)) %>% ungroup
 summary(aov(weight ~ group, PlantGrowth, weights = weights))
