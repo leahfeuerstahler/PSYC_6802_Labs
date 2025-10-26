@@ -1,0 +1,116 @@
+---
+title: "Lab 11 Activity"
+format: pdf
+---
+
+
+We will work with the same dataset that we used in the main lab. You can read in the data using the following code:
+
+```{r message = FALSE}
+library(tidyverse)
+library(haven)
+dat <- read_dta("Lab_11_attend.dta")
+```
+
+
+## 1
+
+The variables `frosh` and `soph` are dummy variables for the student being a freshman or sophomore (0 on both variables indicates 'other'). Fit a model predicting final exam scores from (the centered) prior GPA with academic year as a moderator (no need to modify the categorical moderator variables). Is there a statistically significant moderation effect?
+
+```{r echo = FALSE, eval = FALSE}
+dat <- dat %>% mutate(priGPA_C = priGPA - mean(priGPA), 
+                      atndrte_C = atndrte - mean(atndrte))
+mod <- lm(final ~ priGPA_C * frosh + priGPA_C * soph, dat)
+mod <- lm(final ~ priGPA_C * (frosh + soph), dat) # another way to specify the same model
+summary(mod)
+
+# the moderation effect is significant to freshman, but not for sophomores
+```
+
+## 2
+
+Construct a plot to illustrate the moderation effect (use separate lines for different grade levels). How does this plot help you interpret your results from step 1?
+
+```{r echo = FALSE, eval = FALSE}
+dat_plot <- tibble(priGPA_C = seq(min(dat$priGPA_C), max(dat$priGPA_C)))
+dat_plot <- dat_plot %>%
+  mutate(frosh = 26.3465 - 0.8439 + priGPA_C * (4.1172 - 2.9060),
+         soph = 26.3465 - 0.7571 + priGPA_C * (4.1172 - 0.4441),
+         other = 26.3465 + 4.1172 * priGPA_C) %>%
+  pivot_longer(-priGPA_C, names_to = "grade", values_to = "final")
+ggplot(dat_plot, aes(priGPA_C, final, col = grade)) + geom_path()
+
+## There is a positive (predicted) relationship between prior GPA and
+##  final for all grade levels, but this relationship has a less steep
+##  slope for freshmen
+```
+
+```{r echo = FALSE, eval = FALSE}
+## alternative:
+library(ggeffects)
+ggp <- ggpredict(mod, terms = c("priGPA_C", "frosh", "soph"))
+plot(ggp)
+
+```
+
+## 3
+
+Using this same data set, conduct a mediation analysis predicting final exam scores from ACT scores with `hwrte` (rate of completing homework) as a mediator (you may drop the 6 missing values of `hwrte` for this step). What do you conclude? 
+
+```{r echo = FALSE, eval = FALSE}
+mod_m <- lm(hwrte ~ ACT, dat)
+mod_y <- lm(final ~ ACT + hwrte, dat)
+
+
+library(mediation)
+summary(mediate(model.m = mod_m, model.y = mod_y,
+                treat = "ACT", mediator = "hwrte", boot = TRUE))
+
+## The mediation effect is statistically
+##  significant, although the effect is rather small
+##  (especially compared to the mediator termGPA that we used
+##  in lab). Using the effect size measures from the main lecture
+##  could help clarify whether this effect is practically significant
+```
+
+## 4
+
+Repeat #3 using a method that using a better method of missing data handling than listwise deletion.
+
+```{r echo = FALSE, eval = FALSE}
+medmod <- "
+final ~ b * hwrte + c * ACT
+hwrte ~ a * ACT
+
+ind := a*b    # calculate the indirect effect
+tot := a*b+c  # calculate the direct effect
+"
+
+fitted <- sem(medmod, data = dat, se = "boot",
+              missing = "FIML", estimator = "ML") #, estimator = "MLR") # robust standard errors are not needed with bootstrapping
+
+summary(fitted)
+
+# Defined Parameters:
+#                    Estimate  Std.Err  z-value  P(>|z|)
+#     ind               0.149    0.027    5.447    0.000
+#     tot               0.487    0.048   10.104    0.000
+```
+
+```{r echo = FALSE, eval = FALSE}
+# brms for the curious
+library(mice)
+library(brms)
+imputed_data <- mice(dat, m = 5)
+
+brms_form <- bf(final ~ hwrte + ACT) + bf(hwrte ~ ACT) + set_rescor(FALSE)
+
+brms_fitted <- brm_multiple(brms_form, data = imputed_data)
+
+summary(brms_fitted)
+
+library(bayestestR) # a package that facilitates mediation analysis with brms
+mediation(brms_fitted)
+```
+
+

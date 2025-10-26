@@ -1,0 +1,350 @@
+---
+title: "Lab 11: Moderation, Mediation, and Missing Data"
+author: "PSYC 6802"
+date: November 19, 2025
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: true
+    slide-number: true
+execute: 
+  echo: true
+---
+
+## Packages for Today (Install if Needed)
+
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(ggeffects)
+library(interactions)
+library(mediation)
+library(lavaan)
+
+
+# optional packages - only used for one type of missing data handling
+library(mice)
+library(brms) 
+```
+
+
+## Functions for Moderation and Mediation
+
+* `lm(DV ~ IV1 * IV2, dat)`: moderation (interactive) model
+* mediation::mediate(model.m, model.y, treat, mediator, boot = TRUE)
+  - `model.m`: fitted `lm()` object for path "a"
+  - `model.y`: fitted `lm()` object for paths "b" and "c'"
+  - `treat`: name of the treatment variable ($x$)
+  - `mediator`: name of the mediator variable ($m$)
+  - `boot = TRUE`: use simulation to find result
+  
+  
+  
+## Data for Today
+
+Today we'll work with another educational dataset, this one a survey of college students. The variables that we'll work with include:
+
+* final: final exam score
+* atndrte: percent of lectures attended
+* priGPA: GPA prior to that semester
+* termgpa: GPA for the current term
+
+```{r}
+library(haven)
+dat <- read_dta("Lab_11_attend.dta")
+```
+
+# Moderation
+
+## Moderation 
+
+To illustrate a moderation analysis, we will predict final exam scores from prior GPA, using attendance rate as a moderator. In other words, we want to know whether the linear regression of `final exam scores` on `prior GPA` *changes* as a function of `attendance rate`.
+
+First, we want to center the predictors, prior GPA and attendance rate. To center variables, subtract the mean from each score. It is usually convenient to add centered variables to the dataset:
+
+```{r}
+dat <- dat %>% mutate(priGPA_C = priGPA - mean(priGPA),
+                      atndrte_C = atndrte - mean(atndrte))
+```
+
+## Moderation
+
+```{r}
+modrmod <- lm(final ~ priGPA_C * atndrte_C, dat)
+summary(modrmod)
+```
+
+## Significant Interaction Term
+
+The $t$-test for the moderation effect is statistically significant at $\alpha = .05$: $t(676) = 3.44, p < .001$.
+
+Exactly as we did for 2-Way ANOVA, we now need to evaluate the main effects at different values of the moderator!
+
+To probe the moderation effect, we can plug in different values of the moderator.
+
+For example:
+
+* mean of moderator
+* one standard deviation above the mean of the moderator
+* one standard deviation below the mean of the moderator
+
+
+## Using `ggeffects`
+
+We can also use `ggeffects` to do a moderation plot for us. By default, it will give us three lines at 1 SD below the mean of the moderator, at the mean of the moderator, and 1 SD above the mean of the moderator
+
+Plot on next slide
+
+```{r, eval = FALSE}
+ggp1 <- ggpredict(modrmod, 
+                  terms = c("priGPA_C", "atndrte_C"))
+plot(ggp1)
+```
+
+## Using `ggefffects`
+
+```{r, echo = FALSE}
+ggp1 <- ggpredict(modrmod, terms = c("priGPA_C", "atndrte_C"))
+plot(ggp1)
+```
+
+## Using `ggefffects`
+
+We can also choose different custom values of the moderator by putting them in square brackets. This might make sense if there are special values of the moderator of interest. for example, let's say we wanted lines at -10, 0, and 10 for attendance centered.
+
+```{r, eval = FALSE}
+ggp2 <- ggpredict(mod_res, 
+                  terms = c("priGPA_C", 
+                            "atndrte_C[-10, 0, 10]"))
+plot(ggp2)
+```
+
+Plot on next slide
+
+## Using `ggefffects`
+
+```{r, echo = FALSE}
+ggp2 <- ggpredict(modrmod, terms = c("priGPA_C", "atndrte_C[-10, 0, 10]"))
+plot(ggp2)
+```
+
+
+## Using the `interactions` Package
+
+Create a `sim_slopes` object with the `sim_slopes()` function.
+
+```{r}
+simple_slopes <- sim_slopes(modrmod,
+                            pred = priGPA_C,
+                            modx = atndrte_C,
+                            jnplot = TRUE,
+                            confint = TRUE)
+```
+
+This results in a list object that contains both numerical information about simple slopes and a Johnson-Neyman plot
+
+## The Simple Slopes
+
+You can print the values of the slopes of the focal predictor at different values of the moderator:
+
+```{r}
+round(simple_slopes$slopes,3)
+```
+
+
+## The Johnson-Neyman Plot
+
+```{r, out.width="80%"}
+simple_slopes$jnplot
+```
+
+# Mediation
+
+## Mediation: Single Mediator Model
+
+Path diagram for the single mediator model:
+
+```{.R}
+                     ----------
+                    |Mediator m|
+              a  /   ----------  \ b
+                /                 \
+       -----------        c'       ---------
+      |Predictor x| ------------> |Outcome y|
+       -----------                  ---------
+
+```
+
+
+For illustration, we will again model final exam scores as the outcome ($y$), but now with ACT scores as the predictor ($x$), and termgpa as a potential mediator ($m$).
+
+## Mediation
+
+The first thing we need to do is fit two regression models:
+
+1. Mediator m ~ predictor x
+
+2. Outcome y ~ predictor x + mediator m
+
+\footnotesize
+
+```{r}
+mod_m <- lm(termgpa ~ ACT, dat) # path a
+mod_y <- lm(final ~ ACT + termgpa, dat) # paths b and c'
+round(summary(mod_m)$coefficients, 3)
+round(summary(mod_y)$coefficients, 3)
+```
+
+## Mediation: Bootstrapping
+
+For the bootstrapping, we feed the `mod_m` and `mod_y` objects to the `mediate` function from the `mediation` package. Because this method requires random sampling (here, over 1,000 bootstrap samples), it takes a few seconds to run.
+
+```{r cache = TRUE}
+summary(mediate(model.m = mod_m, 
+                model.y = mod_y,
+                treat = "ACT", 
+                mediator = "termgpa", 
+                boot = TRUE, sims = 1000))
+```
+
+The estimated mediation effect $\hat{a}\times \hat{b}$ is .149 (ACME), and is significantly different from zero, 95% CI = [.098, .209]. 
+
+(Results shown on the next slide might vary by a slight amount due to the variability associated with random sampling.)
+
+
+## Mediation: Bootstrapping
+
+\footnotesize
+
+```{r, cache = TRUE}
+summary(mediate(model.m = mod_m, model.y = mod_y,
+                treat = "ACT", mediator = "termgpa", boot = TRUE))
+```
+
+## Mediation: Bootstrapping
+
+The `lavaan` package provides another way to fit a mediation model that makes it easier to handle missing data
+
+* First, we use `lavaan`-specific syntax to fit the model
+
+* `final`, `termgpa`, and `ACT` are columns in the data set
+
+* `a`, `b`, and `c` are user-provided labels for regression coefficients
+
+* `~` indicates regression, `:=` indicates a calculated combination of parameters
+
+```{r}
+medmod <- "
+final ~ b * termgpa + c * ACT
+termgpa ~ a * ACT
+
+ind := a*b    # calculate the indirect effect
+tot := a*b+c  # calculate the direct effect
+"
+```
+
+## Mediation: Bootstrapping
+
+We can fit this model using the `sem` function from `lavaan`
+
+* `se = "boot"` means to calculate bootstrapped standard errors
+
+* `bootstrap` indicates the number of bootstrap replications
+
+```{r cache = TRUE}
+lav_res <- sem(medmod, data = dat, se = "boot", bootstrap = 1000)
+summary(lav_res)
+```
+
+
+## Appendix: Missing Data Handling
+
+In lecture, we learned about **multiple imputation** and **maximum likelihood** as methods to account for missing data. 
+
+* In our dataset, there are 6 missing values of `hwrte`.
+
+* In the following slides, we will illustrate these methods for the following regression:
+
+
+```{}
+termgpa ~ priGPA + hwrte
+```
+
+## Appendix: Maximum Likelihood with `lavaan`
+
+The `lavaan` package requires specifying the model as a character string first:
+
+```{r}
+gpa_mod <- "termgpa ~ priGPA + hwrte"
+```
+
+Then, we fit the model with the `sem` function
+
+* `std.ov = TRUE` means to standardize variables - this can help estimation work correctly and avoid errors
+
+* `missing = "FIML"` uses Full Information Maximum Likelihood to estimate parameters from all available data
+
+* `fixed.x = FALSE` ensures proper missing data handling if there is missing data in the predictors
+
+* `estimator = "MLR"` uses maximum likelihood estimation with robust standard errors, which is preferable when data are not normally distributed
+
+```{r}
+gpa_lavaan <- sem(gpa_mod, data = dat, std.ov = TRUE,
+                  missing = "FIML", fixed.x = FALSE,
+                  estimator = "MLR")
+```
+
+## Appendix: Maximum Likelihood with `lavaan`
+
+The output gives a lot more information that we're used to from `lm`
+
+* The "Regressions:" for `termgpa ~` are the regression coefficients such that
+
+$$\widehat{termgpa} = .003 + .547 \times priGPA + .340 \times hwrte$$
+
+```{r}
+summary(gpa_lavaan, header = FALSE)
+```
+
+## Appendix: Multiple Imputation with `mice`
+
+The `mice` function in the `mice` package is useful for multiple imputation
+
+* The `m = 5` argument means to create 5 imputed data sets
+
+```{r results = "hide"}
+imputed_data <- mice(data = dat, m = 5)
+```
+
+We can look to see what the imputed values are:
+
+```{r}
+imputed_data$imp$hwrte
+```
+
+
+## Appendix: Multiple Imputation with `mice` and `lm`
+
+The `mice` also includes functions to fit the model to the imputed datasets and pool results
+
+* Note: don't use this for moderation models!
+
+```{r}
+fits <- with(imputed_data, lm(termgpa ~ priGPA + hwrte))
+summary(pool(fits))
+```
+## Appendix: Multiple Imputation with `mice` and `brms`
+
+A Bayesian alternative to pooling with `lm` and `mice` is to use the `brm_multiple` function in the `brms` package
+
+* Note that this can take some time to run, depending on how fast your computer is
+
+```{r cache = TRUE, results = "hide"}
+fits_brms <- brm_multiple(termgpa ~ priGPA + hwrte, imputed_data)
+```
+```{r}
+summary(fits_brms)
+```
+
