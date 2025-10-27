@@ -1,0 +1,273 @@
+---
+title: "Lab 12: Latent Variables"
+author: "PSYC 6802"
+date: "December 1, 2025"
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+execute: 
+  echo: true
+  freeze: auto
+---
+
+## Packages for Today (Install if Needed)
+
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(haven)
+library(caret)
+library(psych)
+library(paran)
+library(lavaan)
+```
+
+
+## Functions
+
+From `paran` package:
+
+* `paran(dat, cfa = FALSE)`: conduct parallel analysis
+
+From `psych` package:
+
+* `scree(dat)`: create a scree plot
+* `fa(dat, nfactors = ..., fm = ..., rotate = ...)`: fit an exploratory factor analysis (EFA) model
+* `print(fa()$loadings, cutoff = ...)`: print loadings from a fitted EFA model, suppressing loadings smaller than a given cut score
+
+From `lavaan` package:
+
+* `cfa(dat, estimator = ...)`: fit a confirmatory factor analysis (CFA) model
+* `standardizedSolution(cfa())`: print the standardized CFA results
+* `fitMeasures(cfa())`: print fit measures
+
+## Data for Today
+
+Today we'll working data from a replication of the following study:
+
+Cox, C. R., Arndt, J., Pyszczynski, T., Greenberg, J., Abdollahi, A., & Solomon, S. (2008). Terror management and adults' attachment to their parents: the safe haven remains. *Journal of Personality and Social Psychology*, *94*, 696-717. 
+
+As part of this study, the "Positive and Negative Affect Schedule" (PANAS) scale was administered. Responses were on a 5-point Likert scale.
+
+The PANAS scale is supposed to have two subscales:
+
+* positive mood scale (10 items)
+* negative mood scale (10 items)
+
+Through factor analysis, we can look investigate: 
+
+* Are positive mood and negative mood distinct dimensions?
+* Are these dimensions supported by these data?
+
+## Read in Data
+
+```{r}
+dat <- read_sav("Lab_12_Cox.sav")
+```
+
+To make the FA results easier to visualize, it may be helpful to organize the columns by factors. Items 1, 3, 5, 9, 10, 12, 14, 16, 17, 19 belong to the positive mood scale, and items 2, 4, 6, 7, 8, 11, 13, 15, 18, and 20 belong to the negative mood scale.
+
+```{r}
+dat_for_fa <- dat %>% 
+  dplyr::select(Panas1, Panas3, Panas5, Panas9, Panas10, 
+                Panas12, Panas14, Panas16, Panas17, Panas19,
+                Panas2, Panas4, Panas6, Panas7, Panas8,
+                Panas11, Panas13, Panas15, Panas18, Panas20)
+```
+
+## Split Data into Exploratory and Confirmatory Sets
+
+So that we can explore and confirm our hypotheses in separate data sets, we will randomly split the data into do data sets. To do this, we will use the `createFolds()` function from the `caret` package.
+
+```{r}
+set.seed(942)
+idx <- createFolds(1:nrow(dat_for_fa), 2)
+dat_efa <- dat_for_fa[idx$Fold1, ]
+dat_cfa <- dat_for_fa[idx$Fold2, ]
+```
+
+
+## Determining the Number of Factors
+
+First, let's create the scree plot. Interpreting the scree plot is somewhat subjective, but some general rules are:
+
+* look for the "elbow" in the plot
+* better to extract too many factors than too few
+
+To create the scree plot in `R` (using the EFA dataset), run the following code. This will create the scree plot for both factors and components. They will usually lead to similar results. 
+
+```{r, eval = FALSE}
+scree(dat_efa)
+```
+
+Plot shown on the next slide. For both components and factors, I'd recommend retaining 3 factors/components.
+
+## Scree Plot
+
+```{r, echo=FALSE}
+scree(dat_efa)
+```
+
+## Parallel Analysis
+
+Parallel analysis is more reliable and more objective than the scree plot. Here, the default in `paran` is to do parallel analysis on the full correlation matrix. If we want to instead conduct parallel analysis on the reduced correlation matrix, we can specify `cfa = TRUE`.
+
+```{r, eval = FALSE}
+paran(dat_efa, status = FALSE, cfa = TRUE)
+```
+
+Results are shown on the next slide. Again, 3 factors are suggested. The option `status=FALSE` only prints less output, making it easier to show output on slides.
+
+## Parallel Analysis
+
+```{r, echo = FALSE}
+paran(dat_efa, status = FALSE, cfa = TRUE)
+
+```
+
+
+
+## Parallel Analysis
+
+We can also demonstrate the parallel analysis procedure visually by setting `graph = TRUE`.
+
+On this plot, we can either look at the red line (unadjusted eigenvalues) and keep all of the ones above the blue line (average of randomly generated eigenvalues), or compare the black like (adjusted eigenvalues) to the horizontal line at 0.
+
+Once a red point drops below the blue line, or a black point drops below 0 (or 1 for components), we stop keeping factors.
+
+```{r, eval = FALSE}
+paran(dat_efa, status = FALSE, cfa = TRUE, graph = TRUE)
+```
+
+## Parallel Analysis
+
+```{r, echo = FALSE, out.width = "85%"}
+paran(dat_efa, status = FALSE, cfa = TRUE, graph = TRUE, quietly = TRUE)
+
+```
+
+## Setting up the EFA
+
+To conduct an EFA, we use the `fa()` function in the `psych` package. Here, we should specify:
+
+* The dataset (first argument)
+* `nfactors`: the number of factors to extract
+* `rotate`: the rotation method (if nfactors > 1) -- here I choose "oblimin" because I want an oblique rotation to allow correlated factors
+* `fm`: the factor estimation method, "pa" gives principal axis, "ml" gives maximum likelihood (which assumes multivariate normality)---other options are described in the help page for `fa()`
+
+```{r, message = FALSE}
+efa_res <- fa(dat_efa, nfactors = 3, 
+              rotate = "oblimin", fm = "pa")
+```
+
+## EFA Results
+
+To display factor loadings, you can run...
+
+```{r, eval = FALSE}
+efa_res$loadings # not run
+```
+
+...or you can specify a cutoff under which loadings are not printed
+
+```{r, eval = FALSE}
+print(efa_res$loadings, cutoff = .3)
+```
+
+Results are shown on the next slide. All of the positive mood items loads cleanly on factor PA1. Most negative mood items load cleanly on factor PA2, but Panas2 and Panas3 load on factor PA3, and Panas6 does not have a large loading on any factor.
+
+## EFA Results
+
+```{r, echo=FALSE}
+print(efa_res$loadings, cutoff = .3)
+```
+
+## Modifying the EFA
+
+It's okay to play around with different specifications for the EFA model, so long as you are clear that analyses are exploratory and that conclusions cannot be stated with confidence before confirmatory testing in a new data set. 
+
+To modify the previous result, we might want to look at the theoretically appropriate 2-factor structure as well. Here, the theoretical structure emerges very cleanly. Item Panas3 loads moderately on both factors, but this could be due to sampling error.
+
+```{r, eval = FALSE}
+efa_res2 <- fa(dat_efa, nfactors = 2, 
+               rotate = "oblimin", fm = "pa")
+print(efa_res2$loadings, cutoff = .3)
+```
+
+Output shown on next slide.
+
+## Modifying the EFA
+
+```{r, echo = FALSE}
+efa_res2 <- fa(dat_efa, nfactors = 2, 
+               rotate = "oblimin", fm = "pa")
+print(efa_res2$loadings, cutoff = .3)
+```
+
+## Specifying the CFA Model
+
+`lavaan` is a very flexible package for conducting structural equation modeling (SEM) analyses. 
+
+Within `lavaan`, we need to specify the structure of our model - specifically, which items load on which factors. This code must be within quotation marks.
+
+We will first test the theoretical 2-factor structure. In `lavaan` syntax, latent variables are specified before the "=~" symbol (and can be given any name we choose), and observed variables are specified after the "=~" symbol and must be column names in the dataset. 
+
+```{r}
+mod <- "PosMood =~ Panas1 + Panas3 + Panas5 + Panas9 + Panas10 + 
+                   Panas12 + Panas14 + Panas16 + Panas17 + Panas19
+        NegMood =~ Panas2 + Panas4 + Panas6 + Panas7 + Panas8 + 
+                   Panas11 + Panas13 + Panas15 + Panas18 + Panas20"
+```
+
+## Fitting the CFA Model
+
+Like the example from lecture, responses are on a 5-point Likert scale, which means we probably don't have normally distributed data (although you should check in practice). Therefore, we want to use an estimation method that provides robust standard errors ("scaled" fit measures) such as "MLM".
+
+```{r}
+cfa_res <- cfa(model = mod, 
+               data = dat_cfa, 
+               estimator = "MLM")
+```
+
+## CFA Results
+
+Because CFA is typically run on covariance matrices, we want to standardize the results to ease interpretation. This can be done with the `standardizedSolution()` function. The output is very long, but note the following:
+
+* terms separated by "=~" indicate standardized factor loadings
+* terms separated by "~~" indicate either residual variances (for Panas items), factor variances (equal to 1), or the correlation between factors
+* estimated parameters are given in the "est.std" column
+* everything to the right of the "est.std" column is a hypothesis test of the parameter against the "nil" hypothesis that the parameter is 0 in the population
+
+```{r}
+standardizedSolution(cfa_res)
+```
+
+## Evaluating Fit
+
+The following will give you MANY fit measures, most of which we haven't covered.
+
+```{r, eval = FALSE}
+fitMeasures(cfa_res)
+```
+
+We can make fit evaluation simpler by only specifying certain fit measures to print:
+
+```{r}
+fitMeasures(cfa_res, 
+            fit.measures = c("chisq.scaled", "df.scaled", 
+                             "pvalue", "rmsea.scaled", 
+                             "srmr", "cfi.scaled", "tli.scaled"))
+```
+
+Here, fit is a bit worse than we would usually want. 
+
+RMSEA is over .07, SRMR is over .08, and CFI/TLI are both under .95. 
+
+The problem stems in part from using 5-point Likert data, but we may also use a combination of theory and the EFA results to consider some modifications to the CFA model.
