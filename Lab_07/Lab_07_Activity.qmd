@@ -17,7 +17,7 @@ These are the data discussed in the first part of the one-way ANOVA lecture. The
 
 Test the assumptions of your ANOVA using the methods we learned in earlier weeks to test assumptions about normality and outliers.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(tidyverse)
 ## outliers
 # from slide 4 in the lecture slides, trt1 might have some outliers
@@ -43,7 +43,7 @@ ggplot(PlantGrowth, aes(sample = weight)) +
 
 Run an ANOVA that is appropriate for these data using the package of your choice, and compute an effect size. 
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # a number of options available, a few are shown below
 
 data("PlantGrowth", package = "datasets")
@@ -84,7 +84,7 @@ omega_squared(res)
 
 Identify an *a priori* contrast to test on the `PlantGrowth` data, and test it in `R`.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(emmeans)
 
 # one option is to compare the control group to the average of the two treatments
@@ -101,7 +101,7 @@ contrast(em1, method = list(ctr_v_trt = c(2, -1, -1)))
 
 Conduct post-hoc tests of your choosing on the `PlantGrowth` data. What groups are significantly different from each other with your choice of adjustment for multiple comparisons? In real life, would you recommend conducting these post-hoc tests, and why?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # yes, it's appropriate to look at these post-hoc tests since the original ANOVA
 # is significant at alpha = .05
 
