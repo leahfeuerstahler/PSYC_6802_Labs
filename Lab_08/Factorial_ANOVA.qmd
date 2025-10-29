@@ -317,7 +317,7 @@ $$\omega^2_{simple} = \frac{dfB(MSB_{simple} - MSW)}{SST + MSW}$$
 summary(aov(boxOffice_transformed ~ genre, dat_pg))
 ```
 
-$N 326$, $SS_{simple} = 295.3$, $MS_{simple} = 147.64$ and $df_{simple} = 2$ from the sub-data set. 
+$N = 326$, $SS_{simple} = 295.3$, $MS_{simple} = 147.64$ and $df_{simple} = 2$ from the sub-data set. 
 
 ```{r}
 summary(aov(boxOffice_transformed ~ genre * rating, dat))
