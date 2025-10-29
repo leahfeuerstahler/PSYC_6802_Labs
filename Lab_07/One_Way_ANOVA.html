@@ -507,7 +507,11 @@ PSYC 6802
 <section id="anova-with-ezanova" class="slide level2">
 <h2>ANOVA with <code>ezANOVA</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, <span class="at">between =</span> genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># If there is no id column in the original dataset</span></span>
+<span id="cb30-2"><a href=""></a><span class="co"># you can do </span></span>
+<span id="cb30-3"><a href=""></a><span class="co"># mutate(ID = 1:nrow(dat))</span></span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a><span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, <span class="at">between =</span> genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Input:</p>
 <ul>

@@ -281,7 +281,14 @@ An easier way to do these tests imply is to use the `joint_tests()` function fro
 
 
 ```{r}
+# simple main effects calculation with the aov class results
 em1 <- emmeans(aov_res, specs = c("genre","rating"))
+
+# simple main effects calculation from the ezANOVA output
+ez_res <- ezANOVA(data = dat, dv = boxOffice_transformed,
+            between = c(genre, rating), wid = id,
+            type = 3, white.adjust = TRUE, return_aov = TRUE)
+emmeans(ez_res$aov)
 ```
 
 Then we can use `joint_tests()` to test whether the effect of `rating` is significant `by` the different levels of `rating``

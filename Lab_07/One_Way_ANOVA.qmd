@@ -263,6 +263,10 @@ The default `R` methods don't include all of the robust estimation methods and p
 ## ANOVA with `ezANOVA`
 
 ```{r, eval = FALSE}
+# If there is no id column in the original dataset
+# you can do 
+# mutate(ID = 1:nrow(dat))
+
 ezANOVA(data = dat, dv = tomatoMeter, wid = id, between = genre)
 ```
 
