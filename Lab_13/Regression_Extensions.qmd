@@ -1,0 +1,366 @@
+---
+title: "Lab 13: Regression Extensions"
+author: "PSYC 6802"
+date: "December 10, 2025"
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+    html-math-method: mathjax
+execute: 
+  echo: true
+  freeze: auto
+---
+
+
+## Packages for Today (Install if Needed)
+
+```{r, message = FALSE}
+library(tidyverse)
+library(car)
+library(lme4)
+library(performance)
+```
+
+## Overview
+
+Functions for logistic regression: 
+
+* `glm(DV ~ IV1 + IV2 + ..., dat, family = binomial)`: fit the logistic regression model
+* `coef(glm())` or `summary(glm())$coefficients`: extract coefficients for a glm model
+* `fitted(glm())`: get fitted values (predicted probabilities)
+* `predict(glm(), newdata = ..., type = "response")`: get predicted probabilities for new data scored with the fitted model
+* `anova(glm1, test = "LRT")`: likelihood ratio test comparing `glm1` to the null model
+* `anova(glm1, glm2, test = "LRT")`: likelihood ratio test comparing `glm1` to `glm2` (where one model is a subset of the other model) 
+
+Function for multilevel regression:
+
+* `lmer(DV ~ CV + (1 | ID), dat)`
+  
+    - `dat`: dataset in long format
+
+    - `DV`: column name of dependent variable
+
+    - `ID`: column name of user IDs or other cluster variable
+
+    - `CV`: column name of covariate (may be IV)
+
+
+## Data For Today
+
+Today, we will try to predict volunteerism from personality characteristics. 
+
+```{r}
+data("Cowles", package = "carData")
+
+Cowles %>% glimpse
+```
+
+## Exploring Data
+
+Suppose we hypothesize that higher extraversion is associated with higher rates of volunteering.
+
+We might first calculate summary statistics for each group (volunteer vs. not):
+
+```{r}
+Cowles %>% group_by(volunteer, sex) %>% 
+  summarize(n(), 
+            mean(neuroticism), 
+            mean(extraversion), .groups = "keep")
+```
+
+From these, it seems as if people who volunteer have higher extraversion. 
+
+## Logistic Regression
+
+Let's next fit a logistic regression model with Extraversion as a predictor. 
+
+The command to fit logistic regression is `glm()`. The formula notation is the same as for linear regression, but we need to add the argument `family = binomial` to tell R that we want logistic regression instead of another GLM.
+
+```{r}
+glm1 <- glm(volunteer ~ extraversion, Cowles, 
+            family = binomial)
+```
+
+## Logistic Regression
+
+```{r}
+round(summary(glm1)$coefficients, 3)
+```
+
+These results imply the following fitted equation:
+
+$\hat{P}(volunteer) = \frac{1}{1+\exp(-(-1.14 + .07Extraversion))}$
+
+* -1.14 is the logit when Extraversion = 0 (highly introverted): $P = \frac{1}{1 + \exp(1.14)} = .24$
+
+* .07 is the increase in logit (predicted log odds of volunteering) for a one-point increase in Extraversion score
+
+## Coefficient interpretations
+
+* .07 is the increase in logit (predicted log odds of volunteering) for a one-point increase in Extraversion score
+
+Or
+
+```{r}
+exp(.07)
+```
+
+* For a one unit increase in Extraversion, volunteering becomes $exp(0.07) = 1.07$ times as likely. 
+
+Sometimes $exp(0.07) = 1.07$ might also be written as $e^{0.07} = 1.07$
+
+## Classification Accuracy
+
+To evaluate accuracy, we need to get the fitted values for the training data.
+
+```{r}
+fitted1 <- fitted(glm1)
+```
+
+Then, we classify subjects as being predicted to volunteer or not based on a .5 cutoff.
+
+```{r}
+class1 <- ifelse(fitted1 > .5, "pred_yes", "pred_no")
+table(class1, Cowles$volunteer)
+
+(765 + 71)/(765 + 526 + 59 + 71)
+```
+We get around 59% accuracy which is not great. Extraversion may not be very informative in relation to the outcome. 
+
+## Model Comparison
+
+
+To test whether extraversion has "predictive power" associated with it, we conduct a likelihood ratio test comparing `glm1` to the null model (a model with only an intercept).
+
+```{r}
+anova(glm1, test = "LRT")
+
+```
+
+Here, we reject the null hypothesis that the null model fits as well as the model with extraversion. Therefore, we retain the model with extraversion as a predictor: $\chi^2(dif, 1) = 22.022, p < .001$.
+
+
+## More than One Predictor
+
+Perhaps we can construct a better model by including neuroticism as a predictor.
+
+```{r}
+glm2 <- glm(volunteer ~ extraversion + neuroticism, 
+            Cowles, family = binomial)
+round(summary(glm2)$coefficients, 3)
+```
+
+## Model Comparison
+
+To conduct the likelihood ratio test, we can use the `anova()` function with the two models that we want to compare.
+
+```{r}
+anova(glm1, glm2, test = "LRT")
+```
+
+$\chi^2(dif, 1) = 936, p = .33$
+
+Here, we *retain* the null hypothesis, meaning that the simpler model (the model without neuroticism) fits just as well as the more complex model.
+
+
+## Wide vs. Long Data
+
+Long data has as many rows, as few columns as possible
+
+* Multiple rows for one subject
+* One column for the DV
+* One column for each IV
+
+Wide data has fewer rows, more columns
+
+* e.g., One row per subject
+* Multiple columns for the DV at different IV levels
+
+Long data is usually preferred for data analysis
+
+* Some exceptions, such as for certain types of plots
+
+## Dataset 1: Stroop Effect
+
+We'll begin by working through the Stroop Effect data from lecture. Remember that this dataset gives the proportion of correct responses for three different levels of contingency between words and colors.
+
+```{r}
+library(readxl)
+dat <- read_xlsx("Lab_13_Schmidt data.xlsx",
+                 sheet = 2, range = "B20:E257", 
+                 col_names = c("Subject", "High", "Medium", "Low"))
+dat %>% glimpse
+```
+
+## Wide vs. Long Data
+
+In this class, we have already seen some examples of moving between wide and long data.
+
+tidyverse functions:
+
+* `pivot_longer`: move from wide format to long format
+* `pivot_wider`: move from long format to wide format
+
+The Stroop data are stored in wide format. To change to long format:
+
+```{r}
+dat_long <- dat %>% pivot_longer(cols = -Subject,
+                                 names_to = "Contingency", 
+                                 values_to = "PropError")
+```
+
+The `cols = -Subject` argument means to exclude the `Subject` column in the information that is shifted to the new columns. Instead, the Subject variable will be stretched in the long format. See next slide for the structure of `dat_long`.
+
+## Wide vs. Long Data
+
+```{r}
+dat_long %>% glimpse
+```
+
+* `Contingency` is the name of a new column taking values corresponding to the column names in the wide data set
+* `PropError` is the name of a new column taking (usually numeric) values of the actual cell entries
+* `Subject` is a variable storing information other than that stored in `Contingency` and `PropError`
+
+## Wide vs. Long Data
+
+To return to long format:
+
+```{r}
+dat_long %>% pivot_wider(id_cols = Subject, 
+                         names_from = Contingency,
+                         values_from = PropError) %>% 
+  glimpse
+```
+* `Contingency` name of (factor) variable in long data that contains wide format column names
+
+* `PropError` name of variable in long data that contains cell values
+
+## Data Cleaning
+
+As a final piece of data cleaning, let's change the `Contingency` and `Subject` columns in `dat_long` to factors.
+
+```{r}
+dat_long <- dat_long %>% 
+  mutate(Contingency = factor(Contingency),
+         Subject = factor(Subject))
+
+dat_long %>% glimpse
+```
+
+
+## Fitting multilevel models with `lmer`
+
+To fit linear random-effects models, we can use the `lmer` function in the `lme4` package.
+
+```{r}
+mod <- lmer(PropError ~ (1 | Subject), dat_long)
+```
+
+This syntax means that `PropError` is the DV, `Subject` is the random effect the mean for each subject is a random variable), and `dat_long` is the dataset. 
+
+For now, this model doesn't account for the effect of `Contingency` level . It only models individual differences in the proportion of errors made.
+
+
+## Fitting multilevel models with `lmer`
+
+```{r echo = FALSE}
+summary(mod)
+```
+
+* $\hat{\psi} = .013775$: estimated variance of the subject means (intercepts)
+
+* $\hat{\theta} = .001966$: estimated residual (within-subject) variance
+
+* $\hat{\beta}_0 = .344523$: estimated overall proportion of errors
+
+## Intraclass Correlation Coefficient
+
+```{r}
+print(mod, ranef.comp = "Variance") # another way to view output
+```
+
+The ICC is the ratio of subject-level variance to total (subject + residual) variance: $\frac{\hat{\psi}}{\hat{\psi} + \hat{\theta}}$
+
+```{r}
+0.013775 / (0.013775 + 0.001966)
+```
+
+87.5% is the proportion of variance associated with individual differences in error rates
+
+## Intraclass Correlation Coefficient
+
+The `performance` package also has an `icc()` function that can be called on `lmer` models. It will give you two values. We will generally want the **adjusted** ICC, though when there are no predictors they will be the same
+
+```{r}
+icc(mod)
+```
+
+## REML vs. ML
+
+`lmer` uses REML estimation by default. Set `REML = FALSE` for ML estimation.
+
+```{r}
+summary(lmer(PropError ~ (1 | Subject), dat_long, REML = FALSE))
+```
+
+Some differences in random-effects estimates, but REML is preferred, especially when the number of clusters (persons) is small.
+
+## HLM With a Level-1 Covariate
+
+Next, let's add a fixed effect of `Contingency`. Similar to other regression coefficients, this assumes a linear relationship between `Contingency` and `PropError`. 
+
+```{r}
+mod2 <- lmer(PropError ~ Contingency + (1 | Subject), dat_long)
+print(mod2, ranef.comp = "Variance")
+```
+
+::: columns
+:::: column
+
+* $\hat{\psi} = 0.013831$: estimated variance of the subject means (intercepts)
+
+* $\hat{\theta} = 0.001796$: estimated residual (within-subject) variance
+
+::::
+:::: column
+
+* $\hat{\beta}_0 = 0.33118$: estimated error proportion at high contingency
+
+* $\hat{\beta}_1 = 0.02659$: estimated increase in error rate for low vs. high contingency
+
+* $\hat{\beta}_2 = 0.01345$: estimated increase in error rate for medium vs. high contingency
+
+::::
+:::
+
+## Residual Intraclass Correlation
+
+* $\hat{\psi} = 0.013831$: estimated variance of the subject means (intercepts)
+
+* $\hat{\theta} = 0.001796$: estimated residual (within-subject) variance
+
+```{r}
+icc(mod2) # we want adjusted ICC here
+```
+
+After accounting for the different trial types, 87.8% of the remaining variance is associated with individual mean differences.
+
+## Likelihood Ratio Test to Compare Models
+
+The `anova` function will compare two competing models (fit to the same data) via a number of measures, including the likelihood ratio test. 
+
+```{r}
+anova(mod, mod2)
+```
+
+These results show significantly better fit for the model that includes `Contingency` as a covariate. There are 2 degrees of freedom for this test, associated with the 2 added dummy variables associated with the 3-category covariate in `mod2`.
+
+$\Delta \chi^2 (2) = 44.85, p < .001$

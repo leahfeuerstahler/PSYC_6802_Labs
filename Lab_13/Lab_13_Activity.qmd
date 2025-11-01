@@ -1,0 +1,160 @@
+---
+title: "Lab 13 Activity"
+format: pdf
+---
+
+# Part 1: Logistic Regression
+
+## 1
+
+Load in the `MplsStops` data from the `carData` package. 
+
+```{r, eval = FALSE}
+data(MplsStops, package = "carData")
+summary(MplsStops)
+```
+
+Look at the documentation to understand the context. Based on this information alone, select 2 or 3 predictors that you think might predict whether a citation was issued.
+
+```{r echo = FALSE, eval = FALSE}
+data(MplsStops, package = "carData")
+summary(MplsStops)
+
+# choice of variables is open - nearly any choice will be categorical
+# race, gender, and policePrecinct will be used below
+# note that policePrecinct should be converted to factor if used
+
+MplsStops <- MplsStops %>%
+  mutate(policePrecinct = factor(policePrecinct))
+```
+
+## 2
+
+Not all rows have information about whether a citation was issued. Remove these rows. Then, use `mutate` to transform `citationIssued` into a numeric variable of 0's (no citation) and 1's (yes citation).
+
+```{r echo = FALSE, eval = FALSE}
+library(tidyverse)
+MplsStops <- MplsStops %>%
+  filter(!is.na(citationIssued)) %>% #this removes missing values
+  mutate(citationIssued0 = as.numeric(citationIssued) - 1)
+
+# check that the variable works
+table(MplsStops$citationIssued, MplsStops$citationIssued0)
+```
+
+
+## 3
+
+
+Try out a series of models using the variables that you identified in (1). For learning's sake, you may first remove rows with missing values on the predictors, but you might also try to figure out how missing data methods might apply to logistic regression. Use classification accuracy and model comparisons to select the best-performing model. What do you find? 
+
+```{r echo = FALSE, eval = FALSE}
+MplsStops <- MplsStops %>% #next line removes rows with missing values on predictors
+  filter(!is.na(gender) & !is.na(race) & !is.na(policePrecinct))
+
+mod1 <- glm(citationIssued0 ~ gender + race + policePrecinct, MplsStops,
+            family = binomial)
+fitted1 <- fitted(mod1)
+class1 <- ifelse(fitted1 > .5, "pred_1", "pred_0")
+table(class1, MplsStops$citationIssued0)
+# everyone is predicted to not have a citation - maybe if we use a different cutoff
+
+class1 <- ifelse(fitted1 > .2, "pred_1", "pred_0")
+table(class1, MplsStops$citationIssued0)
+(5173 + 929) / (5173 + 673 + 2767 + 929) # 64% accuracy
+
+summary(mod1)
+
+# mod2: remove gender
+mod2 <- glm(citationIssued0 ~ race + policePrecinct, MplsStops,
+            family = binomial)
+fitted2 <- fitted(mod2)
+class2 <- ifelse(fitted2 > .2, "pred_1", "pred_0")
+table(class2, MplsStops$citationIssued0)
+(5298 + 891) / (5298 + 711 + 2642 + 891) # 65% accuracy - a bit better
+
+anova(mod1, mod2, test = "LRT") # the more complicated model fits significantly better, but we'll retain mod2 anyways
+
+
+# mod3: use only race
+mod3 <- glm(citationIssued0 ~ race, MplsStops,
+            family = binomial)
+fitted3 <- fitted(mod3)
+class3 <- ifelse(fitted3 > .2, "pred_1", "pred_0")
+table(class3, MplsStops$citationIssued0)
+(5029 + 882) / (5029 + 720 + 2911 + 882) # 62% accuracy = a bit worse
+
+anova(mod2, mod3, test = "LRT") # mod that includes policePredict fits significantly better
+
+# In this example, I'll retain mod2, but arguments can be made for other conclusions
+```
+
+# Part 2: Multilevel Regression
+
+For this part, we'll work with a dataset that contains weight measurements on multiple occasions for Asian children born in Britain. Load in the necessary packages and the dataset using the following code:
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(haven)
+library(lme4)
+dat <- read_dta("Lab_13_asian.dta")
+dat %>% glimpse #already in long format
+```
+
+* id: child identifier
+* occ: numbered occasion of each measurement
+* age: child's age (in years) at each measurement
+* weight: child's measured weight (kg)
+* brthwt: child's birthweight
+* gender: 1 = male, 2 = female
+
+## 4
+
+Fit a simple (no covariates) variance components model predicting child's weight using these data. What problem do you run into? Considering the nature of these data, what do you think might be the problem?
+
+```{r echo = FALSE, eval = FALSE}
+library(lme4)
+summary(lmer(weight ~ (1 | id), dat))
+
+## model is singular - notice that there is no variance associated with id
+## children will span about the same range of weights over time - difficult to 
+## predict weight without including age as a covariate
+```
+
+## 5
+
+Add one covariate to the model that you think will lead to the highest residual ICC. Calculate the residual ICC.
+
+```{r echo = FALSE, eval = FALSE}
+## age probably makes the most sense
+## an argument could be made for including occasion, but age should have a more 
+##   direct relationship with weight than occasion
+## gender and birthwt probably aren't major factors
+mod <- lmer(weight ~ age + (1 | id), dat)
+summary(mod)
+.622 / (.622 + 1.535) #.288
+```
+
+## 6
+
+Given the variables available in this dataset, what combination of variables do you think might give the most realistic and accurate model of weight? Be creative, and remember what you learned about regression - many of the same principles apply! What ICC do you get?
+
+```{r echo = FALSE, eval = FALSE}
+cor(dat)
+## probably shouldn't use both age and occasion since these are highly correlated
+
+## gender probably should be included in the model
+
+## age might have a nonlinear effect! could include age^2 as a covariate
+
+## birthweight as a level-2 covariate could also make sense - 
+##  but using this will lead lmer to give a warning about the scale of this variable
+
+summary(lmer(weight ~ age + I(age^2) + gender + brthwt + (1 | id), dat))
+
+.4717 / (.4717 + .5505)
+
+## this data set is analyzed in Multilevel and Longitudinal Modeling Using Stata 
+## by Rabe-Hesketh and Skrondal - they use age, age^2, and gender as covariates
+##   (along with a random slope for age, which we don't cover in this course)
+```
