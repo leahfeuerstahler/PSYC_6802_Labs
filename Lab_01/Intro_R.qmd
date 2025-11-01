@@ -12,6 +12,7 @@ format:
     slide-number: true
     chalkboard: true
     highlight-style: arrow
+    html-math-method: mathjax
 execute: 
   echo: true
 ---

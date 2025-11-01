@@ -10,6 +10,7 @@ format:
     smaller: true
     embed-resources: true
     slide-number: true
+    html-math-method: mathjax
 execute: 
   echo: true
 ---
@@ -288,7 +289,7 @@ em1 <- emmeans(aov_res, specs = c("genre","rating"))
 ez_res <- ezANOVA(data = dat, dv = boxOffice_transformed,
             between = c(genre, rating), wid = id,
             type = 3, white.adjust = TRUE, return_aov = TRUE)
-emmeans(ez_res$aov)
+emmeans(ez_res$aov, specs = "rating")
 ```
 
 Then we can use `joint_tests()` to test whether the effect of `rating` is significant `by` the different levels of `rating``
