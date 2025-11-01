@@ -1,7 +1,7 @@
 ---
 title: "Lab 12: Latent Variables"
 author: "PSYC 6802"
-date: "December 1, 2025"
+date: "December 3, 2025"
 date-format: long
 format: 
   revealjs:
