@@ -13,6 +13,7 @@ format:
     chalkboard: true
     highlight-style: arrow
     link-external-icon: true
+    html-math-method: mathjax
 execute: 
   echo: true
   freeze: auto
