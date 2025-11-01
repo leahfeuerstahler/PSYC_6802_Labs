@@ -10,6 +10,7 @@ format:
     smaller: true
     embed-resources: true
     slide-number: true
+    html-math-method: mathjax
 execute: 
   echo: true
 ---
