@@ -14,14 +14,14 @@ data("Ornstein", package = "carData")
 
 For today, we will use `interlocks` as the DV, and `sector` and `nation` as IVs. However, we are only interested in whether the nation is Canada or not, so we want to combine the `OTH`, `UK`, and `US` factor levels. One way to accomplish this is to run the following code. (Then use `canada` as an IV instead of `nation`).
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 Ornstein <- Ornstein %>%
   mutate(canada = factor(nation == "CAN"))
 ```
 
 Finally, we will omit data from the "BNK", "CON", and "HLD" levels of `sector` because they have relatively few observations.
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 Ornstein <- Ornstein %>%
   filter(!sector %in% c("BNK", "CON", "HLD"), .preserve = FALSE) %>%
   mutate(sector = factor(sector))
@@ -32,7 +32,7 @@ Ornstein <- Ornstein %>%
 
 Conduct graphical and numerical exploratory analyses on these data. How do these analyses inform how you set up the ANOVA and what results you expect to find?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # quantitative: we want to check for balanced data among our IVs
 table(Ornstein$sector, Ornstein$canada) # unbalanced data - should use type II or III SS
 
@@ -52,7 +52,7 @@ ggplot(Ornstein, aes(sector, interlocks, col = canada)) +
 
 Conduct a two-way ANOVA on these data using options informed by the previous step, and calculate effect sizes. What do you find?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(ez) # use ezANOVA for correct type III SS
 Ornstein <- Ornstein %>% mutate(ID = factor(1:nrow(Ornstein))) # create ID variable
 
@@ -74,7 +74,7 @@ anova_stats(mod1$aov)
 
 Based on your results in the previous part, calculate either simple main effects or ordinary main effects. What do you conclude?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # want to do ordinary main effects since the interaction is not significant
 
 Ornstein %>% group_by(canada) %>% summarize(mean(interlocks))
