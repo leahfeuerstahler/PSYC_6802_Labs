@@ -95,8 +95,8 @@ mod2 <- lm(scale(Nairports) ~ scale(TotalSqMiles) +
 round(coef(mod2), 4)
 ```
 
-* For every *standard deviation increase* in total square miles, we expect a .64 standard deviation increase in the number of airports, holding population constant.
-* For every *standard deviation increase* in population, we expect a .58 standard deviation in the number of airports, holding area constant.
+* For every *standard deviation increase* in total square miles, we expect a .58 standard deviation increase in the number of airports, holding population constant.
+* For every *standard deviation increase* in population, we expect a .64 standard deviation in the number of airports, holding area constant.
 
 ## Fitting the Standardized Regression Model
 
