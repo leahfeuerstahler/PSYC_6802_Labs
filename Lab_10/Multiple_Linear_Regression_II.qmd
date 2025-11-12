@@ -169,7 +169,7 @@ For the hypothesis tests to be accurate, we need to satisfy certain assumptions 
 * Normality
 * Homoscedasticity
 
-Heteroscedasticity of residuals can suggest an omitted varible or an omitted curvilinear relationship between a predictor and the outcome.
+Heteroscedasticity of residuals can suggest an omitted variable or an omitted curvilinear relationship between a predictor and the outcome.
 
 ## Evaluating Model Residuals
 
@@ -257,7 +257,7 @@ Influence measures are most useful for this purpose:
 
 ## Influence
 
-Let's look at DFFITS first, which looks at the standardized change in predicted scores. We want to flag observations higher than $|2\sqrt{(p+1)/N} = 2\sqrt{.06} = .49$ for large sample sizes, and higher than 1 for moderate sample sizes. I consider 50 to be closer to "moderate" than "large", but let's explore both cutoffs. 
+Let's look at DFFITS first, which looks at the standardized change in predicted scores. We want to flag observations higher than $2\sqrt{(p+1)/N} = 2\sqrt{.06} = .49$ for large sample sizes, and higher than 1 for moderate sample sizes. I consider 50 to be closer to "moderate" than "large", but let's explore both cutoffs. 
 
 ```{r}
 dffits_mod1 <- dffits(mod1)
@@ -265,6 +265,7 @@ dffits_mod1 <- dffits(mod1)
 
 ```{r}
 dffits_mod1[abs(dffits_mod1) > .49]
+dffits_mod1[abs(dffits_mod1) > 1]
 ```
 
 Again, we flag Alaska (high area state), California, and Florida (all high area and high population states). 
