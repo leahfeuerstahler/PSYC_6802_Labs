@@ -9,6 +9,7 @@ We will work with the same dataset that we used in the main lab. You can read in
 ```{r message = FALSE}
 library(tidyverse)
 library(haven)
+library(lavaan)
 dat <- read_dta("Lab_11_attend.dta")
 ```
 
@@ -17,7 +18,7 @@ dat <- read_dta("Lab_11_attend.dta")
 
 The variables `frosh` and `soph` are dummy variables for the student being a freshman or sophomore (0 on both variables indicates 'other'). Fit a model predicting final exam scores from (the centered) prior GPA with academic year as a moderator (no need to modify the categorical moderator variables). Is there a statistically significant moderation effect?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 dat <- dat %>% mutate(priGPA_C = priGPA - mean(priGPA), 
                       atndrte_C = atndrte - mean(atndrte))
 mod <- lm(final ~ priGPA_C * frosh + priGPA_C * soph, dat)
@@ -31,7 +32,7 @@ summary(mod)
 
 Construct a plot to illustrate the moderation effect (use separate lines for different grade levels). How does this plot help you interpret your results from step 1?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 dat_plot <- tibble(priGPA_C = seq(min(dat$priGPA_C), max(dat$priGPA_C)))
 dat_plot <- dat_plot %>%
   mutate(frosh = 26.3465 - 0.8439 + priGPA_C * (4.1172 - 2.9060),
@@ -45,7 +46,7 @@ ggplot(dat_plot, aes(priGPA_C, final, col = grade)) + geom_path()
 ##  slope for freshmen
 ```
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 ## alternative:
 library(ggeffects)
 ggp <- ggpredict(mod, terms = c("priGPA_C", "frosh", "soph"))
@@ -57,7 +58,7 @@ plot(ggp)
 
 Using this same data set, conduct a mediation analysis predicting final exam scores from ACT scores with `hwrte` (rate of completing homework) as a mediator (you may drop the 6 missing values of `hwrte` for this step). What do you conclude? 
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 mod_m <- lm(hwrte ~ ACT, dat)
 mod_y <- lm(final ~ ACT + hwrte, dat)
 
@@ -77,7 +78,7 @@ summary(mediate(model.m = mod_m, model.y = mod_y,
 
 Repeat #3 using a method that using a better method of missing data handling than listwise deletion.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 medmod <- "
 final ~ b * hwrte + c * ACT
 hwrte ~ a * ACT
@@ -97,7 +98,7 @@ summary(fitted)
 #     tot               0.487    0.048   10.104    0.000
 ```
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # brms for the curious
 library(mice)
 library(brms)
