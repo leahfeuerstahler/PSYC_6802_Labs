@@ -4,7 +4,7 @@ format: pdf
 ---
 
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 ## the following code should be run first (from the main lab)
 library(tidyverse)
 library(haven)
@@ -23,7 +23,7 @@ The dataset that includes the Panas items also includes the Relationship Scales 
 
 Here, RSQ items 12, 13, 20, 24, 29 need to be reverse coded, which can be done by running the following code:
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 dat <- dat %>% mutate(RSQ12 = 6 - RSQ12, RSQ13 = 6 - RSQ13, 
                       RSQ20 = 6 - RSQ20, RSQ24 = 6 - RSQ24, 
                       RSQ29 = 6 - RSQ29)
@@ -35,7 +35,7 @@ dat_for_fa <- dat %>%
 
 1. First, split the data into a training (exploratory) set and a test (confirmatory) set. Use a different split than used in the lab slides by setting a different seed.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 set.seed(255) # answer will vary for this and all results due to different seeds
 idx <- createFolds(1:nrow(dat_for_fa), 2)
 dat_efa <- dat_for_fa[idx$Fold1, ]
@@ -44,7 +44,7 @@ dat_cfa <- dat_for_fa[idx$Fold1, ]
 
 2. Create a scree plot and conduct parallel analysis using your exploratory data set. Based on these results, decide on the number of factors to retain.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 scree(dat_efa)
 paran(dat_efa, cfa = FALSE)
 paran(dat_efa, cfa = TRUE)
@@ -53,7 +53,7 @@ paran(dat_efa, cfa = TRUE)
 
 3. Conduct an exploratory factor analysis (using the exploratory data set) with the number of factors that you identified in the previous step. Does your EFA support the theoretical dimensions?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 efa_res <- fa(dat_efa, nfactors = 4, rotate = "oblimin", fm = "pa")
 print(efa_res$loadings, cutoff = .3)
 # answers may vary
@@ -63,7 +63,7 @@ print(efa_res$loadings, cutoff = .3)
 
 4. What changes (if any) would you make to the EFA? Test out any changes you identify.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # what if we only use 2 factors?
 efa_res <- fa(dat_efa, nfactors = 2, rotate = "oblimin", fm = "pa")
 print(efa_res$loadings, cutoff = .3) # somewhat cleaner solution
@@ -71,7 +71,7 @@ print(efa_res$loadings, cutoff = .3) # somewhat cleaner solution
 
 5. Use CFA with the confirmatory data set to test the theoretical structure of these data (outlined at the top of this assignment), and evaluate fit. Does the model fit the data well?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 mod <- "Avoid =~ RSQ11 + RSQ18 + RSQ21 + RSQ23 + RSQ25
         Anxiety =~ RSQ10 + RSQ12 + RSQ13 + RSQ15 + RSQ20 + RSQ24 + RSQ29 + RSQ30"
 cfa_res <- cfa(model = mod, data = dat_cfa, estimator = "MLM")
@@ -85,7 +85,7 @@ fitMeasures(cfa_res,
 
 6. What changes (if any) would you consider making to the CFA?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 # Many possible answers, based on the previous results
 # Maybe omit some items or allow cross-loadings based on the EFA results
 # Or revisit item text to see if some items don't make theoretical sense
