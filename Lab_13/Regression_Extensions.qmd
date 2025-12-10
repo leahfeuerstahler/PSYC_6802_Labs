@@ -351,7 +351,7 @@ print(mod2, ranef.comp = "Variance")
 icc(mod2) # we want adjusted ICC here
 ```
 
-After accounting for the different trial types, 87.8% of the remaining variance is associated with individual mean differences.
+After accounting for the different trial types, 88.5% of the remaining variance is associated with individual mean differences.
 
 ## Likelihood Ratio Test to Compare Models
 
