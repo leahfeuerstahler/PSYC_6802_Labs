@@ -264,7 +264,7 @@ To fit linear random-effects models, we can use the `lmer` function in the `lme4
 mod <- lmer(PropError ~ (1 | Subject), dat_long)
 ```
 
-This syntax means that `PropError` is the DV, `Subject` is the random effect the mean for each subject is a random variable), and `dat_long` is the dataset. 
+This syntax means that `PropError` is the DV, `Subject` is the random effect (the mean for each subject is a random variable), and `dat_long` is the dataset. 
 
 For now, this model doesn't account for the effect of `Contingency` level . It only models individual differences in the proportion of errors made.
 

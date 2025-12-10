@@ -518,7 +518,7 @@ $ PropError   &lt;dbl&gt; 0.07692308, 0.12000000, 0.16666667, 0.20800000, 0.3046
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(PropError <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This syntax means that <code>PropError</code> is the DV, <code>Subject</code> is the random effect the mean for each subject is a random variable), and <code>dat_long</code> is the dataset.</p>
+<p>This syntax means that <code>PropError</code> is the DV, <code>Subject</code> is the random effect (the mean for each subject is a random variable), and <code>dat_long</code> is the dataset.</p>
 <p>For now, this model doesn’t account for the effect of <code>Contingency</code> level . It only models individual differences in the proportion of errors made.</p>
 </section>
 <section id="fitting-multilevel-models-with-lmer-1" class="slide level2">
