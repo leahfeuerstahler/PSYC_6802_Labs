@@ -231,7 +231,7 @@ dat_long %>% glimpse
 
 ## Wide vs. Long Data
 
-To return to long format:
+To return to wide format:
 
 ```{r}
 dat_long %>% pivot_wider(id_cols = Subject, 
