@@ -166,7 +166,7 @@ To conduct the likelihood ratio test, we can use the `anova()` function with the
 anova(glm1, glm2, test = "LRT")
 ```
 
-$\chi^2(dif, 1) = 936, p = .33$
+$\chi^2(dif, 1) = 0.936, p = .33$
 
 Here, we *retain* the null hypothesis, meaning that the simpler model (the model without neuroticism) fits just as well as the more complex model.
 
