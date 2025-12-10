@@ -17,6 +17,7 @@ summary(MplsStops)
 Look at the documentation to understand the context. Based on this information alone, select 2 or 3 predictors that you think might predict whether a citation was issued.
 
 ```{r echo = FALSE, eval = FALSE}
+library(tidyverse)
 data(MplsStops, package = "carData")
 summary(MplsStops)
 
