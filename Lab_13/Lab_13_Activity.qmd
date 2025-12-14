@@ -9,14 +9,14 @@ format: pdf
 
 Load in the `MplsStops` data from the `carData` package. 
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 data(MplsStops, package = "carData")
 summary(MplsStops)
 ```
 
 Look at the documentation to understand the context. Based on this information alone, select 2 or 3 predictors that you think might predict whether a citation was issued.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(tidyverse)
 data(MplsStops, package = "carData")
 summary(MplsStops)
@@ -33,7 +33,7 @@ MplsStops <- MplsStops %>%
 
 Not all rows have information about whether a citation was issued. Remove these rows. Then, use `mutate` to transform `citationIssued` into a numeric variable of 0's (no citation) and 1's (yes citation).
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(tidyverse)
 MplsStops <- MplsStops %>%
   filter(!is.na(citationIssued)) %>% #this removes missing values
@@ -49,7 +49,7 @@ table(MplsStops$citationIssued, MplsStops$citationIssued0)
 
 Try out a series of models using the variables that you identified in (1). For learning's sake, you may first remove rows with missing values on the predictors, but you might also try to figure out how missing data methods might apply to logistic regression. Use classification accuracy and model comparisons to select the best-performing model. What do you find? 
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 MplsStops <- MplsStops %>% #next line removes rows with missing values on predictors
   filter(!is.na(gender) & !is.na(race) & !is.na(policePrecinct))
 
@@ -113,7 +113,7 @@ dat %>% glimpse #already in long format
 
 Fit a simple (no covariates) variance components model predicting child's weight using these data. What problem do you run into? Considering the nature of these data, what do you think might be the problem?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 library(lme4)
 summary(lmer(weight ~ (1 | id), dat))
 
@@ -126,7 +126,7 @@ summary(lmer(weight ~ (1 | id), dat))
 
 Add one covariate to the model that you think will lead to the highest residual ICC. Calculate the residual ICC.
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 ## age probably makes the most sense
 ## an argument could be made for including occasion, but age should have a more 
 ##   direct relationship with weight than occasion
@@ -140,7 +140,7 @@ summary(mod)
 
 Given the variables available in this dataset, what combination of variables do you think might give the most realistic and accurate model of weight? Be creative, and remember what you learned about regression - many of the same principles apply! What ICC do you get?
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = TRUE, eval = TRUE}
 cor(dat)
 ## probably shouldn't use both age and occasion since these are highly correlated
 
