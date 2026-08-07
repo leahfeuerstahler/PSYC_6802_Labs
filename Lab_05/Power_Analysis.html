@@ -6,11 +6,10 @@
 <script src="Power_Analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Power_Analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Power_Analysis_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Power_Analysis_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="Power_Analysis_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-  <meta name="author" content="PSYC 6802">
-  <meta name="dcterms.date" content="2025-10-01">
+  <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 5: Power Analysis</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +17,9 @@
   <link rel="stylesheet" href="Power_Analysis_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="Power_Analysis_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Power_Analysis_files/libs/revealjs/dist/theme/quarto-7642ca1904901e6b6e9f53cac373db48.css">
+  <link rel="stylesheet" href="Power_Analysis_files/libs/revealjs/dist/theme/quarto-9bb7889a971729eb77026302eb305960.css">
   <link href="Power_Analysis_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Power_Analysis_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Power_Analysis_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -114,7 +116,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -196,24 +197,30 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Lab 5: Power Analysis</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802 
+PSYC 6802: Intro to Psychological Statistics 
 </div>
 </div>
 </div>
 
-  <p class="date">October 1, 2025</p>
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Agenda</h2>
+<ul>
+<li><a href="#/my-quarto-file-wont-compile" id="/toc-my-quarto-file-wont-compile">My Quarto file Won’t Compile :(</a></li>
+</ul>
+</nav>
 </section>
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install If Needed)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(pwr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(pwr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -245,11 +252,11 @@ PSYC 6802
 <h2>Power for <span class="math inline">\(z\)</span>-tests</h2>
 <p>In the case of a <em>z</em>-test, to get <strong>power</strong> given effect size, sample size, and desired type I error rate:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
 <span id="cb2-2"><a href=""></a>              <span class="at">n =</span> <span class="dv">10</span>, </span>
 <span id="cb2-3"><a href=""></a>              <span class="at">sig.level =</span> .<span class="dv">05</span>, </span>
 <span id="cb2-4"><a href=""></a>              <span class="at">power =</span> <span class="cn">NULL</span>,</span>
-<span id="cb2-5"><a href=""></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href=""></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Mean power calculation for normal distribution with known variance 
@@ -266,11 +273,11 @@ PSYC 6802
 <h2>Power for <span class="math inline">\(z\)</span>-tests</h2>
 <p>In the case of a <em>z</em>-test, to get required <strong>sample size</strong> given effect size, desired type I error rate, and power:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
 <span id="cb4-2"><a href=""></a>              <span class="at">n =</span> <span class="cn">NULL</span>, </span>
 <span id="cb4-3"><a href=""></a>              <span class="at">sig.level =</span> .<span class="dv">05</span>, </span>
 <span id="cb4-4"><a href=""></a>              <span class="at">power =</span> .<span class="dv">8</span>,</span>
-<span id="cb4-5"><a href=""></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href=""></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Mean power calculation for normal distribution with known variance 
@@ -287,11 +294,11 @@ PSYC 6802
 <h2>Power for <span class="math inline">\(z\)</span>-tests</h2>
 <p>The <code>pwr</code> package also includes a plotting method. This means that we can use the function <code>plot()</code> with the output from any power calculation results. (they don’t look very attractive)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
 <span id="cb6-2"><a href=""></a>              <span class="at">n =</span> <span class="dv">10</span>, </span>
 <span id="cb6-3"><a href=""></a>              <span class="at">sig.level =</span> .<span class="dv">05</span>, </span>
 <span id="cb6-4"><a href=""></a>              <span class="at">power =</span> <span class="cn">NULL</span>,</span>
-<span id="cb6-5"><a href=""></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href=""></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Power_Analysis_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
@@ -299,12 +306,12 @@ PSYC 6802
 <h2>One-sample <span class="math inline">\(t\)</span>-test</h2>
 <p>In lab 4 we ran a one sample <em>t</em>-test to test whether average restaurant ratings were significantly different from 3. with <span class="math inline">\(d = .21\)</span> and <span class="math inline">\(N = 200\)</span> we can do a retrospective power calculation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, </span>
 <span id="cb7-2"><a href=""></a>           <span class="at">d =</span> .<span class="dv">21</span>, </span>
 <span id="cb7-3"><a href=""></a>           <span class="at">sig.level =</span> .<span class="dv">05</span>, </span>
 <span id="cb7-4"><a href=""></a>           <span class="at">power =</span> <span class="cn">NULL</span>, </span>
 <span id="cb7-5"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, </span>
-<span id="cb7-6"><a href=""></a>           <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href=""></a>           <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      One-sample t test power calculation 
@@ -322,8 +329,8 @@ PSYC 6802
 <h2>One-sample <span class="math inline">\(t\)</span>-test</h2>
 <p>What if I want to repeat the previous “experiment”, and I want to know the sample size that I would need to have .8, .9, and .95 power?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>,</span>
-<span id="cb9-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>,</span>
+<span id="cb9-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      One-sample t test power calculation 
@@ -334,8 +341,8 @@ PSYC 6802
           power = 0.8
     alternative = two.sided</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>,</span>
-<span id="cb11-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>,</span>
+<span id="cb11-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      One-sample t test power calculation 
@@ -346,8 +353,8 @@ PSYC 6802
           power = 0.9
     alternative = two.sided</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>,</span>
-<span id="cb13-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>,</span>
+<span id="cb13-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      One-sample t test power calculation 
@@ -367,8 +374,8 @@ PSYC 6802
 <p>For the independent samples <span class="math inline">\(t\)</span>-test, we can use <code>pwr.t.test</code> if we have equal sample sizes, or <code>pwr.t2n.test</code> for unequal sample sizes.</p>
 <p>In the case of lab 4, where we were testing whether males (<span class="math inline">\(n_{1} = 112\)</span>) and females (<span class="math inline">\(n_{2} = 82\)</span>) were significantly different on average food rating. the estimate effect was <span class="math inline">\(d = .17\)</span>, but the difference was not significant <span class="math inline">\(p = .224\)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">pwr.t2n.test</span>(<span class="at">n1 =</span> <span class="dv">112</span>, <span class="at">n2 =</span> <span class="dv">82</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>,</span>
-<span id="cb15-2"><a href=""></a>             <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">pwr.t2n.test</span>(<span class="at">n1 =</span> <span class="dv">112</span>, <span class="at">n2 =</span> <span class="dv">82</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>,</span>
+<span id="cb15-2"><a href=""></a>             <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      t test power calculation 
@@ -387,8 +394,8 @@ PSYC 6802
 <h2>Independent-samples <span class="math inline">\(t\)</span>-test</h2>
 <p>When planning data collection, you ideally want to plan for groups to have an equal size if possible. So, we can calculate a priori power assuming equal sample sizes and <span class="math inline">\(d = .17\)</span> as an effect size estimate.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>,</span>
-<span id="cb17-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>,</span>
+<span id="cb17-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample t test power calculation 
@@ -401,8 +408,8 @@ PSYC 6802
 
 NOTE: n is number in *each* group</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>,</span>
-<span id="cb19-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>,</span>
+<span id="cb19-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample t test power calculation 
@@ -415,8 +422,8 @@ NOTE: n is number in *each* group</code></pre>
 
 NOTE: n is number in *each* group</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>,</span>
-<span id="cb21-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>,</span>
+<span id="cb21-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample t test power calculation 
@@ -437,7 +444,7 @@ NOTE: n is number in *each* group</code></pre>
 <p>We can do the same for <span class="math inline">\(\chi^2\)</span> tests using the <code>pwr.chi.test</code> function. The test does not distinguish between <span class="math inline">\(\chi^2\)</span> goodness-of-fit and <span class="math inline">\(\chi^2\)</span> test of independence.</p>
 <p>Let’s use the airplane delays example from Lab 3. <span class="math inline">\(\chi^2(1) = 410.66\)</span> with <span class="math inline">\(N = 106596\)</span>. Our <span class="math inline">\(W\)</span> coefficient was <span class="math inline">\(.06\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="dv">106596</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="dv">106596</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Chi squared power calculation 
@@ -457,8 +464,8 @@ NOTE: N is the number of observations</code></pre>
 <h2>Power for <span class="math inline">\(\chi^2\)</span> tests</h2>
 <p>Next, let’s conduct a priori power for this study.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
-<span id="cb25-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
+<span id="cb25-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Chi squared power calculation 
@@ -471,8 +478,8 @@ NOTE: N is the number of observations</code></pre>
 
 NOTE: N is the number of observations</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
-<span id="cb27-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
+<span id="cb27-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Chi squared power calculation 
@@ -485,8 +492,8 @@ NOTE: N is the number of observations</code></pre>
 
 NOTE: N is the number of observations</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
-<span id="cb29-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
+<span id="cb29-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Chi squared power calculation 
@@ -584,7 +591,7 @@ NOTE: N is the number of observations</code></pre>
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard","chalkEffect":0},
 'smaller': true,
  
         // Display controls in the bottom right corner
@@ -605,7 +612,7 @@ NOTE: N is the number of observations</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -850,13 +857,14 @@ NOTE: N is the number of observations</code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -885,6 +893,11 @@ NOTE: N is the number of observations</code></pre>
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }

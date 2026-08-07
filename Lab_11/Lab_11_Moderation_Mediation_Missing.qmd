@@ -1,18 +1,5 @@
 ---
 title: "Lab 11: Moderation, Mediation, and Missing Data"
-author: "PSYC 6802"
-date: November 19, 2025
-date-format: long
-format: 
-  revealjs:
-    theme: sky
-    scrollable: true
-    smaller: true
-    embed-resources: true
-    slide-number: true
-    html-math-method: mathjax
-execute: 
-  echo: true
 ---
 
 ## Packages for Today (Install if Needed)

@@ -6,11 +6,10 @@
 <script src="One_Way_ANOVA_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="One_Way_ANOVA_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="One_Way_ANOVA_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="One_Way_ANOVA_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="One_Way_ANOVA_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-  <meta name="author" content="PSYC 6802">
-  <meta name="dcterms.date" content="2025-10-22">
+  <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 7: One-Way ANOVA</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +17,9 @@
   <link rel="stylesheet" href="One_Way_ANOVA_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="One_Way_ANOVA_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="One_Way_ANOVA_files/libs/revealjs/dist/theme/quarto-7642ca1904901e6b6e9f53cac373db48.css">
+  <link rel="stylesheet" href="One_Way_ANOVA_files/libs/revealjs/dist/theme/quarto-9bb7889a971729eb77026302eb305960.css">
   <link href="One_Way_ANOVA_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="One_Way_ANOVA_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="One_Way_ANOVA_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -114,7 +116,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -196,28 +197,36 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Lab 7: One-Way ANOVA</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802 
+PSYC 6802: Intro to Psychological Statistics 
 </div>
 </div>
 </div>
 
-  <p class="date">October 22, 2025</p>
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Agenda</h2>
+<ul>
+<li><a href="#/visualize-data-1" id="/toc-visualize-data-1">Visualize Data</a></li>
+<li><a href="#/alternative-anova-functions-and-robust-methods" id="/toc-alternative-anova-functions-and-robust-methods">Alternative ANOVA Functions and Robust Methods</a></li>
+<li><a href="#/summary" id="/toc-summary">Summary</a></li>
+</ul>
+</nav>
 </section>
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install if Needed)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(ez)</span>
 <span id="cb1-3"><a href=""></a><span class="fu">library</span>(pwr)</span>
 <span id="cb1-4"><a href=""></a><span class="fu">library</span>(rstatix)</span>
 <span id="cb1-5"><a href=""></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb1-6"><a href=""></a><span class="fu">library</span>(effectsize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href=""></a><span class="fu">library</span>(effectsize)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="todays-data-set" class="slide level2">
@@ -228,10 +237,10 @@ PSYC 6802
 <section id="read-in-and-clean-data" class="slide level2">
 <h2>Read in and Clean Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"rotten_tomatoes_clean.csv"</span>)</span>
-<span id="cb2-2"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"rotten_tomatoes_clean.csv"</span>)</span>
+<span id="cb2-2"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="ex">Rows:</span> 1,910</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="ex">Rows:</span> 1,910</span>
 <span id="cb3-2"><a href=""></a><span class="ex">Columns:</span> 17</span>
 <span id="cb3-3"><a href=""></a><span class="ex">$</span> id                   <span class="op">&lt;</span>chr<span class="op">&gt;</span> <span class="st">"youth_2015"</span>, <span class="st">"jurassic_world_dominion"</span>, <span class="st">"peacefu…</span></span>
 <span id="cb3-4"><a href=""></a><span class="st">$ title                &lt;chr&gt; "</span>Youth<span class="st">", "</span>Jurassic World Dominion<span class="st">", "</span>Peaceful War…</span>
@@ -249,19 +258,19 @@ PSYC 6802
 <span id="cb3-16"><a href=""></a><span class="ex">$</span> boxOffice            <span class="op">&lt;</span>chr<span class="op">&gt;</span> <span class="st">"</span><span class="va">$2</span><span class="st">.7M"</span>, <span class="st">"</span><span class="va">$3</span><span class="st">76.0M"</span>, <span class="st">"</span><span class="va">$1</span><span class="st">.1M"</span>, <span class="st">"</span><span class="va">$5</span><span class="st">.5M"</span>, <span class="st">"</span><span class="va">$2</span><span class="st">.3M"</span>, <span class="st">"$…</span></span>
 <span id="cb3-17"><a href=""></a><span class="st">$ distributor          &lt;chr&gt; "</span>Fox Searchlight<span class="st">", "</span>Universal Pictures<span class="st">", "</span>Lionsga…</span>
 <span id="cb3-18"><a href=""></a><span class="ex">$</span> soundMix             <span class="op">&lt;</span>chr<span class="op">&gt;</span> <span class="st">"Dolby Atmos"</span>, <span class="st">"Dolby Digital, Dolby Atmos"</span>, <span class="st">"Dol…</span></span>
-<span id="cb3-19"><a href=""></a><span class="st">$ boxOfficeMil         &lt;dbl&gt; 2.7000, 376.0000, 1.1000, 5.5000, 2.3000, 35.0000…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-19"><a href=""></a><span class="st">$ boxOfficeMil         &lt;dbl&gt; 2.7000, 376.0000, 1.1000, 5.5000, 2.3000, 35.0000…</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>We will recode our IV <code>genre</code> as a factor variable rather than as a character variable. More broadly, this recoding is <strong>very important</strong>, especially when your IV is coded as a numeric variable. If you specify the IV as numeric, most ANOVA functions will give you output, but it will be incorrect. Specifically, these functions will treat group codes as a continuous variable rather than as a grouping variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">genre =</span> <span class="fu">factor</span>(genre))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">genre =</span> <span class="fu">factor</span>(genre))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="visualize-data" class="slide level2">
 <h2>Visualize Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>dat <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(genre, tomatoMeter)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(genre, tomatoMeter)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="One_Way_ANOVA_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"><p>No obvious outliers or heteroskedasticity (boxes are about the same size)</p>
@@ -270,9 +279,9 @@ PSYC 6802
 <section id="visualize-data-1" class="title-slide slide level1 center">
 <h1>Visualize Data</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>dat <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>dat <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> tomatoMeter)) <span class="sc">+</span> <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>() <span class="sc">+</span> </span>
-<span id="cb6-3"><a href=""></a>           <span class="fu">facet_wrap</span>(<span class="sc">~</span>genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href=""></a>           <span class="fu">facet_wrap</span>(<span class="sc">~</span>genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="One_Way_ANOVA_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"><p>Each genre seems to have some amount of non-normality</p>
@@ -281,28 +290,28 @@ PSYC 6802
 <h2><code>aov</code> Approach</h2>
 <p><code>aov</code> is <code>R</code>’s built-in command for running ANOVAs. <code>aov</code> is also the class of object outputted by a function call to <code>aov()</code>. This approach assumes homoskedasticity, which we’ll address later.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>aov_res <span class="ot">&lt;-</span> <span class="fu">aov</span>(tomatoMeter <span class="sc">~</span> genre, dat)</span>
-<span id="cb7-2"><a href=""></a><span class="fu">summary</span>(aov_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>aov_res <span class="ot">&lt;-</span> <span class="fu">aov</span>(tomatoMeter <span class="sc">~</span> genre, dat)</span>
+<span id="cb7-2"><a href=""></a><span class="fu">summary</span>(aov_res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a>              <span class="ex">Df</span>  Sum Sq Mean Sq F value Pr<span class="er">(</span><span class="op">&gt;</span>F<span class="kw">)</span>    </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a>              <span class="ex">Df</span>  Sum Sq Mean Sq F value Pr<span class="er">(</span><span class="op">&gt;</span>F<span class="kw">)</span>    </span>
 <span id="cb8-2"><a href=""></a><span class="ex">genre</span>          2   73764   36882    55.1 <span class="op">&lt;</span>2e-16 <span class="pp">***</span></span>
 <span id="cb8-3"><a href=""></a><span class="ex">Residuals</span>   1907 1276564     669                   </span>
 <span id="cb8-4"><a href=""></a><span class="ex">---</span></span>
-<span id="cb8-5"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-5"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>This is very similar to the <code>lm</code> approach:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">anova</span>(<span class="fu">lm</span>(tomatoMeter <span class="sc">~</span> genre, dat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">anova</span>(<span class="fu">lm</span>(tomatoMeter <span class="sc">~</span> genre, dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href=""></a><span class="ex">Analysis</span> of Variance Table</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href=""></a><span class="ex">Analysis</span> of Variance Table</span>
 <span id="cb10-2"><a href=""></a></span>
 <span id="cb10-3"><a href=""></a><span class="ex">Response:</span> tomatoMeter</span>
 <span id="cb10-4"><a href=""></a>            <span class="ex">Df</span>  Sum Sq Mean Sq F value    Pr<span class="er">(</span><span class="op">&gt;</span>F<span class="kw">)</span>    </span>
 <span id="cb10-5"><a href=""></a><span class="ex">genre</span>        2   73764   36882  55.097 <span class="op">&lt;</span> 2.2e-16 <span class="pp">***</span></span>
 <span id="cb10-6"><a href=""></a><span class="ex">Residuals</span> 1907 1276564     669                      </span>
 <span id="cb10-7"><a href=""></a><span class="ex">---</span></span>
-<span id="cb10-8"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-8"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Here, we reject the null hypothesis, indicating that critics rate different movie genres differently on average.</p>
@@ -311,7 +320,7 @@ PSYC 6802
 <h2>Effect sizes of Variance Explained: <span class="math inline">\(\eta^2\)</span> and <span class="math inline">\(\omega^2\)</span></h2>
 <p>The <code>effectsize</code> package includes functions to calculate <span class="math inline">\(\eta^2\)</span>and <span class="math inline">\(\omega^2\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">library</span>(effectsize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">library</span>(effectsize)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="columns">
 <div class="column">
@@ -319,15 +328,15 @@ PSYC 6802
 <li><span class="math inline">\(\eta^2\)</span></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">eta_squared</span>(aov_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">eta_squared</span>(aov_res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a><span class="co"># Effect Size for ANOVA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a><span class="co"># Effect Size for ANOVA</span></span>
 <span id="cb13-2"><a href=""></a></span>
 <span id="cb13-3"><a href=""></a><span class="ex">Parameter</span> <span class="kw">|</span> <span class="ex">Eta2</span> <span class="kw">|</span>       <span class="ex">95%</span> CI</span>
 <span id="cb13-4"><a href=""></a><span class="ex">-------------------------------</span></span>
 <span id="cb13-5"><a href=""></a><span class="ex">genre</span>     <span class="kw">|</span> <span class="ex">0.05</span> <span class="kw">|</span> <span class="ex">[0.04,</span> 1.00]</span>
 <span id="cb13-6"><a href=""></a></span>
-<span id="cb13-7"><a href=""></a><span class="ex">-</span> One-sided CIs: upper bound fixed at <span class="pp">[</span><span class="ss">1.00</span><span class="pp">]</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-7"><a href=""></a><span class="ex">-</span> One-sided CIs: upper bound fixed at <span class="pp">[</span><span class="ss">1.00</span><span class="pp">]</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div><div class="column">
@@ -335,15 +344,15 @@ PSYC 6802
 <li>and <span class="math inline">\(\omega^2\)</span>, which is always going to be equal to or smaller than <span class="math inline">\(\eta^2\)</span></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">omega_squared</span>(aov_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">omega_squared</span>(aov_res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a><span class="co"># Effect Size for ANOVA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a><span class="co"># Effect Size for ANOVA</span></span>
 <span id="cb15-2"><a href=""></a></span>
 <span id="cb15-3"><a href=""></a><span class="ex">Parameter</span> <span class="kw">|</span> <span class="ex">Omega2</span> <span class="kw">|</span>       <span class="ex">95%</span> CI</span>
 <span id="cb15-4"><a href=""></a><span class="ex">---------------------------------</span></span>
 <span id="cb15-5"><a href=""></a><span class="ex">genre</span>     <span class="kw">|</span>   <span class="ex">0.05</span> <span class="kw">|</span> <span class="ex">[0.04,</span> 1.00]</span>
 <span id="cb15-6"><a href=""></a></span>
-<span id="cb15-7"><a href=""></a><span class="ex">-</span> One-sided CIs: upper bound fixed at <span class="pp">[</span><span class="ss">1.00</span><span class="pp">]</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-7"><a href=""></a><span class="ex">-</span> One-sided CIs: upper bound fixed at <span class="pp">[</span><span class="ss">1.00</span><span class="pp">]</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div></div>
@@ -360,8 +369,8 @@ PSYC 6802
 <li>First you need to create a new object using the <code>emmeans()</code> function. The main arguments of this function are you <code>aov</code> object and your IV(s), which you specify after the <code>specs =</code> argument.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb16-2"><a href=""></a>em <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(aov_res, <span class="at">specs =</span> <span class="st">"genre"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb16-2"><a href=""></a>em <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(aov_res, <span class="at">specs =</span> <span class="st">"genre"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then, you can apply many of the <code>emmeans</code> package functions to the newly created object to compute all sorts of pairwise comparisons and contrasts.</p>
 </section>
@@ -372,21 +381,21 @@ PSYC 6802
 <li><code>eff_size()</code> requires the <code>em</code> object, the standard error <span class="math inline">\(\sqrt{MSW}\)</span>, and the residual degrees of freedom <span class="math inline">\(df_{\mathrm{within}}\)</span></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">eff_size</span>(em, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">eff_size</span>(em, </span>
 <span id="cb17-2"><a href=""></a>         </span>
 <span id="cb17-3"><a href=""></a>         <span class="co"># sigma(aov_res) equals sqrt(MSW)</span></span>
 <span id="cb17-4"><a href=""></a>         <span class="at">sigma =</span> <span class="fu">sigma</span>(aov_res), </span>
 <span id="cb17-5"><a href=""></a>         </span>
 <span id="cb17-6"><a href=""></a>         <span class="co"># df.residual(aov_res) extracts the df within from the model</span></span>
-<span id="cb17-7"><a href=""></a>         <span class="at">edf =</span> <span class="fu">df.residual</span>(aov_res))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-7"><a href=""></a>         <span class="at">edf =</span> <span class="fu">df.residual</span>(aov_res))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a> <span class="ex">contrast</span>          effect.size     SE   df lower.CL upper.CL</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a> <span class="ex">contrast</span>          effect.size     SE   df lower.CL upper.CL</span>
 <span id="cb18-2"><a href=""></a> <span class="ex">Comedy</span> <span class="at">-</span> Drama         <span class="at">-0.508</span> 0.0491 1907  <span class="at">-0.6039</span>   <span class="at">-0.411</span></span>
 <span id="cb18-3"><a href=""></a> <span class="ex">Comedy</span> <span class="at">-</span> <span class="er">(</span><span class="ex">Sci-fi</span><span class="kw">)</span>      <span class="ex">-0.259</span> 0.0790 1907  <span class="at">-0.4135</span>   <span class="at">-0.104</span></span>
 <span id="cb18-4"><a href=""></a> <span class="ex">Drama</span> <span class="at">-</span> <span class="er">(</span><span class="ex">Sci-fi</span><span class="kw">)</span>        <span class="ex">0.249</span> 0.0786 1907   0.0948    0.403</span>
 <span id="cb18-5"><a href=""></a></span>
 <span id="cb18-6"><a href=""></a><span class="ex">sigma</span> used for effect sizes: 25.87 </span>
-<span id="cb18-7"><a href=""></a><span class="ex">Confidence</span> level used: 0.95 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href=""></a><span class="ex">Confidence</span> level used: 0.95 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -397,14 +406,14 @@ PSYC 6802
 <li>For example, Tukey’s HSD:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">pairs</span>(em, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">pairs</span>(em, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href=""></a> <span class="ex">contrast</span>          estimate   SE   df t.ratio p.value</span>
-<span id="cb20-2"><a href=""></a> <span class="ex">Comedy</span> <span class="at">-</span> Drama      <span class="at">-13.13</span> 1.25 1907 <span class="at">-10.497</span>  <span class="op">&lt;</span>.0001</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href=""></a> <span class="ex">contrast</span>          estimate   SE   df t.ratio p.value</span>
+<span id="cb20-2"><a href=""></a> <span class="ex">Comedy</span> <span class="at">-</span> Drama      <span class="at">-13.13</span> 1.25 1907 <span class="at">-10.497</span> <span class="op">&lt;</span>0.0001</span>
 <span id="cb20-3"><a href=""></a> <span class="ex">Comedy</span> <span class="at">-</span> <span class="er">(</span><span class="ex">Sci-fi</span><span class="kw">)</span>    <span class="ex">-6.69</span> 2.04 1907  <span class="at">-3.279</span>  0.0030</span>
 <span id="cb20-4"><a href=""></a> <span class="ex">Drama</span> <span class="at">-</span> <span class="er">(</span><span class="ex">Sci-fi</span><span class="kw">)</span>      <span class="ex">6.44</span> 2.03 1907   3.171  0.0044</span>
 <span id="cb20-5"><a href=""></a></span>
-<span id="cb20-6"><a href=""></a><span class="ex">P</span> value adjustment: tukey method for comparing a family of 3 estimates </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-6"><a href=""></a><span class="ex">P</span> value adjustment: tukey method for comparing a family of 3 estimates </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Here we see that dramas are rated significantly higher than both comedies and sci-fi movies, and that sci-fi is rated significantly higher than comedy</p>
@@ -432,9 +441,9 @@ PSYC 6802
 <p>To check contrasts, we can use the <code>contrast()</code> function on the object. We can then specify contrasts using <code>method =</code>. Note that we must specify the contrasts as a <code>list</code>.</p>
 <p>We also need to make sure we reference the correct order of our factor levels. We can check this as follows</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">levels</span>(dat<span class="sc">$</span>genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">levels</span>(dat<span class="sc">$</span>genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href=""></a><span class="ex">[1]</span> <span class="st">"Comedy"</span> <span class="st">"Drama"</span>  <span class="st">"Sci-fi"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href=""></a><span class="ex">[1]</span> <span class="st">"Comedy"</span> <span class="st">"Drama"</span>  <span class="st">"Sci-fi"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>So what will my contrasts look like if I want to test the hypothesis:</p>
@@ -445,10 +454,10 @@ PSYC 6802
 <section id="contrasts-1" class="slide level2">
 <h2>Contrasts</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">contrast</span>(em, <span class="at">method =</span> <span class="fu">list</span>(<span class="at">genre =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">contrast</span>(em, <span class="at">method =</span> <span class="fu">list</span>(<span class="at">genre =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href=""></a> <span class="ex">contrast</span> estimate   SE   df t.ratio p.value</span>
-<span id="cb24-2"><a href=""></a> <span class="ex">genre</span>        19.6 2.69 1907   7.283  <span class="op">&lt;</span>.0001</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href=""></a> <span class="ex">contrast</span> estimate   SE   df t.ratio p.value</span>
+<span id="cb24-2"><a href=""></a> <span class="ex">genre</span>        19.6 2.69 1907   7.283 <span class="op">&lt;</span>0.0001</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Here, we reject <span class="math inline">\(H_0\)</span> for both cases, so we find that dramas are rated significantly differently than sci-fi and comedy movies.</p>
@@ -457,18 +466,18 @@ PSYC 6802
 <h2>Weighted Least Squares with <code>aov</code></h2>
 <p>First, we need to compute weights for WLS estimation. Weights are the inverse of the group-level variances (<span class="math inline">\(W_{\mathrm{group}} = \frac{1}{S^2_{\mathrm{group}}}\)</span>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(genre) <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">weights =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">var</span>(tomatoMeter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(genre) <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">weights =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">var</span>(tomatoMeter))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next, we add these weights to our <code>aov()</code> call.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(tomatoMeter <span class="sc">~</span> genre, dat, <span class="at">weights =</span> weights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(tomatoMeter <span class="sc">~</span> genre, dat, <span class="at">weights =</span> weights))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href=""></a>              <span class="ex">Df</span> Sum Sq Mean Sq F value Pr<span class="er">(</span><span class="op">&gt;</span>F<span class="kw">)</span>    </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href=""></a>              <span class="ex">Df</span> Sum Sq Mean Sq F value Pr<span class="er">(</span><span class="op">&gt;</span>F<span class="kw">)</span>    </span>
 <span id="cb27-2"><a href=""></a><span class="ex">genre</span>          2  110.5   55.26   55.26 <span class="op">&lt;</span>2e-16 <span class="pp">***</span></span>
 <span id="cb27-3"><a href=""></a><span class="ex">Residuals</span>   1907 1907.0    1.00                   </span>
 <span id="cb27-4"><a href=""></a><span class="ex">---</span></span>
-<span id="cb27-5"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-5"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -476,16 +485,16 @@ PSYC 6802
 <h2>White’s Adjustment with <code>aov</code></h2>
 <p>We can do White’s adjustment with <code>aov</code> output, with a little help from the <code>car</code> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>car<span class="sc">::</span><span class="fu">Anova</span>(aov_res, <span class="at">white.adjust =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>car<span class="sc">::</span><span class="fu">Anova</span>(aov_res, <span class="at">white.adjust =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href=""></a><span class="ex">Analysis</span> of Deviance Table <span class="er">(</span><span class="ex">Type</span> II tests<span class="kw">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href=""></a><span class="ex">Analysis</span> of Deviance Table <span class="er">(</span><span class="ex">Type</span> II tests<span class="kw">)</span></span>
 <span id="cb29-2"><a href=""></a></span>
 <span id="cb29-3"><a href=""></a><span class="ex">Response:</span> tomatoMeter</span>
 <span id="cb29-4"><a href=""></a>            <span class="ex">Df</span>      F    Pr<span class="er">(</span><span class="op">&gt;</span>F<span class="kw">)</span>    </span>
 <span id="cb29-5"><a href=""></a><span class="ex">genre</span>        2 55.192 <span class="op">&lt;</span> 2.2e-16 <span class="pp">***</span></span>
 <span id="cb29-6"><a href=""></a><span class="ex">Residuals</span> 1907                     </span>
 <span id="cb29-7"><a href=""></a><span class="ex">---</span></span>
-<span id="cb29-8"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-8"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -507,11 +516,11 @@ PSYC 6802
 <section id="anova-with-ezanova" class="slide level2">
 <h2>ANOVA with <code>ezANOVA</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># If there is no id column in the original dataset</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># If there is no id column in the original dataset</span></span>
 <span id="cb30-2"><a href=""></a><span class="co"># you can do </span></span>
 <span id="cb30-3"><a href=""></a><span class="co"># mutate(ID = 1:nrow(dat))</span></span>
 <span id="cb30-4"><a href=""></a></span>
-<span id="cb30-5"><a href=""></a><span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, <span class="at">between =</span> genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-5"><a href=""></a><span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, <span class="at">between =</span> genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Input:</p>
 <ul>
@@ -529,15 +538,15 @@ PSYC 6802
 <section id="anova-with-ezanova-1" class="slide level2">
 <h2>ANOVA with <code>ezANOVA</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, <span class="at">between =</span> genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, <span class="at">between =</span> genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a><span class="va">$ANOVA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a><span class="va">$ANOVA</span></span>
 <span id="cb32-2"><a href=""></a>  <span class="ex">Effect</span> DFn  DFd        F            p p<span class="op">&lt;</span>.05        ges</span>
 <span id="cb32-3"><a href=""></a><span class="ex">1</span>  genre   2 1907 55.09664 5.465513e-24     <span class="pp">*</span> 0.05462703</span>
 <span id="cb32-4"><a href=""></a></span>
 <span id="cb32-5"><a href=""></a><span class="ex">$</span><span class="kw">`</span><span class="ex">Levene</span><span class="st">'s Test for Homogeneity of Variance`</span></span>
 <span id="cb32-6"><a href=""></a><span class="st">  DFn  DFd      SSn      SSd        F          p p&lt;.05</span></span>
-<span id="cb32-7"><a href=""></a><span class="st">1   2 1907 2448.904 344624.5 6.775576 0.00116899     *</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-7"><a href=""></a><span class="st">1   2 1907 2448.904 344624.5 6.775576 0.00116899     *</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p><code>ezANOVA</code> tends to give a lot of warnings, many of which can be ignored.</p>
@@ -550,12 +559,12 @@ PSYC 6802
 <h2>ANOVA with <code>ezANOVA</code></h2>
 <p>To return an <code>aov</code> class of object, run:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>ez_res <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>ez_res <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> tomatoMeter, <span class="at">wid =</span> id, </span>
 <span id="cb33-2"><a href=""></a>                  <span class="at">between =</span> genre, <span class="at">return_aov =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb33-3"><a href=""></a></span>
-<span id="cb33-4"><a href=""></a>ez_res<span class="sc">$</span>aov <span class="co"># extract aov output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-4"><a href=""></a>ez_res<span class="sc">$</span>aov <span class="co"># extract aov output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a><span class="ex">Call:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a><span class="ex">Call:</span></span>
 <span id="cb34-2"><a href=""></a>   <span class="ex">aov</span><span class="er">(</span><span class="ex">formula</span> = formula<span class="er">(</span><span class="ex">aov_formula</span><span class="kw">)</span><span class="ex">,</span> data = data<span class="kw">)</span></span>
 <span id="cb34-3"><a href=""></a></span>
 <span id="cb34-4"><a href=""></a><span class="ex">Terms:</span></span>
@@ -564,7 +573,7 @@ PSYC 6802
 <span id="cb34-7"><a href=""></a><span class="ex">Deg.</span> of Freedom         2      1907</span>
 <span id="cb34-8"><a href=""></a></span>
 <span id="cb34-9"><a href=""></a><span class="ex">Residual</span> standard error: 25.87295</span>
-<span id="cb34-10"><a href=""></a><span class="ex">Estimated</span> effects may be unbalanced</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-10"><a href=""></a><span class="ex">Estimated</span> effects may be unbalanced</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Be careful with this option - not all specifications (e.g., White’s adjustment) will be carried over to the <code>aov</code> object.</p>
@@ -573,14 +582,14 @@ PSYC 6802
 <h2>Welch’s test</h2>
 <p>Welch’s correction is available in the <code>rstatix</code> package. Functions in this package will not run with grouped data (we used the <code>group_by</code> function earlier), so we ungroup the data first.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> ungroup</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> ungroup</span>
 <span id="cb35-2"><a href=""></a></span>
-<span id="cb35-3"><a href=""></a><span class="fu">welch_anova_test</span>(dat, tomatoMeter <span class="sc">~</span> genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-3"><a href=""></a><span class="fu">welch_anova_test</span>(dat, tomatoMeter <span class="sc">~</span> genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a><span class="co"># A tibble: 1 × 7</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a><span class="co"># A tibble: 1 × 7</span></span>
 <span id="cb36-2"><a href=""></a>  <span class="ex">.y.</span>             n statistic   DFn   DFd       p method     </span>
 <span id="cb36-3"><a href=""></a><span class="ex">*</span> <span class="op">&lt;</span>chr<span class="op">&gt;</span>       <span class="op">&lt;</span>int<span class="op">&gt;</span>     <span class="op">&lt;</span>dbl<span class="op">&gt;</span> <span class="op">&lt;</span>dbl<span class="op">&gt;</span> <span class="op">&lt;</span>dbl<span class="op">&gt;</span>   <span class="op">&lt;</span>dbl<span class="op">&gt;</span> <span class="op">&lt;</span>chr<span class="op">&gt;</span>      </span>
-<span id="cb36-4"><a href=""></a><span class="ex">1</span> tomatoMeter  1910      55.2     2  553. 1.4e-22 Welch ANOVA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-4"><a href=""></a><span class="ex">1</span> tomatoMeter  1910      55.2     2  553. 1.4e-22 Welch ANOVA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -588,20 +597,20 @@ PSYC 6802
 <h2>Kruskal-Wallis Rank Sum Test</h2>
 <p>Finally, if we wish to avoid assumptions of normality, we can run the Kruskal-Wallis rank sum test, which also rejects the null hypothesis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">kruskal.test</span>(tomatoMeter <span class="sc">~</span> genre, dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">kruskal.test</span>(tomatoMeter <span class="sc">~</span> genre, dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href=""></a></span>
 <span id="cb38-2"><a href=""></a>    <span class="ex">Kruskal-Wallis</span> rank sum test</span>
 <span id="cb38-3"><a href=""></a></span>
 <span id="cb38-4"><a href=""></a><span class="ex">data:</span>  tomatoMeter by genre</span>
-<span id="cb38-5"><a href=""></a><span class="ex">Kruskal-Wallis</span> chi-squared = 102.23, df = 2, p-value <span class="op">&lt;</span> 2.2e-16</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-5"><a href=""></a><span class="ex">Kruskal-Wallis</span> chi-squared = 102.23, df = 2, p-value <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>To follow up with multiple comparisons, we might use pairwise tests that make the same assumptions, such as the pairwise Wilcoxon rank sum test:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">pairwise.wilcox.test</span>(<span class="at">x =</span> dat<span class="sc">$</span>tomatoMeter, <span class="at">g =</span> dat<span class="sc">$</span>genre, <span class="at">p.adjust.method =</span> <span class="st">"holm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">pairwise.wilcox.test</span>(<span class="at">x =</span> dat<span class="sc">$</span>tomatoMeter, <span class="at">g =</span> dat<span class="sc">$</span>genre, <span class="at">p.adjust.method =</span> <span class="st">"holm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb40"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href=""></a></span>
 <span id="cb40-2"><a href=""></a>    <span class="ex">Pairwise</span> comparisons using Wilcoxon rank sum test with continuity correction </span>
 <span id="cb40-3"><a href=""></a></span>
 <span id="cb40-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$tomatoMeter</span> and dat<span class="va">$genre</span> </span>
@@ -610,7 +619,7 @@ PSYC 6802
 <span id="cb40-7"><a href=""></a><span class="ex">Drama</span>  <span class="op">&lt;</span>2e-16 <span class="at">-</span>     </span>
 <span id="cb40-8"><a href=""></a><span class="ex">Sci-fi</span> 0.0029 0.0029</span>
 <span id="cb40-9"><a href=""></a></span>
-<span id="cb40-10"><a href=""></a><span class="ex">P</span> value adjustment method: holm </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-10"><a href=""></a><span class="ex">P</span> value adjustment method: holm </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section></section>
@@ -715,7 +724,7 @@ PSYC 6802
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard","chalkEffect":0},
 'smaller': true,
  
         // Display controls in the bottom right corner
@@ -736,7 +745,7 @@ PSYC 6802
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -981,13 +990,14 @@ PSYC 6802
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -1016,6 +1026,11 @@ PSYC 6802
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }

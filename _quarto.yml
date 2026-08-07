@@ -1,0 +1,26 @@
+author: "PSYC 6802: Intro to Psychological Statistics"
+date-format: "[Fall] YYYY"
+format: 
+  revealjs:
+    title-slide-attributes: 
+      data-background-image: logo.png
+      data-background-size: contain
+      data-background-opacity: "0.5"
+    theme: [default, styles.scss]
+    toc: true
+    toc-depth: 1
+    toc-title: Agenda
+    scrollable: false
+    smaller: true
+    embed-resources: false
+    slide-number: false
+    chalkboard: 
+      theme: whiteboard
+      chalk-effect: 0.0
+    highlight-style: arrow
+    link-external-icon: true
+    link-external-newwindow: true
+    html-math-method: mathjax
+execute: 
+  echo: true
+  freeze: auto

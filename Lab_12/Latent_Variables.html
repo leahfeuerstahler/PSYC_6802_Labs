@@ -6,11 +6,10 @@
 <script src="Latent_Variables_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Latent_Variables_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Latent_Variables_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Latent_Variables_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="Latent_Variables_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-  <meta name="author" content="PSYC 6802">
-  <meta name="dcterms.date" content="2025-12-03">
+  <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 12: Latent Variables</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +17,9 @@
   <link rel="stylesheet" href="Latent_Variables_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="Latent_Variables_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Latent_Variables_files/libs/revealjs/dist/theme/quarto-7642ca1904901e6b6e9f53cac373db48.css">
+  <link rel="stylesheet" href="Latent_Variables_files/libs/revealjs/dist/theme/quarto-9bb7889a971729eb77026302eb305960.css">
   <link href="Latent_Variables_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Latent_Variables_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Latent_Variables_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -114,7 +116,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -196,28 +197,27 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Lab 12: Latent Variables</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802 
+PSYC 6802: Intro to Psychological Statistics 
 </div>
 </div>
 </div>
 
-  <p class="date">December 3, 2025</p>
 </section>
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install if Needed)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(haven)</span>
 <span id="cb1-3"><a href=""></a><span class="fu">library</span>(caret)</span>
 <span id="cb1-4"><a href=""></a><span class="fu">library</span>(psych)</span>
 <span id="cb1-5"><a href=""></a><span class="fu">library</span>(paran)</span>
-<span id="cb1-6"><a href=""></a><span class="fu">library</span>(lavaan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href=""></a><span class="fu">library</span>(lavaan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="functions" class="slide level2">
@@ -258,25 +258,25 @@ PSYC 6802
 <section id="read-in-data" class="slide level2">
 <h2>Read in Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"Lab_12_Cox.sav"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"Lab_12_Cox.sav"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To make the FA results easier to visualize, it may be helpful to organize the columns by factors. Items 1, 3, 5, 9, 10, 12, 14, 16, 17, 19 belong to the positive mood scale, and items 2, 4, 6, 7, 8, 11, 13, 15, 18, and 20 belong to the negative mood scale.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat_for_fa <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat_for_fa <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Panas1, Panas3, Panas5, Panas9, Panas10, </span>
 <span id="cb3-3"><a href=""></a>                Panas12, Panas14, Panas16, Panas17, Panas19,</span>
 <span id="cb3-4"><a href=""></a>                Panas2, Panas4, Panas6, Panas7, Panas8,</span>
-<span id="cb3-5"><a href=""></a>                Panas11, Panas13, Panas15, Panas18, Panas20)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href=""></a>                Panas11, Panas13, Panas15, Panas18, Panas20)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="split-data-into-exploratory-and-confirmatory-sets" class="slide level2">
 <h2>Split Data into Exploratory and Confirmatory Sets</h2>
 <p>So that we can explore and confirm our hypotheses in separate data sets, we will randomly split the data into do data sets. To do this, we will use the <code>createFolds()</code> function from the <code>caret</code> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">942</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">942</span>)</span>
 <span id="cb4-2"><a href=""></a>idx <span class="ot">&lt;-</span> <span class="fu">createFolds</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat_for_fa), <span class="dv">2</span>)</span>
 <span id="cb4-3"><a href=""></a>dat_efa <span class="ot">&lt;-</span> dat_for_fa[idx<span class="sc">$</span>Fold1, ]</span>
-<span id="cb4-4"><a href=""></a>dat_cfa <span class="ot">&lt;-</span> dat_for_fa[idx<span class="sc">$</span>Fold2, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href=""></a>dat_cfa <span class="ot">&lt;-</span> dat_for_fa[idx<span class="sc">$</span>Fold2, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="determining-the-number-of-factors" class="slide level2">
@@ -288,7 +288,7 @@ PSYC 6802
 </ul>
 <p>To create the scree plot in <code>R</code> (using the EFA dataset), run the following code. This will create the scree plot for both factors and components. They will usually lead to similar results.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">scree</span>(dat_efa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">scree</span>(dat_efa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Plot shown on the next slide. For both components and factors, I’d recommend retaining 3 factors/components.</p>
 </section>
@@ -300,33 +300,12 @@ PSYC 6802
 <h2>Parallel Analysis</h2>
 <p>Parallel analysis is more reliable and more objective than the scree plot. Here, the default in <code>paran</code> is to do parallel analysis on the full correlation matrix. If we want to instead conduct parallel analysis on the reduced correlation matrix, we can specify <code>cfa = TRUE</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">paran</span>(dat_efa, <span class="at">status =</span> <span class="cn">FALSE</span>, <span class="at">cfa =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">paran</span>(dat_efa, <span class="at">status =</span> <span class="cn">FALSE</span>, <span class="at">cfa =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Results are shown on the next slide. Again, 3 factors are suggested. The option <code>status=FALSE</code> only prints less output, making it easier to show output on slides.</p>
 </section>
 <section id="parallel-analysis-1" class="slide level2">
 <h2>Parallel Analysis</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Using eigendecomposition of correlation matrix.
-
-Results of Horn's Parallel Analysis for factor retention
-600 iterations, using the mean estimate
-
--------------------------------------------------- 
-Factor      Adjusted    Unadjusted    Estimated 
-            Eigenvalue  Eigenvalue    Bias 
--------------------------------------------------- 
-1           3.674405    4.788333      1.113927
-2           2.860146    3.781275      0.921128
-3           0.082750    0.871771      0.789021
--------------------------------------------------- 
-
-Adjusted eigenvalues &gt; 0 indicate dimensions to retain.
-(3 factors    retained)</code></pre>
-</div>
-</div>
 </section>
 <section id="parallel-analysis-2" class="slide level2">
 <h2>Parallel Analysis</h2>
@@ -334,18 +313,12 @@ Adjusted eigenvalues &gt; 0 indicate dimensions to retain.
 <p>On this plot, we can either look at the red line (unadjusted eigenvalues) and keep all of the ones above the blue line (average of randomly generated eigenvalues), or compare the black like (adjusted eigenvalues) to the horizontal line at 0.</p>
 <p>Once a red point drops below the blue line, or a black point drops below 0 (or 1 for components), we stop keeping factors.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">paran</span>(dat_efa, <span class="at">status =</span> <span class="cn">FALSE</span>, <span class="at">cfa =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">paran</span>(dat_efa, <span class="at">status =</span> <span class="cn">FALSE</span>, <span class="at">cfa =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="parallel-analysis-3" class="slide level2">
 <h2>Parallel Analysis</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Using eigendecomposition of correlation matrix.</code></pre>
-</div>
 
-</div>
 <img data-src="Latent_Variables_files/figure-revealjs/unnamed-chunk-10-1.png" style="width:85.0%" class="r-stretch"></section>
 <section id="setting-up-the-efa" class="slide level2">
 <h2>Setting up the EFA</h2>
@@ -357,19 +330,19 @@ Using eigendecomposition of correlation matrix.</code></pre>
 <li><code>fm</code>: the factor estimation method, “pa” gives principal axis, “ml” gives maximum likelihood (which assumes multivariate normality)—other options are described in the help page for <code>fa()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>efa_res <span class="ot">&lt;-</span> <span class="fu">fa</span>(dat_efa, <span class="at">nfactors =</span> <span class="dv">3</span>, </span>
-<span id="cb10-2"><a href=""></a>              <span class="at">rotate =</span> <span class="st">"oblimin"</span>, <span class="at">fm =</span> <span class="st">"pa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>efa_res <span class="ot">&lt;-</span> <span class="fu">fa</span>(dat_efa, <span class="at">nfactors =</span> <span class="dv">3</span>, </span>
+<span id="cb8-2"><a href=""></a>              <span class="at">rotate =</span> <span class="st">"oblimin"</span>, <span class="at">fm =</span> <span class="st">"pa"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="efa-results" class="slide level2">
 <h2>EFA Results</h2>
 <p>To display factor loadings, you can run…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>efa_res<span class="sc">$</span>loadings <span class="co"># not run</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>efa_res<span class="sc">$</span>loadings <span class="co"># not run</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>…or you can specify a cutoff under which loadings are not printed</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">print</span>(efa_res<span class="sc">$</span>loadings, <span class="at">cutoff =</span> .<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">print</span>(efa_res<span class="sc">$</span>loadings, <span class="at">cutoff =</span> .<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Results are shown on the next slide. All of the positive mood items loads cleanly on factor PA1. Most negative mood items load cleanly on factor PA2, but Panas2 and Panas3 load on factor PA3, and Panas6 does not have a large loading on any factor.</p>
 </section>
@@ -379,7 +352,7 @@ Using eigendecomposition of correlation matrix.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Loadings:
-        PA1    PA2    PA3   
+        PA3    PA1    PA2   
 Panas1   0.522              
 Panas3   0.478              
 Panas5   0.563              
@@ -401,7 +374,7 @@ Panas15         0.676
 Panas18         0.421       
 Panas20         0.735       
 
-                 PA1   PA2   PA3
+                 PA3   PA1   PA2
 SS loadings    4.454 2.731 1.776
 Proportion Var 0.223 0.137 0.089
 Cumulative Var 0.223 0.359 0.448</code></pre>
@@ -413,9 +386,9 @@ Cumulative Var 0.223 0.359 0.448</code></pre>
 <p>It’s okay to play around with different specifications for the EFA model, so long as you are clear that analyses are exploratory and that conclusions cannot be stated with confidence before confirmatory testing in a new data set.</p>
 <p>To modify the previous result, we might want to look at the theoretically appropriate 2-factor structure as well. Here, the theoretical structure emerges very cleanly. Item Panas3 loads moderately on both factors, but this could be due to sampling error.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>efa_res2 <span class="ot">&lt;-</span> <span class="fu">fa</span>(dat_efa, <span class="at">nfactors =</span> <span class="dv">2</span>, </span>
-<span id="cb14-2"><a href=""></a>               <span class="at">rotate =</span> <span class="st">"oblimin"</span>, <span class="at">fm =</span> <span class="st">"pa"</span>)</span>
-<span id="cb14-3"><a href=""></a><span class="fu">print</span>(efa_res2<span class="sc">$</span>loadings, <span class="at">cutoff =</span> .<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>efa_res2 <span class="ot">&lt;-</span> <span class="fu">fa</span>(dat_efa, <span class="at">nfactors =</span> <span class="dv">2</span>, </span>
+<span id="cb12-2"><a href=""></a>               <span class="at">rotate =</span> <span class="st">"oblimin"</span>, <span class="at">fm =</span> <span class="st">"pa"</span>)</span>
+<span id="cb12-3"><a href=""></a><span class="fu">print</span>(efa_res2<span class="sc">$</span>loadings, <span class="at">cutoff =</span> .<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Output shown on next slide.</p>
 </section>
@@ -460,19 +433,19 @@ Cumulative Var 0.223 0.416</code></pre>
 <p>Within <code>lavaan</code>, we need to specify the structure of our model - specifically, which items load on which factors. This code must be within quotation marks.</p>
 <p>We will first test the theoretical 2-factor structure. In <code>lavaan</code> syntax, latent variables are specified before the “=~” symbol (and can be given any name we choose), and observed variables are specified after the “=~” symbol and must be column names in the dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>mod <span class="ot">&lt;-</span> <span class="st">"PosMood =~ Panas1 + Panas3 + Panas5 + Panas9 + Panas10 + </span></span>
-<span id="cb16-2"><a href=""></a><span class="st">                   Panas12 + Panas14 + Panas16 + Panas17 + Panas19</span></span>
-<span id="cb16-3"><a href=""></a><span class="st">        NegMood =~ Panas2 + Panas4 + Panas6 + Panas7 + Panas8 + </span></span>
-<span id="cb16-4"><a href=""></a><span class="st">                   Panas11 + Panas13 + Panas15 + Panas18 + Panas20"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>mod <span class="ot">&lt;-</span> <span class="st">"PosMood =~ Panas1 + Panas3 + Panas5 + Panas9 + Panas10 + </span></span>
+<span id="cb14-2"><a href=""></a><span class="st">                   Panas12 + Panas14 + Panas16 + Panas17 + Panas19</span></span>
+<span id="cb14-3"><a href=""></a><span class="st">        NegMood =~ Panas2 + Panas4 + Panas6 + Panas7 + Panas8 + </span></span>
+<span id="cb14-4"><a href=""></a><span class="st">                   Panas11 + Panas13 + Panas15 + Panas18 + Panas20"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="fitting-the-cfa-model" class="slide level2">
 <h2>Fitting the CFA Model</h2>
 <p>Like the example from lecture, responses are on a 5-point Likert scale, which means we probably don’t have normally distributed data (although you should check in practice). Therefore, we want to use an estimation method that provides robust standard errors (“scaled” fit measures) such as “MLM”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>cfa_res <span class="ot">&lt;-</span> <span class="fu">cfa</span>(<span class="at">model =</span> mod, </span>
-<span id="cb17-2"><a href=""></a>               <span class="at">data =</span> dat_cfa, </span>
-<span id="cb17-3"><a href=""></a>               <span class="at">estimator =</span> <span class="st">"MLM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>cfa_res <span class="ot">&lt;-</span> <span class="fu">cfa</span>(<span class="at">model =</span> mod, </span>
+<span id="cb15-2"><a href=""></a>               <span class="at">data =</span> dat_cfa, </span>
+<span id="cb15-3"><a href=""></a>               <span class="at">estimator =</span> <span class="st">"MLM"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cfa-results" class="slide level2">
@@ -480,12 +453,12 @@ Cumulative Var 0.223 0.416</code></pre>
 <p>Because CFA is typically run on covariance matrices, we want to standardize the results to ease interpretation. This can be done with the <code>standardizedSolution()</code> function. The output is very long, but note the following:</p>
 <ul>
 <li>terms separated by “=~” indicate standardized factor loadings</li>
-<li>terms separated by “~~” indicate either residual variances (for Panas items), factor variances (equal to 1), or the correlation between factors</li>
+<li>terms separated by “<sub></sub>” indicate either residual variances (for Panas items), factor variances (equal to 1), or the correlation between factors</li>
 <li>estimated parameters are given in the “est.std” column</li>
 <li>everything to the right of the “est.std” column is a hypothesis test of the parameter against the “nil” hypothesis that the parameter is 0 in the population</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">standardizedSolution</span>(cfa_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">standardizedSolution</span>(cfa_res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op     rhs est.std    se      z pvalue ci.lower ci.upper
 1  PosMood =~  Panas1   0.523 0.070  7.515  0.000    0.387    0.660
@@ -538,14 +511,14 @@ Cumulative Var 0.223 0.416</code></pre>
 <h2>Evaluating Fit</h2>
 <p>The following will give you MANY fit measures, most of which we haven’t covered.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">fitMeasures</span>(cfa_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">fitMeasures</span>(cfa_res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can make fit evaluation simpler by only specifying certain fit measures to print:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">fitMeasures</span>(cfa_res, </span>
-<span id="cb21-2"><a href=""></a>            <span class="at">fit.measures =</span> <span class="fu">c</span>(<span class="st">"chisq.scaled"</span>, <span class="st">"df.scaled"</span>, </span>
-<span id="cb21-3"><a href=""></a>                             <span class="st">"pvalue"</span>, <span class="st">"rmsea.scaled"</span>, </span>
-<span id="cb21-4"><a href=""></a>                             <span class="st">"srmr"</span>, <span class="st">"cfi.scaled"</span>, <span class="st">"tli.scaled"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">fitMeasures</span>(cfa_res, </span>
+<span id="cb19-2"><a href=""></a>            <span class="at">fit.measures =</span> <span class="fu">c</span>(<span class="st">"chisq.scaled"</span>, <span class="st">"df.scaled"</span>, </span>
+<span id="cb19-3"><a href=""></a>                             <span class="st">"pvalue"</span>, <span class="st">"rmsea.scaled"</span>, </span>
+<span id="cb19-4"><a href=""></a>                             <span class="st">"srmr"</span>, <span class="st">"cfi.scaled"</span>, <span class="st">"tli.scaled"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chisq.scaled    df.scaled       pvalue rmsea.scaled         srmr   cfi.scaled 
      269.649      169.000        0.000        0.077        0.104        0.805 
@@ -595,7 +568,7 @@ Cumulative Var 0.223 0.416</code></pre>
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard","chalkEffect":0},
 'smaller': true,
  
         // Display controls in the bottom right corner
@@ -616,7 +589,7 @@ Cumulative Var 0.223 0.416</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -861,13 +834,14 @@ Cumulative Var 0.223 0.416</code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -896,6 +870,11 @@ Cumulative Var 0.223 0.416</code></pre>
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }

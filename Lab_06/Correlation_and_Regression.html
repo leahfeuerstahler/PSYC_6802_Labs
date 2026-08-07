@@ -6,11 +6,10 @@
 <script src="Correlation_and_Regression_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Correlation_and_Regression_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Correlation_and_Regression_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Correlation_and_Regression_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="Correlation_and_Regression_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-  <meta name="author" content="PSYC 6802">
-  <meta name="dcterms.date" content="2025-10-08">
+  <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 6: Correlation and Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +17,9 @@
   <link rel="stylesheet" href="Correlation_and_Regression_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="Correlation_and_Regression_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Correlation_and_Regression_files/libs/revealjs/dist/theme/quarto-7642ca1904901e6b6e9f53cac373db48.css">
+  <link rel="stylesheet" href="Correlation_and_Regression_files/libs/revealjs/dist/theme/quarto-9bb7889a971729eb77026302eb305960.css">
   <link href="Correlation_and_Regression_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Correlation_and_Regression_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Correlation_and_Regression_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -114,7 +116,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -196,26 +197,25 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Lab 6: Correlation and Regression</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802 
+PSYC 6802: Intro to Psychological Statistics 
 </div>
 </div>
 </div>
 
-  <p class="date">October 8, 2025</p>
 </section>
 <section id="packges-for-today-install-if-needed" class="slide level2">
 <h2>Packges for Today (Install if Needed)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(pwr)</span>
 <span id="cb1-3"><a href=""></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-4"><a href=""></a><span class="fu">library</span>(psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(psych)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -245,13 +245,13 @@ PSYC 6802
 <h2>Housing data example</h2>
 <p>Today, we’ll consider the <code>woodard.xls</code> dataset:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"woodard.xls"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"woodard.xls"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This data contains information about house features/prices of 100 houses in Raleigh, North Carolina.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="ex">Rows:</span> 100</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="ex">Rows:</span> 100</span>
 <span id="cb4-2"><a href=""></a><span class="ex">Columns:</span> 10</span>
 <span id="cb4-3"><a href=""></a><span class="ex">$</span> <span class="kw">`</span><span class="ex">Year</span> Built<span class="kw">`</span> <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 1990, 1986, 1955, 1983, 2003, 1967, 1924, 1980, 1989, 199…</span>
 <span id="cb4-4"><a href=""></a><span class="ex">$</span> <span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`</span>    <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 2102, 1740, 795, 1152, 1404, 1752, 1829, 1246, 2264, 3483…</span>
@@ -262,7 +262,7 @@ PSYC 6802
 <span id="cb4-9"><a href=""></a><span class="ex">$</span> <span class="kw">`</span><span class="ex">Total</span> $<span class="kw">`</span>    <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 203200, 119096, 71666, 131103, 4904102, 144452, 496425, 1…</span>
 <span id="cb4-10"><a href=""></a><span class="ex">$</span> <span class="kw">`</span><span class="ex">Land</span> $<span class="kw">`</span>     <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 44000, 22000, 28000, 50000, 4797750, 52000, 292500, 76000…</span>
 <span id="cb4-11"><a href=""></a><span class="ex">$</span> <span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`</span> <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 159200, 97096, 43666, 81103, 106352, 92452, 203925, 93187…</span>
-<span id="cb4-12"><a href=""></a><span class="ex">$</span> Zip          <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 27603, 27604, 27610, 27616, 27519, 27604, 27607, 27511, 2…</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-12"><a href=""></a><span class="ex">$</span> Zip          <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 27603, 27604, 27610, 27616, 27519, 27604, 27607, 27511, 2…</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -270,8 +270,8 @@ PSYC 6802
 <h2>gg-Plotting with Best-Fit Lines</h2>
 <p>First, we’ll look at the relationship between <code>Building $</code> and <code>Sq. Ft.</code> conditions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
+<span id="cb5-2"><a href=""></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
@@ -280,9 +280,9 @@ PSYC 6802
 <p>We can add different types of best-fit lines using <code>geom_smooth()</code>.</p>
 <p>The <code>method</code> argument tells <code>ggplot</code> which type of best-fit line to draw. The <code>lm</code> option indicates a linear model, and the <code>formula = y ~ x</code> option indicates simple linear regression.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
 <span id="cb6-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">formula =</span> y <span class="sc">~</span> x) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">formula =</span> y <span class="sc">~</span> x) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
@@ -290,9 +290,9 @@ PSYC 6802
 <h2>gg-Plotting with Best-Fit Lines</h2>
 <p>By default, <code>ggplot</code> adds an error band around the best-fit line. We can turn this off using the argument <code>se = FALSE</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
 <span id="cb7-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb7-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
@@ -300,9 +300,9 @@ PSYC 6802
 <h2>gg-Plotting with Best-Fit Lines</h2>
 <p>To add the nonparametric loess line, use <code>method = loess</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
 <span id="cb8-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb8-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">formula =</span> y <span class="sc">~</span> x) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">formula =</span> y <span class="sc">~</span> x) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
@@ -310,12 +310,12 @@ PSYC 6802
 <h2>gg-Plotting with Best-Fit Lines</h2>
 <p>For polynomial best-fit lines, we need to change the <code>formula</code> argument. For quadratic regression (a polynomial of degree 2), specify <code>method = lm</code> and <code>formula = y ~ poly(x, 2)</code>. Here, the method is <code>lm</code> because polynomial regression is part of the general linear model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)) <span class="sc">+</span> </span>
 <span id="cb9-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb9-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb9-4"><a href=""></a>              <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>)) <span class="sc">+</span> </span>
 <span id="cb9-5"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb9-6"><a href=""></a>              <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a href=""></a>              <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
@@ -323,13 +323,13 @@ PSYC 6802
 <h2>Correlations</h2>
 <p>The <code>cov()</code> and <code>cor()</code> functions are the easiest ways to calculate the covariance and the correlation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">cov</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Year Built</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">cov</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Year Built</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href=""></a><span class="ex">[1]</span> 409243.6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href=""></a><span class="ex">[1]</span> 409243.6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Year Built</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Year Built</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a><span class="ex">[1]</span> 0.2904769</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a><span class="ex">[1]</span> 0.2904769</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -337,19 +337,19 @@ PSYC 6802
 <h2>When <code>cor()</code> function does not work :(</h2>
 <p>Most R functions <strong>will not</strong> handle missing values automatically (it is a good thing). You usually need to tell the function what to do with missing values. For example with <code>cor()</code> and <code>cov()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a><span class="ex">[1]</span> NA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a><span class="ex">[1]</span> NA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ul>
 <li>the <code>No. Baths</code> variable has a missing value, so we need to include the <code>use =</code> argument to tell the <code>cor()</code> function what to do when missing data is encountered:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, </span>
-<span id="cb16-2"><a href=""></a>    <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, </span>
+<span id="cb16-2"><a href=""></a>    <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="ex">[1]</span> 0.5283843</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="ex">[1]</span> 0.5283843</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ul>
@@ -360,9 +360,9 @@ PSYC 6802
 <h2>Correlations: Hypothesis Test</h2>
 <p>To do a hypothesis test of the Pearson product-moment (PPM) correlation, use the <code>cor.test()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">cor.test</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Year Built</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">cor.test</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Year Built</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a></span>
 <span id="cb19-2"><a href=""></a>    <span class="ex">Pearson</span><span class="st">'s product-moment correlation</span></span>
 <span id="cb19-3"><a href=""></a></span>
 <span id="cb19-4"><a href=""></a><span class="st">data:  dat$`Year Built` and dat$`Building $`</span></span>
@@ -372,7 +372,7 @@ PSYC 6802
 <span id="cb19-8"><a href=""></a><span class="st"> 0.09974998 0.46061466</span></span>
 <span id="cb19-9"><a href=""></a><span class="st">sample estimates:</span></span>
 <span id="cb19-10"><a href=""></a><span class="st">      cor </span></span>
-<span id="cb19-11"><a href=""></a><span class="st">0.2904769 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-11"><a href=""></a><span class="st">0.2904769 </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>This correlation is significantly different from 0, <span class="math inline">\(r = .29\)</span>, <span class="math inline">\(t(98) = 3.01\)</span>, <span class="math inline">\(p = .003\)</span>, 95% CI[.09, .46]. This function also gives us the confidence interval.</p>
@@ -381,17 +381,17 @@ PSYC 6802
 <h2>Correlations: Power Analysis</h2>
 <p>Finally, we can use the <code>pwr</code> package to conduct power analyses, in much the same way as we did for other tests. For example, for an estimated correlation of -0.05. What sample size would be needed to find that this is significantly different than zero with 80% power?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">pwr.r.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">r =</span> <span class="sc">-</span><span class="fl">0.05</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>,</span>
-<span id="cb20-2"><a href=""></a>           <span class="at">power =</span> .<span class="dv">80</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">pwr.r.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">r =</span> <span class="sc">-</span><span class="fl">0.05</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>,</span>
+<span id="cb20-2"><a href=""></a>           <span class="at">power =</span> .<span class="dv">80</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a></span>
 <span id="cb21-2"><a href=""></a>     <span class="ex">approximate</span> correlation power calculation <span class="er">(</span><span class="ex">arctangh</span> transformation<span class="kw">)</span> </span>
 <span id="cb21-3"><a href=""></a></span>
 <span id="cb21-4"><a href=""></a>              <span class="ex">n</span> = 3136.41</span>
 <span id="cb21-5"><a href=""></a>              <span class="ex">r</span> = 0.05</span>
 <span id="cb21-6"><a href=""></a>      <span class="ex">sig.level</span> = 0.05</span>
 <span id="cb21-7"><a href=""></a>          <span class="ex">power</span> = 0.8</span>
-<span id="cb21-8"><a href=""></a>    <span class="ex">alternative</span> = two.sided</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-8"><a href=""></a>    <span class="ex">alternative</span> = two.sided</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -399,13 +399,13 @@ PSYC 6802
 <h2>Correlation Matrices</h2>
 <p>If you give a matrix of numeric values where the columns represent your variables, the <code>cor()</code> function will create a correlation matrix. Here I am entering the first 4 columns of the <code>dat</code> object:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cor</span>(dat[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cor</span>(dat[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href=""></a>           <span class="ex">Year</span> Built     Sq. Ft.       Story       Acres</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href=""></a>           <span class="ex">Year</span> Built     Sq. Ft.       Story       Acres</span>
 <span id="cb23-2"><a href=""></a><span class="ex">Year</span> Built  1.0000000  0.30229160  0.33793150  0.17591771</span>
 <span id="cb23-3"><a href=""></a><span class="ex">Sq.</span> Ft.     0.3022916  1.00000000  0.48115652 <span class="at">-0.02442011</span></span>
 <span id="cb23-4"><a href=""></a><span class="ex">Story</span>       0.3379315  0.48115652  1.00000000 <span class="at">-0.08604876</span></span>
-<span id="cb23-5"><a href=""></a><span class="ex">Acres</span>       0.1759177 <span class="at">-0.02442011</span> <span class="at">-0.08604876</span>  1.00000000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-5"><a href=""></a><span class="ex">Acres</span>       0.1759177 <span class="at">-0.02442011</span> <span class="at">-0.08604876</span>  1.00000000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -417,17 +417,17 @@ PSYC 6802
 <li><code>Building $</code> above and at/below the median price</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">No. Baths</span><span class="st">`</span><span class="sc">&gt;</span> <span class="dv">2</span>),</span>
-<span id="cb24-3"><a href=""></a>         <span class="st">`</span><span class="at">Building $_binary</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span><span class="sc">&gt;</span> <span class="fu">median</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-3"><a href=""></a>         <span class="st">`</span><span class="at">Building $_binary</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span><span class="sc">&gt;</span> <span class="fu">median</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">table</span>(dat[, <span class="fu">c</span>(<span class="st">"No. Baths_binary"</span>, <span class="st">"Building $_binary"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">table</span>(dat[, <span class="fu">c</span>(<span class="st">"No. Baths_binary"</span>, <span class="st">"Building $_binary"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href=""></a>                <span class="ex">Building</span> <span class="va">$_binary</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href=""></a>                <span class="ex">Building</span> <span class="va">$_binary</span></span>
 <span id="cb26-2"><a href=""></a><span class="ex">No.</span> Baths_binary  0  1</span>
 <span id="cb26-3"><a href=""></a>               <span class="ex">0</span> 46 18</span>
-<span id="cb26-4"><a href=""></a>               <span class="ex">1</span>  4 31</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-4"><a href=""></a>               <span class="ex">1</span>  4 31</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -435,10 +435,10 @@ PSYC 6802
 <h2>Phi Correlations</h2>
 <p>The correlation between <code>No. Baths_binary</code> and <code>Building $_binary</code> can be analyzed as either a phi or tetrachoric correlation. Phi correlations are PPMs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $_binary</span><span class="st">`</span>, </span>
-<span id="cb27-2"><a href=""></a>    <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $_binary</span><span class="st">`</span>, </span>
+<span id="cb27-2"><a href=""></a>    <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href=""></a><span class="ex">[1]</span> 0.5779784</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href=""></a><span class="ex">[1]</span> 0.5779784</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -446,16 +446,16 @@ PSYC 6802
 <h2>Tetrachoric Correlations</h2>
 <p>Tetrachoric correlations are available from the <code>psych</code> package and requires a contingency table as input.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $_binary</span><span class="st">`</span>)</span>
-<span id="cb29-2"><a href=""></a><span class="fu">tetrachoric</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $_binary</span><span class="st">`</span>)</span>
+<span id="cb29-2"><a href=""></a><span class="fu">tetrachoric</span>(tab)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a><span class="ex">Call:</span> tetrachoric<span class="er">(</span><span class="ex">x</span> = tab<span class="kw">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a><span class="ex">Call:</span> tetrachoric<span class="er">(</span><span class="ex">x</span> = tab<span class="kw">)</span></span>
 <span id="cb30-2"><a href=""></a><span class="ex">tetrachoric</span> correlation </span>
 <span id="cb30-3"><a href=""></a><span class="ex">[1]</span> 0.82</span>
 <span id="cb30-4"><a href=""></a></span>
 <span id="cb30-5"><a href=""></a> <span class="ex">with</span> tau of </span>
 <span id="cb30-6"><a href=""></a>    <span class="ex">0</span>     0 </span>
-<span id="cb30-7"><a href=""></a><span class="ex">0.376</span> 0.013 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-7"><a href=""></a><span class="ex">0.376</span> 0.013 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -463,15 +463,15 @@ PSYC 6802
 <h2>(Point-) Biserial Correlations</h2>
 <p>Biserial correlations treat the binary variable as as dichotom<em>ized</em> normal variable. Biserial correlations can be computed using the <code>biserial</code> command from the <code>psych</code> package. Notice that the dichomized variable must be the <em>second</em> variable specified.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>, </span>
-<span id="cb31-2"><a href=""></a>    <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>, </span>
+<span id="cb31-2"><a href=""></a>    <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a><span class="ex">[1]</span> 0.4256037</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a><span class="ex">[1]</span> 0.4256037</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">biserial</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">biserial</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths_binary</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a>          <span class="ex">[,1]</span></span>
-<span id="cb34-2"><a href=""></a><span class="ex">[1,]</span> 0.5445593</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a>          <span class="ex">[,1]</span></span>
+<span id="cb34-2"><a href=""></a><span class="ex">[1,]</span> 0.5445593</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -480,10 +480,10 @@ PSYC 6802
 <p>Finally, let’s run a linear regression with <code>Building $</code> as the DV and <code>Sq. Ft.</code> as the IV. This will give us the equation for the linear best-fit line that we drew on the scatterplot earlier.</p>
 <p>Linear regression in <code>R</code> is done with the <code>lm</code> function. <code>lm</code> takes as input a formula of the form: “DV ~ IV”, and you can specify the dataset as the second argument. Usually, you will use the <code>summary()</code> function to look at your regression results.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, dat)</span>
-<span id="cb35-2"><a href=""></a><span class="fu">summary</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, dat)</span>
+<span id="cb35-2"><a href=""></a><span class="fu">summary</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a></span>
 <span id="cb36-2"><a href=""></a><span class="ex">Call:</span></span>
 <span id="cb36-3"><a href=""></a><span class="ex">lm</span><span class="er">(</span><span class="ex">formula</span> = <span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`</span> ~ <span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`</span>, data = dat<span class="kw">)</span></span>
 <span id="cb36-4"><a href=""></a></span>
@@ -500,7 +500,7 @@ PSYC 6802
 <span id="cb36-15"><a href=""></a></span>
 <span id="cb36-16"><a href=""></a><span class="ex">Residual</span> standard error: 36330 on 98 degrees of freedom</span>
 <span id="cb36-17"><a href=""></a><span class="ex">Multiple</span> R-squared:  0.8198,    Adjusted R-squared:  0.818 </span>
-<span id="cb36-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(t\)</span>-test for the regression slope and the <span class="math inline">\(F\)</span>-test for <span class="math inline">\(R^2\)</span> is the exact same test in two different forms. The <span class="math inline">\(p\)</span>-value is <em>exactly</em> the same, and <span class="math inline">\(t^2 = 21.116^2 = 445.9 = F\)</span>.</p>
@@ -518,9 +518,9 @@ PSYC 6802
 <h2>Standardized Regression Coefficients</h2>
 <p>We can find standardized regression coefficients by using <code>scale()</code> to standardize each of the variables we input into <code>lm()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">lm</span>(<span class="fu">scale</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span>) <span class="sc">~</span> <span class="fu">scale</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>), dat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">lm</span>(<span class="fu">scale</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span>) <span class="sc">~</span> <span class="fu">scale</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>), dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href=""></a></span>
 <span id="cb38-2"><a href=""></a><span class="ex">Call:</span></span>
 <span id="cb38-3"><a href=""></a><span class="ex">lm</span><span class="er">(</span><span class="ex">formula</span> = scale<span class="er">(</span><span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`)</span> <span class="ex">~</span> scale<span class="er">(</span><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`)</span><span class="ex">,</span> data = dat<span class="kw">)</span></span>
 <span id="cb38-4"><a href=""></a></span>
@@ -537,7 +537,7 @@ PSYC 6802
 <span id="cb38-15"><a href=""></a></span>
 <span id="cb38-16"><a href=""></a><span class="ex">Residual</span> standard error: 0.4267 on 98 degrees of freedom</span>
 <span id="cb38-17"><a href=""></a><span class="ex">Multiple</span> R-squared:  0.8198,    Adjusted R-squared:  0.818 </span>
-<span id="cb38-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Is the output what you expect? What pieces are redundant with output we found earlier?</p>
@@ -546,23 +546,23 @@ PSYC 6802
 <h2>Regression Assumptions</h2>
 <p>To be careful about our hypothesis test conclusions, we will want to evaluate our assumptions. With regression, most of our assumptions are about the <strong>residuals</strong>. We can find residuals from the output of <code>lm()</code> using the <code>residuals</code> function. It can be useful to add these directly to the original data set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(reg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(reg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="evaluting-homoscedasticity" class="slide level2">
 <h2>Evaluting Homoscedasticity</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb40-2"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
-<span id="cb40-3"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-3"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
 <section id="evaluating-normality" class="slide level2">
 <h2>Evaluating Normality</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">sample =</span> residuals)) <span class="sc">+</span> </span>
-<span id="cb41-2"><a href=""></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">sample =</span> residuals)) <span class="sc">+</span> </span>
+<span id="cb41-2"><a href=""></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 
@@ -604,7 +604,7 @@ PSYC 6802
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard","chalkEffect":0},
 'smaller': true,
  
         // Display controls in the bottom right corner
@@ -625,7 +625,7 @@ PSYC 6802
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -870,13 +870,14 @@ PSYC 6802
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -905,6 +906,11 @@ PSYC 6802
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }

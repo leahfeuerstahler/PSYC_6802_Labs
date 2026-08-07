@@ -1,25 +1,11 @@
 ---
 title: "Lab 8: Factorial ANOVA"
-author: "PSYC 6802"
-date: October 29, 2025
-date-format: long
-format: 
-  revealjs:
-    theme: sky
-    scrollable: true
-    smaller: true
-    embed-resources: true
-    slide-number: true
-    html-math-method: mathjax
-execute: 
-  echo: true
 ---
 
 ## Packages for Today
 
 ```{r, message = FALSE}
 library(tidyverse)
-library(rio)
 library(effectsize)
 library(labelled)
 library(car)
@@ -27,7 +13,6 @@ library(ez)
 library(sjstats)
 library(emmeans)
 library(ggeffects)
-theme_set(theme_classic())
 ```
 
 ## Data for Today

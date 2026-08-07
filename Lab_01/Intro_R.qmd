@@ -1,20 +1,5 @@
 ---
 title: "Lab 1: Introduction to R"
-author: "PSYC 6802"
-date: August 27, 2025
-date-format: long
-format: 
-  revealjs:
-    theme: sky
-    scrollable: true
-    smaller: true
-    embed-resources: false
-    slide-number: true
-    chalkboard: true
-    highlight-style: arrow
-    html-math-method: mathjax
-execute: 
-  echo: true
 ---
 
 ## R

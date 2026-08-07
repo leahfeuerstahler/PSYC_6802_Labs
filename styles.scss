@@ -1,0 +1,70 @@
+/*-- scss:defaults --*/
+
+$body-bg: #FAFAFA;
+$body-color: #1C1C2B;
+$presentation-heading-color: #377EB8;
+$link-color: #984EA3;
+$code-color: #4DAF4A;
+$code-block-bg:#ededed;
+$headingFontWeight: bold;
+$code-block-font-size: 20pt;
+
+$heading1Size: 48pt;
+$heading2Size: 32pt;
+$heading3Size: 28pt;
+$heading4Size: 18pt;
+
+.nowrap-code pre code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+}
+
+.cell-output pre code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+}
+
+#title-slide h1 {
+  color: #1C1C2B; 
+}
+
+#TOC {
+  font-size: 1em;
+  
+  ul {
+    list-style-type: square !important;
+    li {
+      margin-bottom: 2rem !important; /* The vertical spacing you wanted */
+      margin-left: 6rem;
+      line-height: 1.2 !important;
+    }
+  }
+}
+
+.reveal section h1 {
+  color: #377EB8;
+}
+
+.reveal section p {
+    font-size: 20pt !important;
+}
+
+.reveal .panel-tabset .tab-content{
+    font-size: 20pt !important;
+}
+
+/*
+
+.reveal section div {
+    font-size: 24pt !important;
+}
+
+.reveal section pre code {
+    font-size: 18pt !important;
+    background-color: #ededed;
+}
+
+*/
+
+
+/*-- scss:rules --*/

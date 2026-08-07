@@ -6,11 +6,10 @@
 <script src="Regression_Extensions_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Regression_Extensions_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Regression_Extensions_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Regression_Extensions_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.33">
+<link href="Regression_Extensions_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-  <meta name="author" content="PSYC 6802">
-  <meta name="dcterms.date" content="2025-12-10">
+  <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 13: Regression Extensions</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +17,9 @@
   <link rel="stylesheet" href="Regression_Extensions_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="Regression_Extensions_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Regression_Extensions_files/libs/revealjs/dist/theme/quarto-7642ca1904901e6b6e9f53cac373db48.css">
+  <link rel="stylesheet" href="Regression_Extensions_files/libs/revealjs/dist/theme/quarto-9bb7889a971729eb77026302eb305960.css">
   <link href="Regression_Extensions_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Regression_Extensions_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Regression_Extensions_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -114,7 +116,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -196,26 +197,25 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Lab 13: Regression Extensions</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802 
+PSYC 6802: Intro to Psychological Statistics 
 </div>
 </div>
 </div>
 
-  <p class="date">December 10, 2025</p>
 </section>
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install if Needed)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(car)</span>
 <span id="cb1-3"><a href=""></a><span class="fu">library</span>(lme4)</span>
-<span id="cb1-4"><a href=""></a><span class="fu">library</span>(performance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(performance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -244,9 +244,9 @@ PSYC 6802
 <h2>Data For Today</h2>
 <p>Today, we will try to predict volunteerism from personality characteristics.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">data</span>(<span class="st">"Cowles"</span>, <span class="at">package =</span> <span class="st">"carData"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">data</span>(<span class="st">"Cowles"</span>, <span class="at">package =</span> <span class="st">"carData"</span>)</span>
 <span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a>Cowles <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href=""></a>Cowles <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,421
 Columns: 4
@@ -262,10 +262,10 @@ $ volunteer    &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, n
 <p>Suppose we hypothesize that higher extraversion is associated with higher rates of volunteering.</p>
 <p>We might first calculate summary statistics for each group (volunteer vs.&nbsp;not):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>Cowles <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(volunteer, sex) <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>Cowles <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(volunteer, sex) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href=""></a>  <span class="fu">summarize</span>(<span class="fu">n</span>(), </span>
 <span id="cb4-3"><a href=""></a>            <span class="fu">mean</span>(neuroticism), </span>
-<span id="cb4-4"><a href=""></a>            <span class="fu">mean</span>(extraversion), <span class="at">.groups =</span> <span class="st">"keep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href=""></a>            <span class="fu">mean</span>(extraversion), <span class="at">.groups =</span> <span class="st">"keep"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 5
 # Groups:   volunteer, sex [4]
@@ -284,14 +284,14 @@ $ volunteer    &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, n
 <p>Let’s next fit a logistic regression model with Extraversion as a predictor.</p>
 <p>The command to fit logistic regression is <code>glm()</code>. The formula notation is the same as for linear regression, but we need to add the argument <code>family = binomial</code> to tell R that we want logistic regression instead of another GLM.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>glm1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(volunteer <span class="sc">~</span> extraversion, Cowles, </span>
-<span id="cb6-2"><a href=""></a>            <span class="at">family =</span> binomial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>glm1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(volunteer <span class="sc">~</span> extraversion, Cowles, </span>
+<span id="cb6-2"><a href=""></a>            <span class="at">family =</span> binomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="logistic-regression-1" class="slide level2">
 <h2>Logistic Regression</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">round</span>(<span class="fu">summary</span>(glm1)<span class="sc">$</span>coefficients, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">round</span>(<span class="fu">summary</span>(glm1)<span class="sc">$</span>coefficients, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Estimate Std. Error z value Pr(&gt;|z|)
 (Intercept)    -1.139      0.185  -6.146        0
@@ -312,7 +312,7 @@ extraversion    0.066      0.014   4.640        0</code></pre>
 </ul>
 <p>Or</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">exp</span>(.<span class="dv">07</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">exp</span>(.<span class="dv">07</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.072508</code></pre>
 </div>
@@ -326,19 +326,19 @@ extraversion    0.066      0.014   4.640        0</code></pre>
 <h2>Classification Accuracy</h2>
 <p>To evaluate accuracy, we need to get the fitted values for the training data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>fitted1 <span class="ot">&lt;-</span> <span class="fu">fitted</span>(glm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>fitted1 <span class="ot">&lt;-</span> <span class="fu">fitted</span>(glm1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then, we classify subjects as being predicted to volunteer or not based on a .5 cutoff.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>class1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(fitted1 <span class="sc">&gt;</span> .<span class="dv">5</span>, <span class="st">"pred_yes"</span>, <span class="st">"pred_no"</span>)</span>
-<span id="cb12-2"><a href=""></a><span class="fu">table</span>(class1, Cowles<span class="sc">$</span>volunteer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>class1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(fitted1 <span class="sc">&gt;</span> .<span class="dv">5</span>, <span class="st">"pred_yes"</span>, <span class="st">"pred_no"</span>)</span>
+<span id="cb12-2"><a href=""></a><span class="fu">table</span>(class1, Cowles<span class="sc">$</span>volunteer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          
 class1      no yes
   pred_no  765 526
   pred_yes  59  71</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>(<span class="dv">765</span> <span class="sc">+</span> <span class="dv">71</span>)<span class="sc">/</span>(<span class="dv">765</span> <span class="sc">+</span> <span class="dv">526</span> <span class="sc">+</span> <span class="dv">59</span> <span class="sc">+</span> <span class="dv">71</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>(<span class="dv">765</span> <span class="sc">+</span> <span class="dv">71</span>)<span class="sc">/</span>(<span class="dv">765</span> <span class="sc">+</span> <span class="dv">526</span> <span class="sc">+</span> <span class="dv">59</span> <span class="sc">+</span> <span class="dv">71</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5883181</code></pre>
 </div>
@@ -349,7 +349,7 @@ class1      no yes
 <h2>Model Comparison</h2>
 <p>To test whether extraversion has “predictive power” associated with it, we conduct a likelihood ratio test comparing <code>glm1</code> to the null model (a model with only an intercept).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">anova</span>(glm1, <span class="at">test =</span> <span class="st">"LRT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">anova</span>(glm1, <span class="at">test =</span> <span class="st">"LRT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
 
@@ -372,9 +372,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h2>More than One Predictor</h2>
 <p>Perhaps we can construct a better model by including neuroticism as a predictor.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>glm2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(volunteer <span class="sc">~</span> extraversion <span class="sc">+</span> neuroticism, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>glm2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(volunteer <span class="sc">~</span> extraversion <span class="sc">+</span> neuroticism, </span>
 <span id="cb18-2"><a href=""></a>            Cowles, <span class="at">family =</span> binomial)</span>
-<span id="cb18-3"><a href=""></a><span class="fu">round</span>(<span class="fu">summary</span>(glm2)<span class="sc">$</span>coefficients, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href=""></a><span class="fu">round</span>(<span class="fu">summary</span>(glm2)<span class="sc">$</span>coefficients, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Estimate Std. Error z value Pr(&gt;|z|)
 (Intercept)    -1.281      0.237  -5.409    0.000
@@ -387,7 +387,7 @@ neuroticism     0.011      0.011   0.967    0.333</code></pre>
 <h2>Model Comparison</h2>
 <p>To conduct the likelihood ratio test, we can use the <code>anova()</code> function with the two models that we want to compare.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">anova</span>(glm1, glm2, <span class="at">test =</span> <span class="st">"LRT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">anova</span>(glm1, glm2, <span class="at">test =</span> <span class="st">"LRT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
 
@@ -423,11 +423,11 @@ Model 2: volunteer ~ extraversion + neuroticism
 <h2>Dataset 1: Stroop Effect</h2>
 <p>We’ll begin by working through the Stroop Effect data from lecture. Remember that this dataset gives the proportion of correct responses for three different levels of contingency between words and colors.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">library</span>(readxl)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">library</span>(readxl)</span>
 <span id="cb22-2"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"Lab_13_Schmidt data.xlsx"</span>,</span>
 <span id="cb22-3"><a href=""></a>                 <span class="at">sheet =</span> <span class="dv">2</span>, <span class="at">range =</span> <span class="st">"B20:E257"</span>, </span>
 <span id="cb22-4"><a href=""></a>                 <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"Subject"</span>, <span class="st">"High"</span>, <span class="st">"Medium"</span>, <span class="st">"Low"</span>))</span>
-<span id="cb22-5"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-5"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 238
 Columns: 4
@@ -448,16 +448,16 @@ $ Low     &lt;dbl&gt; 0.1666667, 0.2968750, 0.2380952, 0.3622047, 0.4601770, 0.3
 </ul>
 <p>The Stroop data are stored in wide format. To change to long format:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>dat_long <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Subject,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>dat_long <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Subject,</span>
 <span id="cb24-2"><a href=""></a>                                 <span class="at">names_to =</span> <span class="st">"Contingency"</span>, </span>
-<span id="cb24-3"><a href=""></a>                                 <span class="at">values_to =</span> <span class="st">"PropError"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-3"><a href=""></a>                                 <span class="at">values_to =</span> <span class="st">"PropError"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>cols = -Subject</code> argument means to exclude the <code>Subject</code> column in the information that is shifted to the new columns. Instead, the Subject variable will be stretched in the long format. See next slide for the structure of <code>dat_long</code>.</p>
 </section>
 <section id="wide-vs.-long-data-2" class="slide level2">
 <h2>Wide vs.&nbsp;Long Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>dat_long <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>dat_long <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 714
 Columns: 3
@@ -476,10 +476,10 @@ $ PropError   &lt;dbl&gt; 0.07692308, 0.12000000, 0.16666667, 0.20800000, 0.3046
 <h2>Wide vs.&nbsp;Long Data</h2>
 <p>To return to wide format:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>dat_long <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> Subject, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>dat_long <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> Subject, </span>
 <span id="cb27-2"><a href=""></a>                         <span class="at">names_from =</span> Contingency,</span>
 <span id="cb27-3"><a href=""></a>                         <span class="at">values_from =</span> PropError) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-4"><a href=""></a>  glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-4"><a href=""></a>  glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 238
 Columns: 4
@@ -498,11 +498,11 @@ $ Low     &lt;dbl&gt; 0.1666667, 0.2968750, 0.2380952, 0.3622047, 0.4601770, 0.3
 <h2>Data Cleaning</h2>
 <p>As a final piece of data cleaning, let’s change the <code>Contingency</code> and <code>Subject</code> columns in <code>dat_long</code> to factors.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>dat_long <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>dat_long <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span> </span>
 <span id="cb29-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Contingency =</span> <span class="fu">factor</span>(Contingency),</span>
 <span id="cb29-3"><a href=""></a>         <span class="at">Subject =</span> <span class="fu">factor</span>(Subject))</span>
 <span id="cb29-4"><a href=""></a></span>
-<span id="cb29-5"><a href=""></a>dat_long <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-5"><a href=""></a>dat_long <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 714
 Columns: 3
@@ -516,7 +516,7 @@ $ PropError   &lt;dbl&gt; 0.07692308, 0.12000000, 0.16666667, 0.20800000, 0.3046
 <h2>Fitting multilevel models with <code>lmer</code></h2>
 <p>To fit linear random-effects models, we can use the <code>lmer</code> function in the <code>lme4</code> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(PropError <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(PropError <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This syntax means that <code>PropError</code> is the DV, <code>Subject</code> is the random effect (the mean for each subject is a random variable), and <code>dat_long</code> is the dataset.</p>
 <p>For now, this model doesn’t account for the effect of <code>Contingency</code> level . It only models individual differences in the proportion of errors made.</p>
@@ -555,7 +555,7 @@ Fixed effects:
 <section id="intraclass-correlation-coefficient" class="slide level2">
 <h2>Intraclass Correlation Coefficient</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">print</span>(mod, <span class="at">ranef.comp =</span> <span class="st">"Variance"</span>) <span class="co"># another way to view output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">print</span>(mod, <span class="at">ranef.comp =</span> <span class="st">"Variance"</span>) <span class="co"># another way to view output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: PropError ~ (1 | Subject)
@@ -573,7 +573,7 @@ Fixed Effects:
 </div>
 <p>The ICC is the ratio of subject-level variance to total (subject + residual) variance: <span class="math inline">\(\frac{\hat{\psi}}{\hat{\psi} + \hat{\theta}}\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fl">0.013775</span> <span class="sc">/</span> (<span class="fl">0.013775</span> <span class="sc">+</span> <span class="fl">0.001966</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fl">0.013775</span> <span class="sc">/</span> (<span class="fl">0.013775</span> <span class="sc">+</span> <span class="fl">0.001966</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8751032</code></pre>
 </div>
@@ -584,7 +584,7 @@ Fixed Effects:
 <h2>Intraclass Correlation Coefficient</h2>
 <p>The <code>performance</code> package also has an <code>icc()</code> function that can be called on <code>lmer</code> models. It will give you two values. We will generally want the <strong>adjusted</strong> ICC, though when there are no predictors they will be the same</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">icc</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">icc</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Intraclass Correlation Coefficient
 
@@ -597,7 +597,7 @@ Fixed Effects:
 <h2>REML vs.&nbsp;ML</h2>
 <p><code>lmer</code> uses REML estimation by default. Set <code>REML = FALSE</code> for ML estimation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">lmer</span>(PropError <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long, <span class="at">REML =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">lmer</span>(PropError <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long, <span class="at">REML =</span> <span class="cn">FALSE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by maximum likelihood  ['lmerMod']
 Formula: PropError ~ (1 | Subject)
@@ -627,8 +627,8 @@ Fixed effects:
 <h2>HLM With a Level-1 Covariate</h2>
 <p>Next, let’s add a fixed effect of <code>Contingency</code>. Similar to other regression coefficients, this assumes a linear relationship between <code>Contingency</code> and <code>PropError</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(PropError <span class="sc">~</span> Contingency <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long)</span>
-<span id="cb41-2"><a href=""></a><span class="fu">print</span>(mod2, <span class="at">ranef.comp =</span> <span class="st">"Variance"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(PropError <span class="sc">~</span> Contingency <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), dat_long)</span>
+<span id="cb41-2"><a href=""></a><span class="fu">print</span>(mod2, <span class="at">ranef.comp =</span> <span class="st">"Variance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: PropError ~ Contingency + (1 | Subject)
@@ -665,7 +665,7 @@ Fixed Effects:
 <li><p><span class="math inline">\(\hat{\theta} = 0.001796\)</span>: estimated residual (within-subject) variance</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">icc</span>(mod2) <span class="co"># we want adjusted ICC here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">icc</span>(mod2) <span class="co"># we want adjusted ICC here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Intraclass Correlation Coefficient
 
@@ -679,7 +679,7 @@ Fixed Effects:
 <h2>Likelihood Ratio Test to Compare Models</h2>
 <p>The <code>anova</code> function will compare two competing models (fit to the same data) via a number of measures, including the likelihood ratio test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">anova</span>(mod, mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">anova</span>(mod, mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Data: dat_long
 Models:
@@ -733,7 +733,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard","chalkEffect":0},
 'smaller': true,
  
         // Display controls in the bottom right corner
@@ -754,7 +754,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -999,13 +999,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -1034,6 +1035,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }

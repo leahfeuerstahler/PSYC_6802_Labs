@@ -6,11 +6,10 @@
 <script src="t_Tests_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="t_Tests_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="t_Tests_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="t_Tests_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="t_Tests_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-  <meta name="author" content="PSYC 6802">
-  <meta name="dcterms.date" content="2025-09-24">
+  <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 4: t-Tests</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +17,9 @@
   <link rel="stylesheet" href="t_Tests_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="t_Tests_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="t_Tests_files/libs/revealjs/dist/theme/quarto-7642ca1904901e6b6e9f53cac373db48.css">
+  <link rel="stylesheet" href="t_Tests_files/libs/revealjs/dist/theme/quarto-9bb7889a971729eb77026302eb305960.css">
   <link href="t_Tests_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="t_Tests_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="t_Tests_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -114,7 +116,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -196,24 +197,23 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Lab 4: <span class="math inline">\(t\)</span>-Tests</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802 
+PSYC 6802: Intro to Psychological Statistics 
 </div>
 </div>
 </div>
 
-  <p class="date">September 24, 2025</p>
 </section>
 <section id="packages-for-today" class="slide level2">
 <h2>Packages for Today</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(effectsize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(effectsize)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -237,12 +237,12 @@ PSYC 6802
 <h2>One-Sample <span class="math inline">\(t\)</span>-test</h2>
 <p>Today, we’ll work with data about restaurant ratings. A description of the variables in the data can be found at <a href="https://www.kaggle.com/code/sefercanapaydn/eda-on-a-restaurant-s-cuisine-ratings">https://www.kaggle.com/code/sefercanapaydn/eda-on-a-restaurant-s-cuisine-ratings</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Cuisine_rating.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Cuisine_rating.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="ex">Rows:</span> 200</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="ex">Rows:</span> 200</span>
 <span id="cb4-2"><a href=""></a><span class="ex">Columns:</span> 15</span>
 <span id="cb4-3"><a href=""></a><span class="ex">$</span> User_ID          <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…</span>
 <span id="cb4-4"><a href=""></a><span class="ex">$</span> <span class="kw">`</span><span class="ex">Area</span> code<span class="kw">`</span>      <span class="op">&lt;</span>dbl<span class="op">&gt;</span> 153, 123, 122, 153, 129, 111, 111, 153, 107, 129, 123…</span>
@@ -258,7 +258,7 @@ PSYC 6802
 <span id="cb4-14"><a href=""></a><span class="st">$ Food_Rating      &lt;dbl&gt; 5, 1, 5, 3, 2, 5, 1, 5, 3, 5, 3, 3, 5, 5, 1, 4, 2, 1,…</span></span>
 <span id="cb4-15"><a href=""></a><span class="st">$ Service_Rating   &lt;dbl&gt; 4, 1, 5, 1, 4, 1, 4, 2, 3, 2, 2, 1, 5, 2, 1, 1, 1, 5,…</span></span>
 <span id="cb4-16"><a href=""></a><span class="st">$ Overall_Rating   &lt;dbl&gt; 4.5, 1.0, 5.0, 2.0, 3.0, 3.0, 2.5, 3.5, 3.0, 3.5, 2.5…</span></span>
-<span id="cb4-17"><a href=""></a><span class="st">$ Often            &lt;chr&gt; "</span>No<span class="st">", "</span>No<span class="st">", "</span>Yes<span class="st">", "</span>No<span class="st">", "</span>No<span class="st">", "</span>No<span class="st">", "</span>No<span class="st">", "</span>Yes<span class="st">", "</span>No…</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-17"><a href=""></a><span class="st">$ Often            &lt;chr&gt; "</span>No<span class="st">", "</span>No<span class="st">", "</span>Yes<span class="st">", "</span>No<span class="st">", "</span>No<span class="st">", "</span>No<span class="st">", "</span>No<span class="st">", "</span>Yes<span class="st">", "</span>No…</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -272,10 +272,10 @@ PSYC 6802
 <li><code>conf.level = .95</code> is 1 - type I error rate</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
-<span id="cb5-2"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
+<span id="cb5-2"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href=""></a></span>
 <span id="cb6-2"><a href=""></a>    <span class="ex">One</span> Sample t-test</span>
 <span id="cb6-3"><a href=""></a></span>
 <span id="cb6-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Food_Rating</span></span>
@@ -285,7 +285,7 @@ PSYC 6802
 <span id="cb6-8"><a href=""></a> <span class="ex">3.023221</span> 3.416779</span>
 <span id="cb6-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb6-10"><a href=""></a><span class="ex">mean</span> of x </span>
-<span id="cb6-11"><a href=""></a>     <span class="ex">3.22</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href=""></a>     <span class="ex">3.22</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -293,24 +293,24 @@ PSYC 6802
 <h2>Effect Size</h2>
 <p>Cohen’s <span class="math inline">\(d\)</span> effect size is easily computed by hand:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>.<span class="dv">22</span> <span class="sc">/</span> <span class="fu">sd</span>(dat<span class="sc">$</span>Food_Rating) <span class="co"># option 1: (xbar - mu) / sd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>.<span class="dv">22</span> <span class="sc">/</span> <span class="fu">sd</span>(dat<span class="sc">$</span>Food_Rating) <span class="co"># option 1: (xbar - mu) / sd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a><span class="ex">[1]</span> 0.1558929</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a><span class="ex">[1]</span> 0.1558929</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fl">2.2047</span><span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">200</span>) <span class="co"># option 2: t / sqrt(N)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fl">2.2047</span><span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">200</span>) <span class="co"># option 2: t / sqrt(N)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href=""></a><span class="ex">[1]</span> 0.1558958</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href=""></a><span class="ex">[1]</span> 0.1558958</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>You can also use <code>cohens_d()</code> from <code>effectsize</code> package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>) <span class="co"># option 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>) <span class="co"># option 3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href=""></a><span class="ex">Cohen</span><span class="st">'s d |       95% CI</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href=""></a><span class="ex">Cohen</span><span class="st">'s d |       95% CI</span></span>
 <span id="cb12-2"><a href=""></a><span class="st">------------------------</span></span>
 <span id="cb12-3"><a href=""></a><span class="st">0.16      | [0.02, 0.30]</span></span>
 <span id="cb12-4"><a href=""></a></span>
-<span id="cb12-5"><a href=""></a><span class="st">- Deviation from a difference of 3.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href=""></a><span class="st">- Deviation from a difference of 3.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -324,14 +324,14 @@ PSYC 6802
 <p>We usually use paired samples t-tests when we compare measurements of the same individuals at different time points.</p>
 <p>Paired-samples <span class="math inline">\(t\)</span>-test two ways:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># indicate a paired-samples t-test directly</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># indicate a paired-samples t-test directly</span></span>
 <span id="cb13-2"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating, </span>
 <span id="cb13-3"><a href=""></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
 <span id="cb13-4"><a href=""></a></span>
 <span id="cb13-5"><a href=""></a><span class="co"># or the one-sample t-test way using differences</span></span>
 <span id="cb13-6"><a href=""></a></span>
 <span id="cb13-7"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating, </span>
-<span id="cb13-8"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-8"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Output on next slides.</p>
 </section>
@@ -339,10 +339,10 @@ PSYC 6802
 <h2>Paired-Samples <span class="math inline">\(t\)</span>-test</h2>
 <p>Why do these give the same result?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating, </span>
-<span id="cb14-2"><a href=""></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating, </span>
+<span id="cb14-2"><a href=""></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a></span>
 <span id="cb15-2"><a href=""></a>    <span class="ex">Paired</span> t-test</span>
 <span id="cb15-3"><a href=""></a></span>
 <span id="cb15-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Service_Rating</span> and dat<span class="va">$Food_Rating</span></span>
@@ -352,13 +352,13 @@ PSYC 6802
 <span id="cb15-8"><a href=""></a> <span class="ex">-0.2681717</span>  0.2881717</span>
 <span id="cb15-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb15-10"><a href=""></a><span class="ex">mean</span> difference </span>
-<span id="cb15-11"><a href=""></a>           <span class="ex">0.01</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-11"><a href=""></a>           <span class="ex">0.01</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a></span>
 <span id="cb17-2"><a href=""></a>    <span class="ex">One</span> Sample t-test</span>
 <span id="cb17-3"><a href=""></a></span>
 <span id="cb17-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Service_Rating</span> <span class="at">-</span> dat<span class="va">$Food_Rating</span></span>
@@ -368,7 +368,7 @@ PSYC 6802
 <span id="cb17-8"><a href=""></a> <span class="ex">-0.2681717</span>  0.2881717</span>
 <span id="cb17-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb17-10"><a href=""></a><span class="ex">mean</span> of x </span>
-<span id="cb17-11"><a href=""></a>     <span class="ex">0.01</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-11"><a href=""></a>     <span class="ex">0.01</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -379,29 +379,29 @@ PSYC 6802
 <li>Way 1:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fl">0.01</span> <span class="sc">/</span> (<span class="fu">sd</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fl">0.01</span> <span class="sc">/</span> (<span class="fu">sd</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="ex">[1]</span> 0.005012674</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="ex">[1]</span> 0.005012674</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ul>
 <li>Way 2:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fl">0.07089</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fl">0.07089</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a><span class="ex">[1]</span> 0.00501268</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a><span class="ex">[1]</span> 0.00501268</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ul>
 <li>Way 3:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href=""></a><span class="ex">Cohen</span><span class="st">'s d |        95% CI</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href=""></a><span class="ex">Cohen</span><span class="st">'s d |        95% CI</span></span>
 <span id="cb23-2"><a href=""></a><span class="st">-------------------------</span></span>
-<span id="cb23-3"><a href=""></a><span class="st">5.01e-03  | [-0.13, 0.14]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-3"><a href=""></a><span class="st">5.01e-03  | [-0.13, 0.14]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -413,10 +413,10 @@ PSYC 6802
 <li><p>First, recode the data to make interpretations easier:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Gender =</span> dplyr<span class="sc">::</span><span class="fu">recode</span>(<span class="fu">as_factor</span>(Gender),</span>
 <span id="cb24-3"><a href=""></a>                              <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Female"</span>,</span>
-<span id="cb24-4"><a href=""></a>                              <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"Male"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-4"><a href=""></a>                              <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"Male"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="independent-samples-t-test-1" class="slide level2">
@@ -430,11 +430,11 @@ PSYC 6802
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Female"</span>],</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Female"</span>],</span>
 <span id="cb25-2"><a href=""></a>       dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Male"</span>],</span>
-<span id="cb25-3"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-3"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href=""></a></span>
 <span id="cb26-2"><a href=""></a>    <span class="ex">Two</span> Sample t-test</span>
 <span id="cb26-3"><a href=""></a></span>
 <span id="cb26-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Overall_Rating</span>[dat<span class="va">$Gender</span> == <span class="st">"Female"</span>] and dat<span class="va">$Overall_Rating</span>[dat<span class="va">$Gender</span> == <span class="st">"Male"</span>]</span>
@@ -444,16 +444,16 @@ PSYC 6802
 <span id="cb26-8"><a href=""></a> <span class="ex">-0.1186291</span>  0.4927506</span>
 <span id="cb26-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb26-10"><a href=""></a><span class="ex">mean</span> of x mean of y </span>
-<span id="cb26-11"><a href=""></a> <span class="ex">3.335366</span>  3.148305 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-11"><a href=""></a> <span class="ex">3.335366</span>  3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
-<span id="cb27-2"><a href=""></a>        <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
+<span id="cb27-2"><a href=""></a>        <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href=""></a></span>
 <span id="cb28-2"><a href=""></a>    <span class="ex">Two</span> Sample t-test</span>
 <span id="cb28-3"><a href=""></a></span>
 <span id="cb28-4"><a href=""></a><span class="ex">data:</span>  Overall_Rating by Gender</span>
@@ -463,7 +463,7 @@ PSYC 6802
 <span id="cb28-8"><a href=""></a> <span class="ex">-0.1186291</span>  0.4927506</span>
 <span id="cb28-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb28-10"><a href=""></a><span class="ex">mean</span> in group Female   mean in group Male </span>
-<span id="cb28-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -478,11 +478,11 @@ PSYC 6802
 <div class="tab-content">
 <div id="tabset-2-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Female"</span>],</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Female"</span>],</span>
 <span id="cb29-2"><a href=""></a>       dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Male"</span>],</span>
-<span id="cb29-3"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a></span>
 <span id="cb30-2"><a href=""></a>    <span class="ex">Welch</span> Two Sample t-test</span>
 <span id="cb30-3"><a href=""></a></span>
 <span id="cb30-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Overall_Rating</span>[dat<span class="va">$Gender</span> == <span class="st">"Female"</span>] and dat<span class="va">$Overall_Rating</span>[dat<span class="va">$Gender</span> == <span class="st">"Male"</span>]</span>
@@ -492,16 +492,16 @@ PSYC 6802
 <span id="cb30-8"><a href=""></a> <span class="ex">-0.1288966</span>  0.5030181</span>
 <span id="cb30-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb30-10"><a href=""></a><span class="ex">mean</span> of x mean of y </span>
-<span id="cb30-11"><a href=""></a> <span class="ex">3.335366</span>  3.148305 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-11"><a href=""></a> <span class="ex">3.335366</span>  3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <div id="tabset-2-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat, </span>
-<span id="cb31-2"><a href=""></a>        <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat, </span>
+<span id="cb31-2"><a href=""></a>        <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a></span>
 <span id="cb32-2"><a href=""></a>    <span class="ex">Welch</span> Two Sample t-test</span>
 <span id="cb32-3"><a href=""></a></span>
 <span id="cb32-4"><a href=""></a><span class="ex">data:</span>  Overall_Rating by Gender</span>
@@ -511,7 +511,7 @@ PSYC 6802
 <span id="cb32-8"><a href=""></a> <span class="ex">-0.1288966</span>  0.5030181</span>
 <span id="cb32-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb32-10"><a href=""></a><span class="ex">mean</span> in group Female   mean in group Male </span>
-<span id="cb32-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -555,15 +555,15 @@ PSYC 6802
 <h2>Testing for Outliers</h2>
 <p>We inspect outliers in various ways such as (a) comparing the (group) means to the trimmed (group) means, and (b) boxplots. For comparing group means, it is helpful to use the tidy <code>group_by</code> function to calculate statistics separately by group.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb33-2"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Overall_Rating), </span>
-<span id="cb33-3"><a href=""></a>            <span class="at">tmean =</span> <span class="fu">mean</span>(Overall_Rating, <span class="at">trim =</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href=""></a>            <span class="at">tmean =</span> <span class="fu">mean</span>(Overall_Rating, <span class="at">trim =</span> .<span class="dv">05</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a><span class="co"># A tibble: 2 × 3</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a><span class="co"># A tibble: 2 × 3</span></span>
 <span id="cb34-2"><a href=""></a>  <span class="ex">Gender</span>  mean tmean</span>
 <span id="cb34-3"><a href=""></a>  <span class="op">&lt;</span>fct<span class="op">&gt;</span>  <span class="op">&lt;</span>dbl<span class="op">&gt;</span> <span class="op">&lt;</span>dbl<span class="op">&gt;</span></span>
 <span id="cb34-4"><a href=""></a><span class="ex">1</span> Female  3.34  3.36</span>
-<span id="cb34-5"><a href=""></a><span class="ex">2</span> Male    3.15  3.15</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-5"><a href=""></a><span class="ex">2</span> Male    3.15  3.15</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>The mean and the 5% trimmed mean are very close for each group.</p>
@@ -572,7 +572,7 @@ PSYC 6802
 <h2>Testing for Outliers</h2>
 <p>To construct box plots for multiple groups, set the first <code>aes()</code> element to the grouping variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(Gender, Overall_Rating)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(Gender, Overall_Rating)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="t_Tests_files/figure-revealjs/unnamed-chunk-20-1.png" width="960" class="r-stretch"><p>No outliers are suggested by the box plot either, so there do not appear to be outliers in this data set.</p>
@@ -582,16 +582,16 @@ PSYC 6802
 <p>Normality can be evaluated in several ways, including (1) skewness and kurtosis for each group, (2) histogram + normal curve for each group, (3) kernal density plot + normal curve for each group, and (4) QQ plot for each group.</p>
 <p>Skewness and kurtosis calculations are available from the <code>e1071</code> package. These calculations show little skew but some negative kurtosis in each gender group.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">library</span>(e1071)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">library</span>(e1071)</span>
 <span id="cb36-2"><a href=""></a>dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb36-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Overall_Rating), <span class="at">sd =</span> <span class="fu">sd</span>(Overall_Rating), </span>
-<span id="cb36-4"><a href=""></a>            <span class="at">skew =</span> <span class="fu">skewness</span>(Overall_Rating), <span class="at">kurt =</span> <span class="fu">kurtosis</span>(Overall_Rating))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-4"><a href=""></a>            <span class="at">skew =</span> <span class="fu">skewness</span>(Overall_Rating), <span class="at">kurt =</span> <span class="fu">kurtosis</span>(Overall_Rating))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href=""></a><span class="co"># A tibble: 2 × 5</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href=""></a><span class="co"># A tibble: 2 × 5</span></span>
 <span id="cb37-2"><a href=""></a>  <span class="ex">Gender</span>  mean    sd    skew   kurt</span>
 <span id="cb37-3"><a href=""></a>  <span class="op">&lt;</span>fct<span class="op">&gt;</span>  <span class="op">&lt;</span>dbl<span class="op">&gt;</span> <span class="op">&lt;</span>dbl<span class="op">&gt;</span>   <span class="op">&lt;</span>dbl<span class="op">&gt;</span>  <span class="op">&lt;</span>dbl<span class="op">&gt;</span></span>
 <span id="cb37-4"><a href=""></a><span class="ex">1</span> Female  3.34 1.19  <span class="at">-0.0653</span> <span class="at">-1.05</span> </span>
-<span id="cb37-5"><a href=""></a><span class="ex">2</span> Male    3.15 0.996  0.0990 <span class="at">-0.492</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-5"><a href=""></a><span class="ex">2</span> Male    3.15 0.996  0.0990 <span class="at">-0.492</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -603,10 +603,10 @@ PSYC 6802
 <div class="tab-content">
 <div id="tabset-4-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Female"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Female"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb38-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">8</span>) <span class="sc">+</span> </span>
 <span id="cb38-3"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
-<span id="cb38-4"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.34</span>, <span class="at">sd =</span> <span class="fl">1.19</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-4"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.34</span>, <span class="at">sd =</span> <span class="fl">1.19</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -618,10 +618,10 @@ PSYC 6802
 </div>
 <div id="tabset-4-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Male"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Male"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb39-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">8</span>) <span class="sc">+</span> </span>
 <span id="cb39-3"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
-<span id="cb39-4"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.15</span>, <span class="at">sd =</span> <span class="fl">1.00</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-4"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.15</span>, <span class="at">sd =</span> <span class="fl">1.00</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -641,9 +641,9 @@ PSYC 6802
 <div class="tab-content">
 <div id="tabset-5-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Female"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Female"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb40-2"><a href=""></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
-<span id="cb40-3"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.34</span>, <span class="at">sd =</span> <span class="fl">1.19</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-3"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.34</span>, <span class="at">sd =</span> <span class="fl">1.19</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -655,9 +655,9 @@ PSYC 6802
 </div>
 <div id="tabset-5-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Male"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Male"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb41-2"><a href=""></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
-<span id="cb41-3"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.15</span>, <span class="at">sd =</span> <span class="fl">1.00</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-3"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">3.15</span>, <span class="at">sd =</span> <span class="fl">1.00</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -674,8 +674,8 @@ PSYC 6802
 <h2>QQ Plots</h2>
 <p>Finally, we will construct QQ plots for each group. Here, it is useful to use the <code>facet_wrap(~group)</code> option in <code>ggplot</code> to draw separate plots for each group. (We didn’t use <code>facet_wrap</code> for the histograms/kernel density plots because it’s tricky to get the correct normal curves imposed.)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">sample =</span> Overall_Rating)) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
-<span id="cb42-2"><a href=""></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">sample =</span> Overall_Rating)) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb42-2"><a href=""></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="t_Tests_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"><p>The QQ plots also suggest minor deviations from normality. Overall, because sample size is moderate and the independent samples <span class="math inline">\(t\)</span>-test is robust to violations of normality, violations of this assumption likely do not affect our results.</p>
@@ -685,24 +685,24 @@ PSYC 6802
 <p>This test only applies for independent samples data.</p>
 <p>We can do Levene’s test in two ways and get the same results.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">library</span>(car) <span class="co"># note that car's "recode" function overwrites dplyr's version! </span></span>
-<span id="cb43-2"><a href=""></a><span class="fu">leveneTest</span>(<span class="at">y =</span> dat<span class="sc">$</span>Overall_Rating, <span class="at">group =</span> dat<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">library</span>(car) <span class="co"># note that car's "recode" function overwrites dplyr's version! </span></span>
+<span id="cb43-2"><a href=""></a><span class="fu">leveneTest</span>(<span class="at">y =</span> dat<span class="sc">$</span>Overall_Rating, <span class="at">group =</span> dat<span class="sc">$</span>Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb44"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href=""></a><span class="ex">Levene</span><span class="st">'s Test for Homogeneity of Variance (center = median)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href=""></a><span class="ex">Levene</span><span class="st">'s Test for Homogeneity of Variance (center = median)</span></span>
 <span id="cb44-2"><a href=""></a><span class="st">       Df F value Pr(&gt;F)  </span></span>
 <span id="cb44-3"><a href=""></a><span class="st">group   1  5.9501 0.0156 *</span></span>
 <span id="cb44-4"><a href=""></a><span class="st">      198                 </span></span>
 <span id="cb44-5"><a href=""></a><span class="st">---</span></span>
-<span id="cb44-6"><a href=""></a><span class="st">Signif. codes:  0 '</span><span class="ex">***</span><span class="st">' 0.001 '</span><span class="ex">**</span><span class="st">' 0.01 '</span><span class="ex">*</span><span class="st">' 0.05 '</span><span class="ex">.</span><span class="st">' 0.1 '</span> <span class="st">' 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-6"><a href=""></a><span class="st">Signif. codes:  0 '</span><span class="ex">***</span><span class="st">' 0.001 '</span><span class="ex">**</span><span class="st">' 0.01 '</span><span class="ex">*</span><span class="st">' 0.05 '</span><span class="ex">.</span><span class="st">' 0.1 '</span> <span class="st">' 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">leveneTest</span>(Overall_Rating <span class="sc">~</span> Gender, <span class="at">data =</span> dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">leveneTest</span>(Overall_Rating <span class="sc">~</span> Gender, <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb46"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href=""></a><span class="ex">Levene</span><span class="st">'s Test for Homogeneity of Variance (center = median)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href=""></a><span class="ex">Levene</span><span class="st">'s Test for Homogeneity of Variance (center = median)</span></span>
 <span id="cb46-2"><a href=""></a><span class="st">       Df F value Pr(&gt;F)  </span></span>
 <span id="cb46-3"><a href=""></a><span class="st">group   1  5.9501 0.0156 *</span></span>
 <span id="cb46-4"><a href=""></a><span class="st">      198                 </span></span>
 <span id="cb46-5"><a href=""></a><span class="st">---</span></span>
-<span id="cb46-6"><a href=""></a><span class="st">Signif. codes:  0 '</span><span class="ex">***</span><span class="st">' 0.001 '</span><span class="ex">**</span><span class="st">' 0.01 '</span><span class="ex">*</span><span class="st">' 0.05 '</span><span class="ex">.</span><span class="st">' 0.1 '</span> <span class="st">' 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-6"><a href=""></a><span class="st">Signif. codes:  0 '</span><span class="ex">***</span><span class="st">' 0.001 '</span><span class="ex">**</span><span class="st">' 0.01 '</span><span class="ex">*</span><span class="st">' 0.05 '</span><span class="ex">.</span><span class="st">' 0.1 '</span> <span class="st">' 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>We reject Levene’s test, so we definitely want to use the Welch-Satterthwaite correction.</p>
@@ -714,9 +714,9 @@ PSYC 6802
 <li>Way 1:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating <span class="sc">~</span> dat<span class="sc">$</span>Gender, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating <span class="sc">~</span> dat<span class="sc">$</span>Gender, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb48"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href=""></a></span>
 <span id="cb48-2"><a href=""></a>    <span class="ex">Welch</span> Two Sample t-test</span>
 <span id="cb48-3"><a href=""></a></span>
 <span id="cb48-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Overall_Rating</span> by dat<span class="va">$Gender</span></span>
@@ -726,16 +726,16 @@ PSYC 6802
 <span id="cb48-8"><a href=""></a> <span class="ex">-0.1288966</span>  0.5030181</span>
 <span id="cb48-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb48-10"><a href=""></a><span class="ex">mean</span> in group Female   mean in group Male </span>
-<span id="cb48-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ul>
 <li>Way 2:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb50"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href=""></a></span>
 <span id="cb50-2"><a href=""></a>    <span class="ex">Welch</span> Two Sample t-test</span>
 <span id="cb50-3"><a href=""></a></span>
 <span id="cb50-4"><a href=""></a><span class="ex">data:</span>  Overall_Rating by Gender</span>
@@ -745,7 +745,7 @@ PSYC 6802
 <span id="cb50-8"><a href=""></a> <span class="ex">-0.1288966</span>  0.5030181</span>
 <span id="cb50-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb50-10"><a href=""></a><span class="ex">mean</span> in group Female   mean in group Male </span>
-<span id="cb50-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -757,43 +757,43 @@ PSYC 6802
 <div class="tab-content">
 <div id="tabset-6-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
-<span id="cb51-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
+<span id="cb51-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb52"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href=""></a></span>
 <span id="cb52-2"><a href=""></a>    <span class="ex">Wilcoxon</span> signed rank test with continuity correction</span>
 <span id="cb52-3"><a href=""></a></span>
 <span id="cb52-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Food_Rating</span></span>
 <span id="cb52-5"><a href=""></a><span class="ex">V</span> = 7205, p-value = 0.02113</span>
-<span id="cb52-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location is not equal to 3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location is not equal to 3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <div id="tabset-6-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating,</span>
-<span id="cb53-2"><a href=""></a>            <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating,</span>
+<span id="cb53-2"><a href=""></a>            <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href=""></a></span>
 <span id="cb54-2"><a href=""></a>    <span class="ex">Wilcoxon</span> signed rank test with continuity correction</span>
 <span id="cb54-3"><a href=""></a></span>
 <span id="cb54-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Service_Rating</span> and dat<span class="va">$Food_Rating</span></span>
 <span id="cb54-5"><a href=""></a><span class="ex">V</span> = 5370.5, p-value = 0.8771</span>
-<span id="cb54-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <div id="tabset-6-3">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">wilcox.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
-<span id="cb55-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">wilcox.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
+<span id="cb55-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb56"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href=""></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href=""></a></span>
 <span id="cb56-2"><a href=""></a>    <span class="ex">Wilcoxon</span> rank sum test with continuity correction</span>
 <span id="cb56-3"><a href=""></a></span>
 <span id="cb56-4"><a href=""></a><span class="ex">data:</span>  Overall_Rating by Gender</span>
 <span id="cb56-5"><a href=""></a><span class="ex">W</span> = 5277.5, p-value = 0.2704</span>
-<span id="cb56-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -838,7 +838,7 @@ PSYC 6802
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard","chalkEffect":0},
 'smaller': true,
  
         // Display controls in the bottom right corner
@@ -859,7 +859,7 @@ PSYC 6802
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1104,13 +1104,14 @@ PSYC 6802
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -1139,6 +1140,11 @@ PSYC 6802
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }
