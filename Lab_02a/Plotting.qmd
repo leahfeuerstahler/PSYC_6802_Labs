@@ -1,0 +1,385 @@
+---
+title: "Lab 2a: Summary Statistics, and Plotting"
+---
+
+
+## Summary Statistics with R
+
+Today, we'll work with the ChickWeight dataset that's found in R's `datasets` package. The `datasets` package should come with your installation of R, so there is no need to install it.
+
+To load in the data, we can use the `data` function. Take a minute to look at the help page for this dataset to understand what information is given.
+
+```{r}
+library(tidyverse)
+data("ChickWeight", package = "datasets")
+help("ChickWeight")
+```
+
+## Summary Statistics with R
+
+We can turn `ChickWeight` into a `tibble` for use with tidyverse functions.
+
+```{r}
+ChickWeight <- ChickWeight %>% as_tibble
+# ChickWeight <- as_tibble(ChickWeight) # equivalent to the above code
+```
+
+Inspect the data:
+
+```{r}
+ChickWeight %>% glimpse
+```
+
+**Notes**:
+
+-   `weight` and `Time` are both numeric (**dbl**) type variables
+
+-   `Chick` is an **ord**ered factor (ordered by final weight within diet)
+
+-   `Diet` is a **f**a**ct**or
+
+## Summary Statistics with R
+
+The summary() function gives summary statistics based on the object type.
+
+```{r}
+summary(ChickWeight)
+```
+
+-   For numeric variables, min, IQ, median, mean, 3Q, and max
+
+-   For factors, the number of observations at each factor level
+
+## Summary Statistics with R
+
+**Frequencies**:
+
+```{r}
+table(ChickWeight$Diet)
+```
+
+**Proportions**:
+
+```{r}
+table(ChickWeight$Diet) / nrow(ChickWeight)
+```
+
+**Percentages**:
+
+```{r}
+table(ChickWeight$Diet) / nrow(ChickWeight) * 100
+```
+
+## Summary Statistics with R
+
+**Quantiles**: .25 (1Q), .50 (median), and .75 (3Q)
+
+```{r}
+quantile(ChickWeight$weight, probs = c(.25, .5, .75))
+```
+
+## Summary Statistics with R
+
+Measures of central tendency:
+
+-   **Mean**:
+
+```{r}
+mean(ChickWeight$weight)
+```
+
+-   **Median**:
+
+```{r}
+median(ChickWeight$weight)
+```
+
+-   **5% Trimmed Mean**:
+
+```{r}
+mean(ChickWeight$weight, trim = .05)
+```
+
+## Summary Statistics with R
+
+Frequencies by factor levels:
+
+```{r}
+table(ChickWeight$Diet)
+```
+
+The **mode**:
+
+```{r}
+which.max(table(ChickWeight$Diet))
+```
+
+## Summary Statistics with R
+
+Measures of variability:
+
+```{r}
+var(ChickWeight$weight) # variance
+sd(ChickWeight$weight) # standard deviation
+IQR(ChickWeight$weight) # interquartile range
+```
+
+## Summary Statistics with R
+
+The functions `skewness` and `kurtosis` are available in the `e1071` package (named for someone's stats course). You might need to install the package first.
+
+
+```{r eval = FALSE}
+install.packages("e1071")
+```
+
+Once `e1071` is installed, run `library()` to load it into your `R` session. You will need to do this each time you load a new session and want to use `e1071`.
+
+```{r}
+library(e1071)
+```
+
+And finally, skewness and kurtosis:
+
+```{r}
+skewness(ChickWeight$weight)
+kurtosis(ChickWeight$weight)
+```
+
+::: callout-caution
+
+**Only run `install.packages` if a package is not already installed!** 
+
+* Running `install.packages` in a Quarto document can prevent your document from compiling. Avoid adding this to your homework to avoid headaches!
+:::
+
+
+
+## Summary Statistics with R
+
+We can also use "tidy" functions to compute summary statistics. Here, we compute the mean, standard deviation, skewness and kurtosis of weights for each of the four Diet groups.
+
+```{r}
+ChickWeight %>% group_by(Diet) %>%
+  summarize(mean = mean(weight), sd = sd(weight),
+            skew = skewness(weight), kurt = kurtosis(weight))
+```
+
+## Summary Statistics with R
+
+Correlations are computed with the cor() command.
+
+```{r}
+cor(ChickWeight$Time, ChickWeight$weight)
+```
+
+## Plotting with ggplot2
+
+`ggplot2` is part of the tidyverse, and is especially useful for creating pretty plots quickly for datasets
+
+`ggplot2` is loaded in with the tidyverse, or we can load it in separately
+
+```{r}
+library(tidyverse) # load in several tidyverse packages
+# library(ggplot2) # load in only the ggplot2 package
+```
+
+Note: "`ggplot2`" is the package name, "`ggplot`" is the plotting command.
+
+## Grammar of ggplot
+
+Every ggplot begins with the `ggplot` command.
+
+```{r}
+ggplot(ChickWeight)
+```
+
+An empty plotting window shows up, because `ggplot` doesn't know what type of plot we want!
+
+## Grammar of ggplot
+
+To tell `ggplot` what variables go on the x/y axes, we use the aesthetics argument `aes`. The following code tells ggplot to put `Time` on the x axis and `weight` on the y axis. This works becuase `Time` and `weight` are both column names in the `ChickWeight` dataset.
+
+```{r fig.height=3}
+ggplot(ChickWeight, aes(x = Time, y = weight))
+```
+
+Now, we have axis labels, but nothing else. Next, we need to tell `ggplot` what type of plot we want.
+
+## Grammar of ggplot
+
+Additional features (such as the type of plot) are added on with the `+` operator.
+
+`geom_point()` is the command for a scatterplot.
+
+```{r fig.height=4}
+ggplot(ChickWeight, aes(Time, weight)) + geom_point()
+```
+
+## ggplot "geoms"
+
+Different plot types are specified with different "`geom`" functions added on to the `ggplot` command
+
+-   `geom_point()`: scatterplots
+
+-   `geom_path()`: line graphs
+
+-   `geom_histogram()`: histograms
+
+-   `geom_boxplot()`: box plots
+
+-   `geom_bar()` and `geom_col()`: bar plots
+
+-   `geom_qq()` with `geom_qq_line()`: qq plots
+
+-   and many others! Look at the help page for `ggplot2` for a list.
+
+## Histograms
+
+For histograms, only one variable needs to be specified in aes().
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(weight)) + geom_histogram()
+```
+
+## Histograms
+
+`ggplot` usually complains about the number of bins. To change, use the `bins` (change \# bins) or `binwidth` (change bin width) arguments.
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(weight)) + geom_histogram(bins = 15)
+```
+
+## Histograms with Normal Overlay
+
+As we learned about in Lecture 2, sometimes we want to draw a normal distribution on top of a histogram with the same mean and standard deviation as the data.
+
+Unfortunately, the code for this is complicated. Graph on next slide.
+
+```{r eval = FALSE}
+ggplot(ChickWeight, aes(x = weight)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15) +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(ChickWeight$weight),
+                            sd = sd(ChickWeight$weight)),
+                color = "blue")
+```
+
+## Histograms with Normal Overlay
+
+```{r echo = FALSE}
+ggplot(ChickWeight, aes(x = weight)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15) +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(ChickWeight$weight),
+                            sd = sd(ChickWeight$weight)),
+                color = "blue")
+```
+
+## Bar Plots
+
+Use geom_bar() to let R compute frequencies for you (`aes` takes 1 variable)
+
+```{r fig.height=5}
+ggplot(ChickWeight, aes(Diet)) + geom_bar()
+```
+
+## Bar Plots
+
+Use geom_col() to specify column heights yourself (`aes` takes 2 variables)
+
+```{r fig.height=4.5}
+avg_table <- ChickWeight %>% group_by(Diet) %>%
+  summarize(avgWeight = mean(weight), .groups = "keep")
+ggplot(avg_table, aes(Diet, avgWeight)) + geom_col()
+```
+
+## Box Plots
+
+Box plot of one variable:
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(y = weight)) + geom_boxplot()
+```
+
+## Box Plots
+
+Box plots of one variable conditional on another variable:
+
+```{r fig.height = 4.5}
+ggplot(ChickWeight, aes(Diet,  weight)) + geom_boxplot()
+```
+
+## Normal QQ Plots
+
+In Lecture 2, we learned about QQ plots for assessing normality.
+
+For QQ plots, need to specify the variable with `aes(sample = ...)`.
+
+```{r fig.height=4.5}
+ggplot(ChickWeight, aes(sample = weight)) +
+  geom_qq() + geom_qq_line()
+```
+
+## Making Beautiful Plots
+
+There are a lot of ways to customize ggplot to create exactly the plot you want. Here, I've customized the box plot function. Spend some time looking at the documentation for the arguments used, and try omitting some parts of the plot to see their effects. Output shown on the next slide.
+
+```{r eval = FALSE}
+ggplot(ChickWeight, aes(Diet, weight, fill = Diet)) +
+  geom_boxplot(notch = TRUE, outlier.shape = 4) +
+  labs(x = "Diet Number", y = "weight (grams)",
+       title = "Chick Weights on Different Diets") +
+  theme_minimal() +
+  coord_flip() +
+  guides(fill = "none") +
+  scale_fill_manual(values = c("maroon", "chocolate2",
+                               "seagreen4", "dodgerblue2")) +
+  theme(plot.title = element_text(hjust = 0.5, size = 18),
+        axis.title = element_text(size = 14))
+```
+
+## Making Beautiful Plots
+
+```{r echo = FALSE, fig.height=6.5}
+ggplot(ChickWeight, aes(Diet, weight, fill = Diet)) +
+  geom_boxplot(notch = TRUE, outlier.shape = 4) +
+  labs(x = "Diet Number", y = "weight (grams)",
+       title = "Chick Weights on Different Diets") +
+  theme_minimal() +
+  coord_flip() +
+  guides(fill = "none") +
+  scale_fill_manual(values = c("maroon", "chocolate2",
+                               "seagreen4", "dodgerblue2")) +
+  theme(plot.title = element_text(hjust = 0.5, size = 18),
+        axis.title = element_text(size = 14))
+```
+
+## Some More Resources
+
+Run the following commands in the console:
+
+```{r eval = FALSE}
+colors() ## see all the named colors available in R
+
+vignette("ggplot2-specs") # more about ggplot customizations
+```
+
+Or (mindfully) search for what you want to do
+
+## Hang In There!
+
+You don't need to be an R pro by the end of this course
+
+-   We all have different backgrounds
+
+-   Use each other as resources
+
+For this course, we just want you to master the basics:
+
+-   Import data
+-   Generate simple plots
+-   Run statistical tests
+-   Make simple reports
+
+For the rest of class today, work on the **Lab 2 Activity**
