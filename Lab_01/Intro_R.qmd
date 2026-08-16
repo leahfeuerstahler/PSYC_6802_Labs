@@ -18,23 +18,23 @@ title: "Lab 1: Introduction to R"
 
 1.  Transparency
 
-    -   Record of every step in data cleaning and analysis
+    - Record of every step in data cleaning and analysis
 
-    -   Can easily reproduce all output
+    - Can easily reproduce all output
 
 2.  Access
 
-    -   R and RStudio are free to download and use
+    - R and RStudio are free to download and use
 
 3.  Popularity
 
-    -   One of the most popular data science tools
+    - One of the most popular data science tools
 
-    -   Large online community of users
+    - Large online community of users
 
 4.  Ease of learning what comes next
 
-    -   But, I don't expect R to go away anytime soon
+    - But, I don't expect R to go away anytime soon
 
 ## R Popularity
 
@@ -54,15 +54,15 @@ Follow instructions under whatever link is appropriate for your computer
 
 Step 2: Install RStudio
 
-Download RStudio from <https://posit.co/download/rstudio-desktop/>
+Download RStudio from <https://docs.posit.co/ide/user/#install-links>
 
--   FREE Download
+- FREE Download
 
--   Choose appropriate installer for your computer
+- Choose appropriate installer for your computer
 
 Be sure to update both R and RStudio periodically
 
--   R 4.51 and RStudio 2025.05.1+513 are newest as of August 2025
+- R 4.61 and RStudio 2026.08.0+187 are newest as of August 2026
 
 ## LaTeX Distribution
 
@@ -70,37 +70,110 @@ For full functionality, you will also want to install a LaTeX distribution
 
 `tinytex` installation within RStudio is the easiest option:
 
--   Tools -\> Install Packages
+- Tools -\> Install Packages
 
--   Type `tinytex` under "Packages" and make sure "install dependencies" is checked
+- Type `tinytex` under "Packages" and make sure "install dependencies" is checked
 
--   Click "Install"
+- Click "Install"
 
--   On Windows, also need Rtools installed: <https://cran.r-project.org/bin/windows/Rtools/>
+- On Windows, also need Rtools installed: <https://cran.r-project.org/bin/windows/Rtools/>
 
 Alternatives for overachievers:
 
--   Windows: MikTeX <https://miktex.org/download>
+- Windows: MikTeX <https://miktex.org/download>
 
--   Mac: MacTeX <http://www.tug.org/mactex/>
+- Mac: MacTeX <http://www.tug.org/mactex/>
 
 ## Other Options for Accessing RStudio:
 
--   <https://fordham.apporto.com/>
+- <https://mydesktop.fordham.edu/>
 
-    -   Select "Virtual Desktop"
+  - Currently has an older version of RStudio
 
-    -   May not have full RMarkdown functionality
+  - May not have full RMarkdown functionality
 
--   <https://mydesktop.fordham.edu/>
+- Online RStudio server: <https://posit.cloud/>
 
-    -   Currently has an older version of RStudio
+  - Free version is limited to 25 hours per month, 1 GB RAM
 
-    -   May not have full RMarkdown functionality
+## The AI-lephant in the Room
 
--   Online RStudio server: <https://posit.cloud/>
+![](Ailephant.png)
 
-    -   Free version is limited to 25 hours per month, 1 GB RAM
+## Vibe Coding
+
+[![](Let%20There%20Be.png){width="800"}](https://fonzi.ai/blog/vibe-coding-memes)
+
+. . .
+
+::: columns
+:::: column
+
+::: {.callout-note}
+
+## 
+
+What is vibe coding?
+:::
+
+::::
+
+:::: column
+
+::: {.callout-note}
+
+##
+
+What is your experience coding with AI?
+
+:::
+
+::::
+:::
+
+## Why Learn R Coding in 2026?
+
+General principles:
+
+- **Do not trust code (or any LLM output) that you do not have the skills to double-check**.
+
+. . .
+
+- Reporting statistical analyses (that are produced by code) that you do not understand is a form of **research misconduct**.
+
+. . .
+
+- **There is no one correct way to analyze data, and you don't know what you don't know.** LLMs will make decisions that responsible researchers should not outsource: missing data handling, methods selection (e.g., OLS vs. regularized regression; treating data as continuous vs. categorical), etc.
+
+## Why Learn R Coding in 2026?
+
+* Writing code uses a type of clear and systematic thinking. AI-generated code is often only as good as its prompts.
+
+. . .
+
+* AI-generated code tends to include functions, print statements, etc. that make your code less efficient (and really obviously unedited AI-generated). This code tends to be much **lengthier** than necessary.
+
+. . .
+
+* Once you've learned the basics, it is usually **faster**, **cheaper**, and **more environmentally friendly** to code yourself rather than to use AI, especially for relatively contained tasks like analyzing research data. 
+
+. . .
+
+* Coding can be fun!?!?
+
+## The Research So Far
+
+A [2025 meta-analysis](https://doi.org/10.3390/computers14050185) of AI tools on learning computer programming found that **AI-assisted learning**:
+
+* Reduced task completion time
+
+* Improved student performance scores
+
+* **Did not** improve conceptual understanding or learning success
+
+* Was **context-dependent** in its benefits: risk of over-reliance and diminished problem-solving skills
+
+* Was *perceived* as highly useful by students, but most studies focus on short-term outcomes
 
 ## Your RStudio Window - Follow Along!
 
@@ -134,13 +207,13 @@ Try typing the following into your script document:
 4 * (3 + 2)
 ```
 
--   We want to send this command to the console
+- We want to send this command to the console
 
--   First, click on the line you want to run
+- First, click on the line you want to run
 
--   Then, hit the run button ![](runbutton.png){width="104"}
+- Then, hit the run button ![](runbutton.png){width="104"}
 
-    -   OR (preferred): type Cmd + Return (Mac) or Ctrl + Enter (Windows)
+  - OR (preferred): type Cmd + Return (Mac) or Ctrl + Enter (Windows)
 
 Output appears in the console. What output do you expect?
 
@@ -156,7 +229,7 @@ The \[1\] indicates the first line of output
 
 Some things to know about `R` code:
 
--   Spaces don't matter: `2 + 3` and `2+3` are processed the same way
+- Spaces don't matter: `2 + 3` and `2+3` are processed the same way
 
 ```{r echo = TRUE}
 2 + 3
@@ -165,7 +238,7 @@ Some things to know about `R` code:
 
 . . .
 
--   **Comments** follow the pound/hash sign: `#` and can occur at the end of a line or on a separte line line
+- **Comments** follow the pound/hash sign: `#` and can occur at the end of a line or on a separte line line
 
 ```{r echo = TRUE}
 # example of taking powers:
@@ -207,7 +280,7 @@ help(sum)
 
 Don't be afraid to search for help online!
 
--   You will get better at searching for `R` help with practice
+- You will get better at searching for `R` help with practice
 
 ## Some Operators in R
 
@@ -225,10 +298,10 @@ Don't be afraid to search for help online!
 
 **Other Operators**
 
-| Operator | Description                    |
-|----------|--------------------------------|
-| \<-      | assignment                     |
-| x:y      | sequence from x to y           |
+| Operator | Description               |
+|----------|---------------------------|
+| \<-      | assignment                |
+| x:y      | sequence from x to y      |
 | %\>%     | pipe operator (tidyverse) |
 :::
 
@@ -309,11 +382,11 @@ One of the most important operators is the **assignment** operator: `<-`
 
 Assignment allows you to save an expression as an **object** in your **environment**.
 
--   Object name goes on the left-hand side
+- Object name goes on the left-hand side
 
-    (can be anything beginning in a letter)
+  (can be anything beginning in a letter)
 
--   Expression to save goes on the right-hand side
+- Expression to save goes on the right-hand side
 
 Run the following code:
 
@@ -329,43 +402,43 @@ x + 2
 
 ## Practice
 
-1.  The high temperature in Manhattan on August 1, 2025 was 73$^{\circ}$F. Save this number as an object named `aug1_F`.
+1.  The high temperature in Central Park on July 2, 2026 was 100$^{\circ}$\$\^{\\circ}\$F. Save this number as an object named `july2_F`.
 
-2.  Convert the temperature in #1 to $^{\circ}$C by calling the `aug1_F` object. Save the output as `aug1_C`.
+2.  Convert the temperature in #1 to $^{\circ}$C by calling the `aug1_F` object. Save the output as `july2_C`.
 
 $$C = \frac{5}{9}(F-32)$$
 
-3.  Print the value stored in `aug1_C`.
+3.  Print the value stored in `july2_C`.
 
 . . .
 
 #1:
 
 ```{r echo = TRUE}
-aug1_F <- 73
+july2_F <- 100
 ```
 
 #2:
 
 ```{r echo = TRUE}
-aug1_C <- 5/9 * (aug1_F - 32)
+july2_C <- 5/9 * (july2_F - 32)
 ```
 
 #3:
 
 ```{r echo = TRUE}
-aug1_C 
+july2_C 
 ```
 
 ## Concatenation
 
 One of the most important `R` functions is the `c()` function
 
--   Technically, "concatenate"
+- Technically, "concatenate"
 
--   It might help to think of this as "collect" or "combine"
+- It might help to think of this as "collect" or "combine"
 
--   Creates a **vector** of information
+- Creates a **vector** of information
 
 ```{r echo = TRUE}
 x <- c(98, 76, 87, 92, 93, 96)
@@ -376,7 +449,7 @@ mean(x)
 
 Notice that the `x` object we defined earlier is now overwritten (and gone forever!) - **BE CAREFUL** never to overwrite anything important.
 
--   (Though your script should be fully **reproducible**, so you should be always be able to backtrack)
+- (Though your script should be fully **reproducible**, so you should be always be able to backtrack)
 
 ## Object Types
 
@@ -436,21 +509,21 @@ length(y) # number of elements in object y
 
 ## Object Structures
 
-+-------------+-------------------------+------------------------------------------------------------------------------------+
-| Structure   | Appearance              | Description                                                                        |
-+=============+=========================+====================================================================================+
-| matrix      | `num[1:5,1:2]`          | -   two-dimensional collection                                                     |
-|             |                         | -   this example has 5 rows, 2 columns                                             |
-|             |                         | -   elements can be `num`, `int`, `chr`, or `logi`                                 |
-+-------------+-------------------------+------------------------------------------------------------------------------------+
-| data.frame  | `5 obs. of 2 variables` | -   two-dimensional collection                                                     |
-|             |                         | -   different columns can be different types                                       |
-+-------------+-------------------------+------------------------------------------------------------------------------------+
-| tibble      | `5 obs. of 2 variables` | -   very similar to data.frame                                                     |
-|             |                         | -   part of the **tidyverse** (later)                                              |
-+-------------+-------------------------+------------------------------------------------------------------------------------+
-| list        | `List of 5`             | -   collection that doesn't require the same type or length for different elements |
-+-------------+-------------------------+------------------------------------------------------------------------------------+
++------------+-------------------------+----------------------------------------------------------------------------------+
+| Structure  | Appearance              | Description                                                                      |
++============+=========================+==================================================================================+
+| matrix     | `num[1:5,1:2]`          | - two-dimensional collection                                                     |
+|            |                         | - this example has 5 rows, 2 columns                                             |
+|            |                         | - elements can be `num`, `int`, `chr`, or `logi`                                 |
++------------+-------------------------+----------------------------------------------------------------------------------+
+| data.frame | `5 obs. of 2 variables` | - two-dimensional collection                                                     |
+|            |                         | - different columns can be different types                                       |
++------------+-------------------------+----------------------------------------------------------------------------------+
+| tibble     | `5 obs. of 2 variables` | - very similar to data.frame                                                     |
+|            |                         | - part of the **tidyverse** (later)                                              |
++------------+-------------------------+----------------------------------------------------------------------------------+
+| list       | `List of 5`             | - collection that doesn't require the same type or length for different elements |
++------------+-------------------------+----------------------------------------------------------------------------------+
 
 ## Functions
 
@@ -480,11 +553,11 @@ Many of the things we want to do in `R` can be done with built-in functions
 
 Examples:
 
--   `c()`
+- `c()`
 
--   `mean()`
+- `mean()`
 
--   `sum()`
+- `sum()`
 
 See the base `R` cheat sheet to learn more:
 
@@ -522,11 +595,11 @@ log(base = 2, 10)
 
 Sometimes `R`'s built-in functions (base `R`) are not enough
 
--   **Packages** are collections of functions, data sets, etc. contributed by `R` users
+- **Packages** are collections of functions, data sets, etc. contributed by `R` users
 
--   Many packages are hosted on the comprehensive R archive network (CRAN): <https://cran.r-project.org/web/packages/index.html>
+- Many packages are hosted on the comprehensive R archive network (CRAN): <https://cran.r-project.org/web/packages/index.html>
 
--   You can click on the "Packages" tab (lower right-hand panel) to see packages you have installed
+- You can click on the "Packages" tab (lower right-hand panel) to see packages you have installed
 
 ## Installing Packages - Follow along!
 
@@ -536,9 +609,9 @@ Example: installing the `tidyverse` package:
 install.packages("tidyverse", dependencies = TRUE)
 ```
 
--   First argument: `"tidyverse"` this is the name of the package
+- First argument: `"tidyverse"` this is the name of the package
 
--   Second argument: `dependencies = TRUE` this will install other packages that `tidyverse` uses
+- Second argument: `dependencies = TRUE` this will install other packages that `tidyverse` uses
 
 You can also install packages by searching for packages under "Install" in the "Packages" tab (lower right-hand panel)
 
@@ -552,7 +625,7 @@ If your `R` version is outdated, you may get a warning message
 
 The `library` function loads in the package's contents
 
--   Packages need to be loaded in every `R` session
+- Packages need to be loaded in every `R` session
 
 ```{r echo = TRUE}
 library(tidyverse)
@@ -564,17 +637,17 @@ The above code loads in a number of packages for "tidy" evaluation, which we'll 
 
 The [tidyverse](https://www.tidyverse.org/) contains many packages that follow the same philosophy and grammar of data analysis
 
--   Current "best practices" for using `R`
+- Current "best practices" for using `R`
 
 Some tidy packages:
 
--   `ggplot2`: plotting data
+- `ggplot2`: plotting data
 
--   `dplyr`, `tidyr`: data cleaning & manipulation
+- `dplyr`, `tidyr`: data cleaning & manipulation
 
--   `haven`, `readr`, `readxl`: import/export data
+- `haven`, `readr`, `readxl`: import/export data
 
--   `forcats`: tools for handling categorical variables
+- `forcats`: tools for handling categorical variables
 
 I like to simply run `library(tidyverse)` to load in *most* of these packages
 
@@ -610,9 +683,9 @@ But it's better to put all commands into your final script (document everything)
 
 4.  Run the command `dir()`
 
--   This will list the files in your current working directory
+- This will list the files in your current working directory
 
--   If all steps are done correctly, you should see the 4 "mtcars" files in that folder
+- If all steps are done correctly, you should see the 4 "mtcars" files in that folder
 
 ## Reading in Data
 
@@ -624,7 +697,7 @@ dat <- read_csv("mtcars.csv")
 
 Now, there should be an object in your environment named `dat`
 
--   How many rows and columns are in `dat`?
+- How many rows and columns are in `dat`?
 
 ## Reading in Data: Other Options
 
@@ -723,19 +796,19 @@ dat %>%
   dplyr::select(model, mpg, cyl)
 ```
 
--   `%>%` is the **pipe operator** (used with tibbles in the tidyverse)
+- `%>%` is the **pipe operator** (used with tibbles in the tidyverse)
 
 . . .
 
--   The `::` notation means that the `select` function is part of the `dplyr` package
+- The `::` notation means that the `select` function is part of the `dplyr` package
 
-    -   It can be useful to use this syntax when the command might conflict with a command from another package
+  - It can be useful to use this syntax when the command might conflict with a command from another package
 
-    -   In my experience, `select` is especially prone to conflicts
+  - In my experience, `select` is especially prone to conflicts
 
 ## Filter Rows
 
-Filtering allows you to retain only those rows that meet a certain criterion 
+Filtering allows you to retain only those rows that meet a certain criterion
 
 Below, I filter for cars that have more than 6 cylinders:
 
@@ -743,18 +816,17 @@ Below, I filter for cars that have more than 6 cylinders:
 dat %>% filter(cyl > 6)
 ```
 
-
 ## Some Resources
 
--   RStudio cheat sheets: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets)
+- RStudio cheat sheets: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets) and <https://rstudio.github.io/cheatsheets/contributed-cheatsheets.html>
 
--   More about tidy data: <https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html>
+- More about tidy data: <https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html>
 
--   R bloggers:<https://www.r-bloggers.com/>
+- R bloggers:<https://www.r-bloggers.com/>
 
--   Posit Learn: <https://education.rstudio.com/learn/>
+- RStudio Education: <https://education.rstudio.com/learn/>
 
--   Learning Statistics with R textbook, chapters 3-8: <https://learningstatisticswithr.com/book/part-ii-an-introduction-to-r.html>
+- Learning Statistics with R textbook, chapters 3-8: <https://learningstatisticswithr.com/>
 
 ## And One More Thing...
 
@@ -762,14 +834,14 @@ dat %>% filter(cyl > 6)
 
 Instead of using plain "R Script" files (with a .R extension), in this class we will learn to use a **markdown language**
 
--   **R Markdown** is a well-established way to integrate word processing and `R`
+- **R Markdown** is a well-established way to integrate word processing and `R`
 
--   **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
+- **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
 
 ::: callout-important
 **Use Quarto for this class if you can**
 
--   Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors are known to have issues)
+- Use R Markdown if you can't get Quarto to work on your computer (Windows machines with ARM processors are known to have issues)
 :::
 
 ## How To Check if Quarto Works for You
@@ -784,6 +856,6 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 
 5.  If successful:
 
--   No error messages should display
+- No error messages should display
 
--   On your Desktop, you should find an html file with the same name
+- On your Desktop, you should find an html file with the same name

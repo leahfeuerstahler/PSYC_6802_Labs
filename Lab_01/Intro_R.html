@@ -253,14 +253,14 @@ PSYC 6802: Intro to Psychological Statistics
 <p>Download R for Linux / (Mac) OS X / Windows</p>
 <p>Follow instructions under whatever link is appropriate for your computer</p>
 <p>Step 2: Install RStudio</p>
-<p>Download RStudio from <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></p>
+<p>Download RStudio from <a href="https://docs.posit.co/ide/user/#install-links" class="uri">https://docs.posit.co/ide/user/#install-links</a></p>
 <ul>
 <li><p>FREE Download</p></li>
 <li><p>Choose appropriate installer for your computer</p></li>
 </ul>
 <p>Be sure to update both R and RStudio periodically</p>
 <ul>
-<li>R 4.51 and RStudio 2025.05.1+513 are newest as of August 2025</li>
+<li>R 4.61 and RStudio 2026.08.0+187 are newest as of August 2026</li>
 </ul>
 </section>
 <section id="latex-distribution" class="slide level2">
@@ -282,11 +282,6 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="other-options-for-accessing-rstudio" class="slide level2">
 <h2>Other Options for Accessing RStudio:</h2>
 <ul>
-<li><p><a href="https://fordham.apporto.com/" class="uri">https://fordham.apporto.com/</a></p>
-<ul>
-<li><p>Select “Virtual Desktop”</p></li>
-<li><p>May not have full RMarkdown functionality</p></li>
-</ul></li>
 <li><p><a href="https://mydesktop.fordham.edu/" class="uri">https://mydesktop.fordham.edu/</a></p>
 <ul>
 <li><p>Currently has an older version of RStudio</p></li>
@@ -296,6 +291,95 @@ PSYC 6802: Intro to Psychological Statistics
 <ul>
 <li>Free version is limited to 25 hours per month, 1 GB RAM</li>
 </ul></li>
+</ul>
+</section>
+<section id="the-ai-lephant-in-the-room" class="slide level2">
+<h2>The AI-lephant in the Room</h2>
+
+<img data-src="Ailephant.png" class="r-stretch"></section>
+<section id="vibe-coding" class="slide level2">
+<h2>Vibe Coding</h2>
+<p><a href="https://fonzi.ai/blog/vibe-coding-memes"><img data-src="Let%20There%20Be.png" width="800"></a></p>
+<div class="fragment">
+<div class="columns">
+<div class="column">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>What is vibe coding?</p>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>What is your experience coding with AI?</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="why-learn-r-coding-in-2026" class="slide level2">
+<h2>Why Learn R Coding in 2026?</h2>
+<p>General principles:</p>
+<ul>
+<li><strong>Do not trust code (or any LLM output) that you do not have the skills to double-check</strong>.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Reporting statistical analyses (that are produced by code) that you do not understand is a form of <strong>research misconduct</strong>.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>There is no one correct way to analyze data, and you don’t know what you don’t know.</strong> LLMs will make decisions that responsible researchers should not outsource: missing data handling, methods selection (e.g., OLS vs.&nbsp;regularized regression; treating data as continuous vs.&nbsp;categorical), etc.</li>
+</ul>
+</div>
+</section>
+<section id="why-learn-r-coding-in-2026-1" class="slide level2">
+<h2>Why Learn R Coding in 2026?</h2>
+<ul>
+<li>Writing code uses a type of clear and systematic thinking. AI-generated code is often only as good as its prompts.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>AI-generated code tends to include functions, print statements, etc. that make your code less efficient (and really obviously unedited AI-generated). This code tends to be much <strong>lengthier</strong> than necessary.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Once you’ve learned the basics, it is usually <strong>faster</strong>, <strong>cheaper</strong>, and <strong>more environmentally friendly</strong> to code yourself rather than to use AI, especially for relatively contained tasks like analyzing research data.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Coding can be fun!?!?</li>
+</ul>
+</div>
+</section>
+<section id="the-research-so-far" class="slide level2">
+<h2>The Research So Far</h2>
+<p>A <a href="https://doi.org/10.3390/computers14050185">2025 meta-analysis</a> of AI tools on learning computer programming found that <strong>AI-assisted learning</strong>:</p>
+<ul>
+<li><p>Reduced task completion time</p></li>
+<li><p>Improved student performance scores</p></li>
+<li><p><strong>Did not</strong> improve conceptual understanding or learning success</p></li>
+<li><p>Was <strong>context-dependent</strong> in its benefits: risk of over-reliance and diminished problem-solving skills</p></li>
+<li><p>Was <em>perceived</em> as highly useful by students, but most studies focus on short-term outcomes</p></li>
 </ul>
 </section>
 <section id="your-rstudio-window---follow-along" class="slide level2">
@@ -603,27 +687,27 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="practice" class="slide level2">
 <h2>Practice</h2>
 <ol type="1">
-<li><p>The high temperature in Manhattan on August 1, 2025 was 73<span class="math inline">\(^{\circ}\)</span>F. Save this number as an object named <code>aug1_F</code>.</p></li>
-<li><p>Convert the temperature in #1 to <span class="math inline">\(^{\circ}\)</span>C by calling the <code>aug1_F</code> object. Save the output as <code>aug1_C</code>.</p></li>
+<li><p>The high temperature in Central Park on July 2, 2026 was 100<span class="math inline">\(^{\circ}\)</span>$^{\circ}$F. Save this number as an object named <code>july2_F</code>.</p></li>
+<li><p>Convert the temperature in #1 to <span class="math inline">\(^{\circ}\)</span>C by calling the <code>aug1_F</code> object. Save the output as <code>july2_C</code>.</p></li>
 </ol>
 <p><span class="math display">\[C = \frac{5}{9}(F-32)\]</span></p>
 <ol start="3" type="1">
-<li>Print the value stored in <code>aug1_C</code>.</li>
+<li>Print the value stored in <code>july2_C</code>.</li>
 </ol>
 <div class="fragment">
 <p>#1:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>aug1_F <span class="ot">&lt;-</span> <span class="dv">73</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>july2_F <span class="ot">&lt;-</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>#2:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>aug1_C <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span> <span class="sc">*</span> (aug1_F <span class="sc">-</span> <span class="dv">32</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>july2_C <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span> <span class="sc">*</span> (july2_F <span class="sc">-</span> <span class="dv">32</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>#3:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>aug1_C </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>july2_C </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 22.77778</code></pre>
+<pre><code>[1] 37.77778</code></pre>
 </div>
 </div>
 </div>
@@ -746,8 +830,8 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Object Structures</h2>
 <table class="caption-top" style="width:99%;">
 <colgroup>
-<col style="width: 11%">
-<col style="width: 20%">
+<col style="width: 10%">
+<col style="width: 21%">
 <col style="width: 67%">
 </colgroup>
 <thead>
@@ -1188,11 +1272,11 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <section id="some-resources" class="slide level2">
 <h2>Some Resources</h2>
 <ul>
-<li><p>RStudio cheat sheets: <a href="https://posit.co/resources/cheatsheets">https://posit.co/resources/cheatsheets/</a></p></li>
+<li><p>RStudio cheat sheets: <a href="https://posit.co/resources/cheatsheets">https://posit.co/resources/cheatsheets/</a> and <a href="https://rstudio.github.io/cheatsheets/contributed-cheatsheets.html" class="uri">https://rstudio.github.io/cheatsheets/contributed-cheatsheets.html</a></p></li>
 <li><p>More about tidy data: <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html" class="uri">https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html</a></p></li>
 <li><p>R bloggers:<a href="https://www.r-bloggers.com/" class="uri">https://www.r-bloggers.com/</a></p></li>
-<li><p>Posit Learn: <a href="https://education.rstudio.com/learn/" class="uri">https://education.rstudio.com/learn/</a></p></li>
-<li><p>Learning Statistics with R textbook, chapters 3-8: <a href="https://learningstatisticswithr.com/book/part-ii-an-introduction-to-r.html" class="uri">https://learningstatisticswithr.com/book/part-ii-an-introduction-to-r.html</a></p></li>
+<li><p>RStudio Education: <a href="https://education.rstudio.com/learn/" class="uri">https://education.rstudio.com/learn/</a></p></li>
+<li><p>Learning Statistics with R textbook, chapters 3-8: <a href="https://learningstatisticswithr.com/" class="uri">https://learningstatisticswithr.com/</a></p></li>
 </ul>
 </section>
 <section id="and-one-more-thing" class="slide level2">
