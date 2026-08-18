@@ -62,7 +62,7 @@ Download RStudio from <https://docs.posit.co/ide/user/#install-links>
 
 Be sure to update both R and RStudio periodically
 
-- R 4.61 and RStudio 2026.08.0+187 are newest as of August 2026
+- R 4.61 and RStudio 2026.08.0+195 are newest as of August 2026
 
 ## LaTeX Distribution
 
