@@ -54,7 +54,7 @@ Follow instructions under whatever link is appropriate for your computer
 
 Step 2: Install RStudio
 
-Download RStudio from <https://docs.posit.co/ide/user/#install-links>
+Download RStudio from <https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads>
 
 - FREE Download
 
