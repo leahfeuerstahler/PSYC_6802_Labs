@@ -843,3 +843,19 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 - No error messages should display
 
 - On your Desktop, you should find an html file with the same name
+
+## Closing Activity
+
+Now that you know some R basics, let's see where "vibe coding" can get you!
+
+**Work in pairs**:
+
+1. Download the data file at <http://leahmf.com/day1data.csv>
+
+    * Two columns: X and Y
+
+2. Use an LLM of your choice to obtain R code that tests for statistical significance
+
+    * X is the independent variable; Y is the dependent variable
+
+3. Share prompts, results, impressions
