@@ -64,26 +64,6 @@ Be sure to update both R and RStudio periodically
 
 - R 4.61 and RStudio 2026.08.0+195 are newest as of August 2026
 
-## LaTeX Distribution
-
-For full functionality, you will also want to install a LaTeX distribution
-
-`tinytex` installation within RStudio is the easiest option:
-
-- Tools -\> Install Packages
-
-- Type `tinytex` under "Packages" and make sure "install dependencies" is checked
-
-- Click "Install"
-
-- On Windows, also need Rtools installed: <https://cran.r-project.org/bin/windows/Rtools/>
-
-Alternatives for overachievers:
-
-- Windows: MikTeX <https://miktex.org/download>
-
-- Mac: MacTeX <http://www.tug.org/mactex/>
-
 ## Other Options for Accessing RStudio:
 
 - <https://mydesktop.fordham.edu/>
