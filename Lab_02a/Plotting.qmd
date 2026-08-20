@@ -17,7 +17,7 @@ help("ChickWeight")
 
 ## Summary Statistics with R
 
-We can turn `ChickWeight` into a `tibble` for use with tidyverse functions.
+We can turn `ChickWeight` into a `tibble` for use with tidyverse functions?
 
 ```{r}
 ChickWeight <- ChickWeight %>% as_tibble

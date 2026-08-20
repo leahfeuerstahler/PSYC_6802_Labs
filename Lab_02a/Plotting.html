@@ -6,8 +6,8 @@
 <script src="Plotting_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Plotting_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Plotting_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Plotting_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+<link href="Plotting_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 2a: Summary Statistics, and Plotting</title>
@@ -221,7 +221,7 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="summary-statistics-with-r-1" class="slide level2">
 <h2>Summary Statistics with R</h2>
-<p>We can turn <code>ChickWeight</code> into a <code>tibble</code> for use with tidyverse functions.</p>
+<p>We can turn <code>ChickWeight</code> into a <code>tibble</code> for use with tidyverse functions?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>ChickWeight <span class="ot">&lt;-</span> ChickWeight <span class="sc">%&gt;%</span> as_tibble</span>
 <span id="cb2-2"><a href=""></a><span class="co"># ChickWeight &lt;- as_tibble(ChickWeight) # equivalent to the above code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -835,42 +835,80 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       });
     </script>
     
+
     <script>
+
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
       // slide changes (different for each slide format).
+
       (function () {
+
         // dispatch for htmlwidgets
+
         function fireSlideEnter() {
+
           const event = window.document.createEvent("Event");
+
           event.initEvent("slideenter", true, true);
+
           window.document.dispatchEvent(event);
+
         }
+
+    
 
         function fireSlideChanged(previousSlide, currentSlide) {
+
           fireSlideEnter();
 
+    
+
           // dispatch for shiny
+
           if (window.jQuery) {
+
             if (previousSlide) {
+
               window.jQuery(previousSlide).trigger("hidden");
+
             }
+
             if (currentSlide) {
+
               window.jQuery(currentSlide).trigger("shown");
+
             }
+
           }
+
         }
+
+    
 
         // hookup for slidy
+
         if (window.w3c_slidy) {
+
           window.w3c_slidy.add_observer(function (slide_num) {
+
             // slide_num starts at position 1
+
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
           });
+
         }
 
+    
+
       })();
+
     </script>
+
+    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
