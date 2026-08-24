@@ -1,6 +1,6 @@
 ---
 title: "My First Quarto Document"
-format: pdf
+format: typst
 author: Brave New PhD Student
 date: today
 ---
