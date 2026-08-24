@@ -82,7 +82,7 @@ Be sure to update both R and RStudio periodically
 
 ## Vibe Coding
 
-[![](Let%20There%20Be.png){width="800"}](https://fonzi.ai/blog/vibe-coding-memes)
+[![](Let%20There%20Be.png){width="600"}](https://fonzi.ai/blog/vibe-coding-memes)
 
 . . .
 
@@ -386,7 +386,7 @@ x + 2
 
 ## Practice
 
-1.  The high temperature in Central Park on July 2, 2026 was 100$^{\circ}$\$\^{\\circ}\$F. Save this number as an object named `july2_F`.
+1.  The high temperature in Central Park on July 2, 2026 was 100$^{\circ}$F. Save this number as an object named `july2_F`.
 
 2.  Convert the temperature in #1 to $^{\circ}$C by calling the `aug1_F` object. Save the output as `july2_C`.
 
@@ -394,7 +394,7 @@ $$C = \frac{5}{9}(F-32)$$
 
 3.  Print the value stored in `july2_C`.
 
-. . .
+## Practice Answers
 
 #1:
 
@@ -431,7 +431,7 @@ mean(x)
 
 . . .
 
-Notice that the `x` object we defined earlier is now overwritten (and gone forever!) - **BE CAREFUL** never to overwrite anything important.
+Notice that the `x` object we defined earlier is now overwritten (and gone forever!) - **BE CAREFUL** never to overwrite anything important!
 
 - (Though your script should be fully **reproducible**, so you should be always be able to backtrack)
 
@@ -559,11 +559,11 @@ args(log) # see the arguments of the log function
 args(log)
 ```
 
-The first argument is the number to take the logarithm of
+* The first argument is the number to take the logarithm of
 
-The second argument is the base of the logarithm (defaults to the natural number $e$)
+* The second argument is the base of the logarithm (defaults to the natural number $e$)
 
-. . .
+## Functions
 
 It is not necessary (but a good idea) to explicitly name arguments
 
@@ -667,9 +667,9 @@ But it's better to put all commands into your final script (document everything)
 
 4.  Run the command `dir()`
 
-- This will list the files in your current working directory
+    *  This will list the files in your current working directory
 
-- If all steps are done correctly, you should see the 4 "mtcars" files in that folder
+    * If all steps are done correctly, you should see the 4 "mtcars" files in that folder
 
 ## Reading in Data
 
@@ -775,6 +775,9 @@ dat[, 1]
 
 Select some columns (tidy):
 
+::: columns
+:::: column
+
 ```{r echo = TRUE}
 dat %>% 
   dplyr::select(model, mpg, cyl)
@@ -782,13 +785,17 @@ dat %>%
 
 - `%>%` is the **pipe operator** (used with tibbles in the tidyverse)
 
-. . .
+::::
+:::: column
 
 - The `::` notation means that the `select` function is part of the `dplyr` package
 
   - It can be useful to use this syntax when the command might conflict with a command from another package
 
   - In my experience, `select` is especially prone to conflicts
+
+::::
+:::
 
 ## Filter Rows
 
@@ -820,7 +827,7 @@ Instead of using plain "R Script" files (with a .R extension), in this class we 
 
 - **R Markdown** is a well-established way to integrate word processing and `R`
 
-- **Quarto** is the next generation of R Markdown and will eventually replace R Markdown
+- **Quarto** is the next generation of R Markdown and may eventually replace R Markdown
 
 ::: callout-important
 **Use Quarto for this class if you can**

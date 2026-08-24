@@ -283,7 +283,7 @@ PSYC 6802: Intro to Psychological Statistics
 <img data-src="Ailephant.png" class="r-stretch"></section>
 <section id="vibe-coding" class="slide level2">
 <h2>Vibe Coding</h2>
-<p><a href="https://fonzi.ai/blog/vibe-coding-memes"><img data-src="Let%20There%20Be.png" width="800"></a></p>
+<p><a href="https://fonzi.ai/blog/vibe-coding-memes"><img data-src="Let%20There%20Be.png" width="600"></a></p>
 <div class="fragment">
 <div class="columns">
 <div class="column">
@@ -675,14 +675,16 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="practice" class="slide level2">
 <h2>Practice</h2>
 <ol type="1">
-<li><p>The high temperature in Central Park on July 2, 2026 was 100<span class="math inline">\(^{\circ}\)</span>$^{\circ}$F. Save this number as an object named <code>july2_F</code>.</p></li>
+<li><p>The high temperature in Central Park on July 2, 2026 was 100<span class="math inline">\(^{\circ}\)</span>F. Save this number as an object named <code>july2_F</code>.</p></li>
 <li><p>Convert the temperature in #1 to <span class="math inline">\(^{\circ}\)</span>C by calling the <code>aug1_F</code> object. Save the output as <code>july2_C</code>.</p></li>
 </ol>
 <p><span class="math display">\[C = \frac{5}{9}(F-32)\]</span></p>
 <ol start="3" type="1">
 <li>Print the value stored in <code>july2_C</code>.</li>
 </ol>
-<div class="fragment">
+</section>
+<section id="practice-answers" class="slide level2">
+<h2>Practice Answers</h2>
 <p>#1:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>july2_F <span class="ot">&lt;-</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -696,7 +698,6 @@ PSYC 6802: Intro to Psychological Statistics
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>july2_C </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37.77778</code></pre>
-</div>
 </div>
 </div>
 </section>
@@ -716,7 +717,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 <div class="fragment">
-<p>Notice that the <code>x</code> object we defined earlier is now overwritten (and gone forever!) - <strong>BE CAREFUL</strong> never to overwrite anything important.</p>
+<p>Notice that the <code>x</code> object we defined earlier is now overwritten (and gone forever!) - <strong>BE CAREFUL</strong> never to overwrite anything important!</p>
 <ul>
 <li>(Though your script should be fully <strong>reproducible</strong>, so you should be always be able to backtrack)</li>
 </ul>
@@ -913,9 +914,13 @@ PSYC 6802: Intro to Psychological Statistics
    NULL</code></pre>
 </div>
 </div>
-<p>The first argument is the number to take the logarithm of</p>
-<p>The second argument is the base of the logarithm (defaults to the natural number <span class="math inline">\(e\)</span>)</p>
-<div class="fragment">
+<ul>
+<li><p>The first argument is the number to take the logarithm of</p></li>
+<li><p>The second argument is the base of the logarithm (defaults to the natural number <span class="math inline">\(e\)</span>)</p></li>
+</ul>
+</section>
+<section id="functions-3" class="slide level2">
+<h2>Functions</h2>
 <p>It is not necessary (but a good idea) to explicitly name arguments</p>
 <p>Notice how the following commands behave (base 2 log of 10):</p>
 <div class="cell">
@@ -930,7 +935,6 @@ PSYC 6802: Intro to Psychological Statistics
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="fu">log</span>(<span class="at">base =</span> <span class="dv">2</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.321928</code></pre>
-</div>
 </div>
 </div>
 </section>
@@ -1006,12 +1010,12 @@ PSYC 6802: Intro to Psychological Statistics
 <li><p>On your computer, create a folder for today’s lab</p></li>
 <li><p>From Blackboard, download the 4 files that begin with “mtcars” to that folder</p></li>
 <li><p>In <code>R</code>, set your working directory to the folder that you just created</p></li>
-<li><p>Run the command <code>dir()</code></p></li>
-</ol>
+<li><p>Run the command <code>dir()</code></p>
 <ul>
 <li><p>This will list the files in your current working directory</p></li>
 <li><p>If all steps are done correctly, you should see the 4 “mtcars” files in that folder</p></li>
-</ul>
+</ul></li>
+</ol>
 </section>
 <section id="reading-in-data" class="slide level2">
 <h2>Reading in Data</h2>
@@ -1197,6 +1201,8 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <section id="select-columns-1" class="slide level2">
 <h2>Select Columns</h2>
 <p>Select some columns (tidy):</p>
+<div class="columns">
+<div class="column">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a>dat <span class="sc">%&gt;%</span> </span>
 <span id="cb85-2"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(model, mpg, cyl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1220,7 +1226,7 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <ul>
 <li><code>%&gt;%</code> is the <strong>pipe operator</strong> (used with tibbles in the tidyverse)</li>
 </ul>
-<div class="fragment">
+</div><div class="column">
 <ul>
 <li><p>The <code>::</code> notation means that the <code>select</code> function is part of the <code>dplyr</code> package</p>
 <ul>
@@ -1228,7 +1234,7 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <li><p>In my experience, <code>select</code> is especially prone to conflicts</p></li>
 </ul></li>
 </ul>
-</div>
+</div></div>
 </section>
 <section id="filter-rows" class="slide level2">
 <h2>Filter Rows</h2>
@@ -1273,7 +1279,7 @@ $ carb  &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 
 <p>Instead of using plain “R Script” files (with a .R extension), in this class we will learn to use a <strong>markdown language</strong></p>
 <ul>
 <li><p><strong>R Markdown</strong> is a well-established way to integrate word processing and <code>R</code></p></li>
-<li><p><strong>Quarto</strong> is the next generation of R Markdown and will eventually replace R Markdown</p></li>
+<li><p><strong>Quarto</strong> is the next generation of R Markdown and may eventually replace R Markdown</p></li>
 </ul>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
