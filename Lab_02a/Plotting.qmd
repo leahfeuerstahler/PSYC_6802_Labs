@@ -1,5 +1,5 @@
 ---
-title: "Lab 2a: Summary Statistics, and Plotting"
+title: "Lab 2a: Summary Statistics and Plotting"
 ---
 
 
@@ -17,7 +17,7 @@ help("ChickWeight")
 
 ## Summary Statistics with R
 
-We can turn `ChickWeight` into a `tibble` for use with tidyverse functions?
+We can turn `ChickWeight` into a `tibble` for use with tidyverse functions
 
 ```{r}
 ChickWeight <- ChickWeight %>% as_tibble
@@ -30,8 +30,6 @@ Inspect the data:
 ChickWeight %>% glimpse
 ```
 
-**Notes**:
-
 -   `weight` and `Time` are both numeric (**dbl**) type variables
 
 -   `Chick` is an **ord**ered factor (ordered by final weight within diet)
@@ -40,7 +38,7 @@ ChickWeight %>% glimpse
 
 ## Summary Statistics with R
 
-The summary() function gives summary statistics based on the object type.
+The `summary()` function gives summary statistics based on the object type
 
 ```{r}
 summary(ChickWeight)
@@ -64,13 +62,15 @@ table(ChickWeight$Diet)
 table(ChickWeight$Diet) / nrow(ChickWeight)
 ```
 
+## Summary Statistics with R
+
+
 **Percentages**:
 
 ```{r}
 table(ChickWeight$Diet) / nrow(ChickWeight) * 100
 ```
 
-## Summary Statistics with R
 
 **Quantiles**: .25 (1Q), .50 (median), and .75 (3Q)
 
@@ -146,11 +146,14 @@ skewness(ChickWeight$weight)
 kurtosis(ChickWeight$weight)
 ```
 
+
+## 
+
 ::: callout-caution
 
 **Only run `install.packages` if a package is not already installed!** 
 
-* Running `install.packages` in a Quarto document can prevent your document from compiling. Avoid adding this to your homework to avoid headaches!
+Running `install.packages` in a Quarto document can prevent your document from compiling. Avoid adding this to your homework to avoid headaches!
 :::
 
 
@@ -167,7 +170,7 @@ ChickWeight %>% group_by(Diet) %>%
 
 ## Summary Statistics with R
 
-Correlations are computed with the cor() command.
+Correlations are computed with the `cor()` command.
 
 ```{r}
 cor(ChickWeight$Time, ChickWeight$weight)
@@ -236,9 +239,9 @@ Different plot types are specified with different "`geom`" functions added on to
 
 ## Histograms
 
-For histograms, only one variable needs to be specified in aes().
+For histograms, only one variable needs to be specified in `aes()`.
 
-```{r fig.height=4.5}
+```{r fig.height=4.5, message=TRUE}
 ggplot(ChickWeight, aes(weight)) + geom_histogram()
 ```
 
@@ -252,7 +255,7 @@ ggplot(ChickWeight, aes(weight)) + geom_histogram(bins = 15)
 
 ## Histograms with Normal Overlay
 
-As we learned about in Lecture 2, sometimes we want to draw a normal distribution on top of a histogram with the same mean and standard deviation as the data.
+As we will learn about in Lecture 2, sometimes we want to draw a normal distribution on top of a histogram with the same mean and standard deviation as the data.
 
 Unfortunately, the code for this is complicated. Graph on next slide.
 
@@ -278,7 +281,7 @@ ggplot(ChickWeight, aes(x = weight)) +
 
 ## Bar Plots
 
-Use geom_bar() to let R compute frequencies for you (`aes` takes 1 variable)
+Use `geom_bar()` to let R compute frequencies for you (`aes` takes 1 variable)
 
 ```{r fig.height=5}
 ggplot(ChickWeight, aes(Diet)) + geom_bar()
@@ -286,7 +289,7 @@ ggplot(ChickWeight, aes(Diet)) + geom_bar()
 
 ## Bar Plots
 
-Use geom_col() to specify column heights yourself (`aes` takes 2 variables)
+Use `geom_col()` to specify column heights yourself (`aes` takes 2 variables)
 
 ```{r fig.height=4.5}
 avg_table <- ChickWeight %>% group_by(Diet) %>%
@@ -312,7 +315,7 @@ ggplot(ChickWeight, aes(Diet,  weight)) + geom_boxplot()
 
 ## Normal QQ Plots
 
-In Lecture 2, we learned about QQ plots for assessing normality.
+In Lecture 2, we will learn about QQ plots for assessing normality.
 
 For QQ plots, need to specify the variable with `aes(sample = ...)`.
 

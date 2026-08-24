@@ -3,9 +3,13 @@ title: "Lab 2 Activity"
 format: pdf
 ---
 
-In this lab, we will create some visualizations of the `diamonds` dataset. Use Quarto to create a Word or pdf document of your results. When you are done (or when lab time runs out), check in with the TA to receive participation credit for the day. **This assignment is not graded aside from participation credit**
+In this lab, we will create some visualizations of the `diamonds` dataset.
 
-First make sure that you download the "diamonds.csv" dataset. Make sure that this file is in your working directory (you may want to change your working directory). See Lab 1 for help with this step. 
+<!-- Use Quarto to create a Word or pdf document of your results.  -->
+
+When you are done (or when lab time runs out), check in with the TA to receive participation credit for the day. **This assignment is not graded aside from participation credit**. The TA will post the `.qmd` file that produced this pdf at the end of lab.
+
+First make sure that you download the "diamonds.csv" dataset. Make sure that this file is in your working directory (you may need to change your working directory). See Lab 1 for help with this step. 
 
 ```{r message = FALSE}
 library(tidyverse)
@@ -20,7 +24,7 @@ Recreate the following graphs to the best of your ability (feel free to start wi
 
 ## Plot 1
 
-```{r echo = TRUE}
+```{r echo = FALSE}
 diamonds %>% 
   filter(carat > 1) %>% 
   mutate(price_thousands = price/1e3) %>% 
@@ -52,7 +56,7 @@ Plot 1 checklist:
 ## Plot 2
 
 
-```{r echo = TRUE}
+```{r echo = FALSE}
 diamonds %>% 
     ggplot(aes(x = factor(cut), y = carat)) +
    geom_jitter(width = .2) + 
@@ -78,7 +82,7 @@ Plot 2 checklist
 
 ## Plot 3
 
-```{r echo = TRUE, message = FALSE, warning = FALSE}
+```{r echo = TRUE, message = FALSE, warning = FALSE, echo = FALSE}
 
 diamonds %>% 
   group_by(cut, color) %>% 

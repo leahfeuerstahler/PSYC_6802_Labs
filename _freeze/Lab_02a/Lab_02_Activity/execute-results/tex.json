@@ -1,0 +1,17 @@
+{
+  "hash": "4d5f8068c27d83e48c9062954985d044",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 2 Activity\"\nformat: pdf\n---\n\nIn this lab, we will create some visualizations of the `diamonds` dataset.\n\n<!-- Use Quarto to create a Word or pdf document of your results.  -->\n\nWhen you are done (or when lab time runs out), check in with the TA to receive participation credit for the day. **This assignment is not graded aside from participation credit**. The TA will post the `.qmd` file that produced this pdf at the end of lab.\n\nFirst make sure that you download the \"diamonds.csv\" dataset. Make sure that this file is in your working directory (you may need to change your working directory). See Lab 1 for help with this step. \n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\ndiamonds <- read.csv(\"diamonds.csv\")\n```\n:::\n\n\nYou can run the `?diamonds` command in your console to get a description of the variables in the dataset. Additionally, check out [this page](https://www.brilliantearth.com/diamond/buying-guide) for even more diamond knowledge!  \n\nRecreate the following graphs to the best of your ability (feel free to start with any one you please). Use the `ggplot` help pages and the internet to help you! We don't expect you reproduce every aspect of every plot today, but we want to give you some real-world problem-solving practice. After lab today, we'll give you the source code for you to review on your own time. \n\n\\newpage\n\n## Plot 1\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](Lab_02_Activity_files/figure-pdf/unnamed-chunk-2-1.pdf)\n:::\n:::\n\n\nPlot 1 checklist:\n\n* Filter only diamonds that are above 1 `carat`\n\n* Transform `price` (in USD) to thousands of USD\n\n* Plot different cuts in different colors\n\n* Create a scatterplot with `price` on x-axis and `carat` on y-axis\n\n* Make sure y axis label matches the plot\n\n* Choose a plotting theme that omits the background grid lines\n\n\\newpage\n\n\n## Plot 2\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](Lab_02_Activity_files/figure-pdf/unnamed-chunk-3-1.pdf)\n:::\n:::\n\n\nPlot 2 checklist\n\n* `cut` should be converted to a factor type variable\n\n* Create boxplots\n\n* Create jittered scatterplots with width of .2\n\n* Choose a theme that matches the picture\n\n* Match x and y axis labels\n\n\\newpage\n\n## Plot 3\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](Lab_02_Activity_files/figure-pdf/unnamed-chunk-4-1.pdf)\n:::\n:::\n\n\n\nPlot 3 checklist:\n\n* For each `cut`, calculate the proportion of each colors. The `group_by()` and `summarise()` functions should be quite helpful to do this. \n\n* Create a stacked bar plot that fills the plotting space\n\n* Use different colors for different diamond colors\n\n* Different cuts should be on different rows\n\n* Match the axis and the title\n\n* To match colors exactly, use the \"Dark2\" palette from the `RColorBrewer` package (see `scale_fill_brewer()` function in `ggplot2`)\n\n",
+    "supporting": [
+      "Lab_02_Activity_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

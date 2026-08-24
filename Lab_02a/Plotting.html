@@ -6,11 +6,11 @@
 <script src="Plotting_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Plotting_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Plotting_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Plotting_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.36">
+<link href="Plotting_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
-  <title>Lab 2a: Summary Statistics, and Plotting</title>
+  <title>Lab 2a: Summary Statistics and Plotting</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -198,7 +198,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
-  <h1 class="title">Lab 2a: Summary Statistics, and Plotting</h1>
+  <h1 class="title">Lab 2a: Summary Statistics and Plotting</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -221,7 +221,7 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="summary-statistics-with-r-1" class="slide level2">
 <h2>Summary Statistics with R</h2>
-<p>We can turn <code>ChickWeight</code> into a <code>tibble</code> for use with tidyverse functions?</p>
+<p>We can turn <code>ChickWeight</code> into a <code>tibble</code> for use with tidyverse functions</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>ChickWeight <span class="ot">&lt;-</span> ChickWeight <span class="sc">%&gt;%</span> as_tibble</span>
 <span id="cb2-2"><a href=""></a><span class="co"># ChickWeight &lt;- as_tibble(ChickWeight) # equivalent to the above code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -238,7 +238,6 @@ $ Chick  &lt;ord&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
 $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</code></pre>
 </div>
 </div>
-<p><strong>Notes</strong>:</p>
 <ul>
 <li><p><code>weight</code> and <code>Time</code> are both numeric (<strong>dbl</strong>) type variables</p></li>
 <li><p><code>Chick</code> is an <strong>ord</strong>ered factor (ordered by final weight within diet)</p></li>
@@ -247,7 +246,7 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 </section>
 <section id="summary-statistics-with-r-2" class="slide level2">
 <h2>Summary Statistics with R</h2>
-<p>The summary() function gives summary statistics based on the object type.</p>
+<p>The <code>summary()</code> function gives summary statistics based on the object type</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">summary</span>(ChickWeight)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -286,6 +285,9 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 0.3806228 0.2076125 0.2076125 0.2041522 </code></pre>
 </div>
 </div>
+</section>
+<section id="summary-statistics-with-r-4" class="slide level2">
+<h2>Summary Statistics with R</h2>
 <p><strong>Percentages</strong>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">table</span>(ChickWeight<span class="sc">$</span>Diet) <span class="sc">/</span> <span class="fu">nrow</span>(ChickWeight) <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -295,9 +297,6 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 38.06228 20.76125 20.76125 20.41522 </code></pre>
 </div>
 </div>
-</section>
-<section id="summary-statistics-with-r-4" class="slide level2">
-<h2>Summary Statistics with R</h2>
 <p><strong>Quantiles</strong>: .25 (1Q), .50 (median), and .75 (3Q)</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">quantile</span>(ChickWeight<span class="sc">$</span>weight, <span class="at">probs =</span> <span class="fu">c</span>(.<span class="dv">25</span>, .<span class="dv">5</span>, .<span class="dv">75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -397,6 +396,9 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <pre><code>[1] 0.3372147</code></pre>
 </div>
 </div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
 <div class="callout callout-caution callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -407,9 +409,7 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 </div>
 <div class="callout-content">
 <p><strong>Only run <code>install.packages</code> if a package is not already installed!</strong></p>
-<ul>
-<li>Running <code>install.packages</code> in a Quarto document can prevent your document from compiling. Avoid adding this to your homework to avoid headaches!</li>
-</ul>
+<p>Running <code>install.packages</code> in a Quarto document can prevent your document from compiling. Avoid adding this to your homework to avoid headaches!</p>
 </div>
 </div>
 </div>
@@ -434,7 +434,7 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 </section>
 <section id="summary-statistics-with-r-10" class="slide level2">
 <h2>Summary Statistics with R</h2>
-<p>Correlations are computed with the cor() command.</p>
+<p>Correlations are computed with the <code>cor()</code> command.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">cor</span>(ChickWeight<span class="sc">$</span>Time, ChickWeight<span class="sc">$</span>weight)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -494,9 +494,12 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 </section>
 <section id="histograms" class="slide level2">
 <h2>Histograms</h2>
-<p>For histograms, only one variable needs to be specified in aes().</p>
+<p>For histograms, only one variable needs to be specified in <code>aes()</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(weight)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
@@ -504,21 +507,21 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <h2>Histograms</h2>
 <p><code>ggplot</code> usually complains about the number of bins. To change, use the <code>bins</code> (change # bins) or <code>binwidth</code> (change bin width) arguments.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(weight)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(weight)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
 <section id="histograms-with-normal-overlay" class="slide level2">
 <h2>Histograms with Normal Overlay</h2>
-<p>As we learned about in Lecture 2, sometimes we want to draw a normal distribution on top of a histogram with the same mean and standard deviation as the data.</p>
+<p>As we will learn about in Lecture 2, sometimes we want to draw a normal distribution on top of a histogram with the same mean and standard deviation as the data.</p>
 <p>Unfortunately, the code for this is complicated. Graph on next slide.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> weight)) <span class="sc">+</span></span>
-<span id="cb47-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
-<span id="cb47-3"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
-<span id="cb47-4"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(ChickWeight<span class="sc">$</span>weight),</span>
-<span id="cb47-5"><a href=""></a>                            <span class="at">sd =</span> <span class="fu">sd</span>(ChickWeight<span class="sc">$</span>weight)),</span>
-<span id="cb47-6"><a href=""></a>                <span class="at">color =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb48-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb48-3"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
+<span id="cb48-4"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(ChickWeight<span class="sc">$</span>weight),</span>
+<span id="cb48-5"><a href=""></a>                            <span class="at">sd =</span> <span class="fu">sd</span>(ChickWeight<span class="sc">$</span>weight)),</span>
+<span id="cb48-6"><a href=""></a>                <span class="at">color =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="histograms-with-normal-overlay-1" class="slide level2">
@@ -527,19 +530,19 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
 <section id="bar-plots" class="slide level2">
 <h2>Bar Plots</h2>
-<p>Use geom_bar() to let R compute frequencies for you (<code>aes</code> takes 1 variable)</p>
+<p>Use <code>geom_bar()</code> to let R compute frequencies for you (<code>aes</code> takes 1 variable)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(Diet)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(Diet)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"></section>
 <section id="bar-plots-1" class="slide level2">
 <h2>Bar Plots</h2>
-<p>Use geom_col() to specify column heights yourself (<code>aes</code> takes 2 variables)</p>
+<p>Use <code>geom_col()</code> to specify column heights yourself (<code>aes</code> takes 2 variables)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>avg_table <span class="ot">&lt;-</span> ChickWeight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Diet) <span class="sc">%&gt;%</span></span>
-<span id="cb49-2"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">avgWeight =</span> <span class="fu">mean</span>(weight), <span class="at">.groups =</span> <span class="st">"keep"</span>)</span>
-<span id="cb49-3"><a href=""></a><span class="fu">ggplot</span>(avg_table, <span class="fu">aes</span>(Diet, avgWeight)) <span class="sc">+</span> <span class="fu">geom_col</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>avg_table <span class="ot">&lt;-</span> ChickWeight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Diet) <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">avgWeight =</span> <span class="fu">mean</span>(weight), <span class="at">.groups =</span> <span class="st">"keep"</span>)</span>
+<span id="cb50-3"><a href=""></a><span class="fu">ggplot</span>(avg_table, <span class="fu">aes</span>(Diet, avgWeight)) <span class="sc">+</span> <span class="fu">geom_col</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-29-1.png" width="960" class="r-stretch"></section>
@@ -547,7 +550,7 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <h2>Box Plots</h2>
 <p>Box plot of one variable:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">y =</span> weight)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">y =</span> weight)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
@@ -555,17 +558,17 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <h2>Box Plots</h2>
 <p>Box plots of one variable conditional on another variable:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(Diet,  weight)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(Diet,  weight)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
 <section id="normal-qq-plots" class="slide level2">
 <h2>Normal QQ Plots</h2>
-<p>In Lecture 2, we learned about QQ plots for assessing normality.</p>
+<p>In Lecture 2, we will learn about QQ plots for assessing normality.</p>
 <p>For QQ plots, need to specify the variable with <code>aes(sample = ...)</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">sample =</span> weight)) <span class="sc">+</span></span>
-<span id="cb52-2"><a href=""></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(<span class="at">sample =</span> weight)) <span class="sc">+</span></span>
+<span id="cb53-2"><a href=""></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Plotting_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
@@ -573,17 +576,17 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <h2>Making Beautiful Plots</h2>
 <p>There are a lot of ways to customize ggplot to create exactly the plot you want. Here, I’ve customized the box plot function. Spend some time looking at the documentation for the arguments used, and try omitting some parts of the plot to see their effects. Output shown on the next slide.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(Diet, weight, <span class="at">fill =</span> Diet)) <span class="sc">+</span></span>
-<span id="cb53-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch =</span> <span class="cn">TRUE</span>, <span class="at">outlier.shape =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb53-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Diet Number"</span>, <span class="at">y =</span> <span class="st">"weight (grams)"</span>,</span>
-<span id="cb53-4"><a href=""></a>       <span class="at">title =</span> <span class="st">"Chick Weights on Different Diets"</span>) <span class="sc">+</span></span>
-<span id="cb53-5"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb53-6"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb53-7"><a href=""></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb53-8"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"maroon"</span>, <span class="st">"chocolate2"</span>,</span>
-<span id="cb53-9"><a href=""></a>                               <span class="st">"seagreen4"</span>, <span class="st">"dodgerblue2"</span>)) <span class="sc">+</span></span>
-<span id="cb53-10"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
-<span id="cb53-11"><a href=""></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">ggplot</span>(ChickWeight, <span class="fu">aes</span>(Diet, weight, <span class="at">fill =</span> Diet)) <span class="sc">+</span></span>
+<span id="cb54-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch =</span> <span class="cn">TRUE</span>, <span class="at">outlier.shape =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb54-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Diet Number"</span>, <span class="at">y =</span> <span class="st">"weight (grams)"</span>,</span>
+<span id="cb54-4"><a href=""></a>       <span class="at">title =</span> <span class="st">"Chick Weights on Different Diets"</span>) <span class="sc">+</span></span>
+<span id="cb54-5"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb54-6"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb54-7"><a href=""></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb54-8"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"maroon"</span>, <span class="st">"chocolate2"</span>,</span>
+<span id="cb54-9"><a href=""></a>                               <span class="st">"seagreen4"</span>, <span class="st">"dodgerblue2"</span>)) <span class="sc">+</span></span>
+<span id="cb54-10"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb54-11"><a href=""></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="making-beautiful-plots-1" class="slide level2">
@@ -594,9 +597,9 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 <h2>Some More Resources</h2>
 <p>Run the following commands in the console:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">colors</span>() <span class="do">## see all the named colors available in R</span></span>
-<span id="cb54-2"><a href=""></a></span>
-<span id="cb54-3"><a href=""></a><span class="fu">vignette</span>(<span class="st">"ggplot2-specs"</span>) <span class="co"># more about ggplot customizations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">colors</span>() <span class="do">## see all the named colors available in R</span></span>
+<span id="cb55-2"><a href=""></a></span>
+<span id="cb55-3"><a href=""></a><span class="fu">vignette</span>(<span class="st">"ggplot2-specs"</span>) <span class="co"># more about ggplot customizations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Or (mindfully) search for what you want to do</p>
 </section>
@@ -835,80 +838,42 @@ $ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
