@@ -62,7 +62,7 @@ Download RStudio from <https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads
 
 Be sure to update both R and RStudio periodically
 
-- R 4.61 and RStudio 2026.08.0+195 are newest as of August 2026
+- R 4.6.1 and RStudio 2026.08.0+195 are newest as of August 2026
 
 ## Other Options for Accessing RStudio:
 
@@ -388,7 +388,7 @@ x + 2
 
 1.  The high temperature in Central Park on July 2, 2026 was 100$^{\circ}$F. Save this number as an object named `july2_F`.
 
-2.  Convert the temperature in #1 to $^{\circ}$C by calling the `aug1_F` object. Save the output as `july2_C`.
+2.  Convert the temperature in #1 to $^{\circ}$C by calling the `july2_F` object. Save the output as `july2_C`.
 
 $$C = \frac{5}{9}(F-32)$$
 
@@ -857,7 +857,7 @@ Now that you know some R basics, let's see where "vibe coding" can get you!
 
 **Work in pairs**:
 
-1. Download the data file at <http://leahmf.com/day1data.csv>
+1. The data is located at <http://leahmf.com/day1data.csv>
 
     * Two columns: X and Y
 
