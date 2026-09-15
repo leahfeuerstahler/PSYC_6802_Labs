@@ -215,7 +215,7 @@ PSYC 6802: Intro to Psychological Statistics
 <ol type="1">
 <li><p>Whether there are the same number of each flavor of gummy bear in a package</p>
 <ul>
-<li>Flavors of gummy bears represent categories</li>
+<li>Different categories = different flavors of gummy bears</li>
 </ul></li>
 <li><p>Diagnoses offered by clinicians</p>
 <ul>
@@ -275,7 +275,7 @@ X-squared = 38.175, df = 4, p-value = 1.031e-07</code></pre>
 <section id="chi-square-goodness-of-fit-1" class="slide level2">
 <h2>Chi-Square Goodness-of-Fit</h2>
 <ul>
-<li><p>In the <code>chisq.test</code> function, the default null hypothesis is the equal category hypothesis: we expect the same number of observations for each category.</p></li>
+<li><p>In the <code>chisq.test</code> function, the default null hypothesis is the equal category hypothesis that predicts the same number of observations for each category.</p></li>
 <li><p>We can use the <code>p</code> argument to specify other null hypotheses, as follows:</p></li>
 </ul>
 <div class="cell">
@@ -288,7 +288,7 @@ data:  obs
 X-squared = 0.60169, df = 4, p-value = 0.9629</code></pre>
 </div>
 </div>
-<p>We <strong>retain</strong> the null hypothesis that all gummy bear flavors are equally represented, except for raspberry gummy bears which are twice as frequent as each other flavor (<span class="math inline">\(\chi^2(4) = .60, p = .96\)</span>).</p>
+<p>We <strong>retain</strong> the null hypothesis that all gummy bear flavors are equally represented, except for raspberry gummy bears which are twice as frequent as each other flavor: <span class="math inline">\(\chi^2(4) = .60, p = .96\)</span></p>
 </section>
 <section id="tests-of-independence" class="slide level2">
 <h2>Tests of Independence</h2>
@@ -329,21 +329,7 @@ $ Delay       &lt;dbl&gt; 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>flights <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href=""></a>              <span class="fu">mutate</span>(<span class="at">Delay =</span> <span class="fu">factor</span>(Delay,</span>
 <span id="cb7-3"><a href=""></a>                                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>), <span class="co"># values observed in the data</span></span>
-<span id="cb7-4"><a href=""></a>                                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"On Time"</span>, <span class="st">"Delay"</span>))) <span class="co"># meaningful labels</span></span>
-<span id="cb7-5"><a href=""></a>flights <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 539,383
-Columns: 9
-$ id          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
-$ Airline     &lt;chr&gt; "CO", "US", "AA", "AA", "AS", "CO", "DL", "DL", "DL", "AA"…
-$ Flight      &lt;dbl&gt; 269, 1558, 2400, 2466, 108, 1094, 1768, 2722, 2606, 2538, …
-$ AirportFrom &lt;chr&gt; "SFO", "PHX", "LAX", "SFO", "ANC", "LAX", "LAX", "PHX", "S…
-$ AirportTo   &lt;chr&gt; "IAH", "CLT", "DFW", "DFW", "SEA", "IAH", "MSP", "DTW", "M…
-$ DayOfWeek   &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3…
-$ Time        &lt;dbl&gt; 15, 15, 20, 20, 30, 30, 30, 30, 35, 40, 49, 50, 50, 55, 55…
-$ Length      &lt;dbl&gt; 205, 222, 165, 195, 202, 181, 220, 228, 216, 200, 201, 212…
-$ Delay       &lt;fct&gt; Delay, Delay, Delay, Delay, On Time, Delay, On Time, On Ti…</code></pre>
-</div>
+<span id="cb7-4"><a href=""></a>                                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"On Time"</span>, <span class="st">"Delay"</span>))) <span class="co"># meaningful labels</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
@@ -358,6 +344,22 @@ $ Delay       &lt;fct&gt; Delay, Delay, Delay, Delay, On Time, Delay, On Time, O
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>flights <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 539,383
+Columns: 9
+$ id          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+$ Airline     &lt;chr&gt; "CO", "US", "AA", "AA", "AS", "CO", "DL", "DL", "DL", "AA"…
+$ Flight      &lt;dbl&gt; 269, 1558, 2400, 2466, 108, 1094, 1768, 2722, 2606, 2538, …
+$ AirportFrom &lt;chr&gt; "SFO", "PHX", "LAX", "SFO", "ANC", "LAX", "LAX", "PHX", "S…
+$ AirportTo   &lt;chr&gt; "IAH", "CLT", "DFW", "DFW", "SEA", "IAH", "MSP", "DTW", "M…
+$ DayOfWeek   &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3…
+$ Time        &lt;dbl&gt; 15, 15, 20, 20, 30, 30, 30, 30, 35, 40, 49, 50, 50, 55, 55…
+$ Length      &lt;dbl&gt; 205, 222, 165, 195, 202, 181, 220, 228, 216, 200, 201, 212…
+$ Delay       &lt;fct&gt; Delay, Delay, Delay, Delay, On Time, Delay, On Time, On Ti…</code></pre>
+</div>
+</div>
 </section>
 <section id="chi-square-test-of-independence" class="slide level2">
 <h2>Chi-Square Test of Independence</h2>
@@ -366,16 +368,16 @@ $ Delay       &lt;fct&gt; Delay, Delay, Delay, Delay, On Time, Delay, On Time, O
 <li>Use <code>filter</code> to retain only the rows with either <code>AA</code> or <code>DL</code> in the <code>Airline</code> variable:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>AA_vs_DL <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href=""></a>              <span class="fu">filter</span>(Airline <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"DL"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>AA_vs_DL <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href=""></a>  <span class="fu">filter</span>(Airline <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"DL"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Create a contingency table of the data:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>tabl <span class="ot">&lt;-</span> <span class="fu">table</span>(AA_vs_DL<span class="sc">$</span>Airline, AA_vs_DL<span class="sc">$</span>Delay)</span>
-<span id="cb10-2"><a href=""></a></span>
-<span id="cb10-3"><a href=""></a>tabl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>tabl <span class="ot">&lt;-</span> <span class="fu">table</span>(AA_vs_DL<span class="sc">$</span>Airline, AA_vs_DL<span class="sc">$</span>Delay)</span>
+<span id="cb11-2"><a href=""></a></span>
+<span id="cb11-3"><a href=""></a>tabl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      On Time Delay
@@ -388,7 +390,7 @@ $ Delay       &lt;fct&gt; Delay, Delay, Delay, Delay, On Time, Delay, On Time, O
 <h2>Chi-Square Test of Independence</h2>
 <p>Run the test <strong>without</strong> Yates’ correction for continuity:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">chisq.test</span>(tabl, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">chisq.test</span>(tabl, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -399,7 +401,7 @@ X-squared = 410.92, df = 1, p-value &lt; 2.2e-16</code></pre>
 </div>
 <p>Run the test <strong>with</strong> Yates’ correction for continuity:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">chisq.test</span>(tabl, <span class="at">correct =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">chisq.test</span>(tabl, <span class="at">correct =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test with Yates' continuity correction
@@ -417,7 +419,7 @@ X-squared = 410.66, df = 1, p-value &lt; 2.2e-16</code></pre>
 <li>Because there are different types of risks and odds that <em>could</em> be calculated, it is easier to do these calculations manually than with an <code>R</code> function.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>tabl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>tabl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      On Time Delay
@@ -425,32 +427,51 @@ X-squared = 410.66, df = 1, p-value &lt; 2.2e-16</code></pre>
   DL   33488 27452</code></pre>
 </div>
 </div>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Risk AA</a></li><li><a href="#tabset-1-2">Risk DL</a></li><li><a href="#tabset-1-3">Odds AA</a></li><li><a href="#tabset-1-4">Odds DL</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>Risk of a delay with AA:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="co"># risk of delay with AA:</span></span>
-<span id="cb18-2"><a href=""></a><span class="dv">17736</span> <span class="sc">/</span> (<span class="dv">17736</span> <span class="sc">+</span> <span class="dv">27920</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="dv">17736</span> <span class="sc">/</span> (<span class="dv">17736</span> <span class="sc">+</span> <span class="dv">27920</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3884703</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="co"># risk of delay with DL:</span></span>
-<span id="cb20-2"><a href=""></a><span class="dv">27452</span> <span class="sc">/</span> (<span class="dv">27452</span> <span class="sc">+</span> <span class="dv">33488</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-1-2">
+<p>Risk of a delay with DL:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="dv">27452</span> <span class="sc">/</span> (<span class="dv">27452</span> <span class="sc">+</span> <span class="dv">33488</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4504759</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="co"># odds of delay with AA:</span></span>
-<span id="cb22-2"><a href=""></a><span class="dv">17736</span> <span class="sc">/</span> <span class="dv">27920</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-1-3">
+<p>Odds of a delay with AA:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="dv">17736</span> <span class="sc">/</span> <span class="dv">27920</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6352436</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="co"># odds of delay with DL:</span></span>
-<span id="cb24-2"><a href=""></a><span class="dv">27452</span> <span class="sc">/</span> <span class="dv">33488</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-1-4">
+<p>Odds of a delay with DL:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="dv">27452</span> <span class="sc">/</span> <span class="dv">33488</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8197563</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
 <section id="effect-sizes-for-the-test-of-independence-1" class="slide level2">
 <h2>Effect Sizes for the Test of Independence</h2>
-<p>We might also calculate risk ratios and odds ratios.</p>
+<p>We might also calculate <strong>risk ratios</strong> and <strong>odds ratios</strong>.</p>
 <p>Load in the <code>epitools</code> package:</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
@@ -466,21 +487,24 @@ X-squared = 410.66, df = 1, p-value &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="co"># install.packages("epitools")</span></span>
-<span id="cb26-2"><a href=""></a></span>
-<span id="cb26-3"><a href=""></a><span class="fu">library</span>(epitools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># install.packages("epitools")</span></span>
+<span id="cb27-2"><a href=""></a></span>
+<span id="cb27-3"><a href=""></a><span class="fu">library</span>(epitools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="effect-sizes-for-the-test-of-independence-2" class="slide level2">
+<h2>Effect Sizes for the Test of Independence</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Risk Ratio</a></li><li><a href="#tabset-1-2">Odds Ratio</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Risk Ratio</a></li><li><a href="#tabset-2-2">Odds Ratio</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1">
-<p>The <strong>risk</strong> of a delay with DL is 1.596x higher with DL than with AA</p>
+<div id="tabset-2-1">
+<p>The <strong>risk</strong> of a delay with DL is 1.16x higher with DL than with AA</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fl">0.4504759</span> <span class="sc">/</span> <span class="fl">0.3884703</span> <span class="co"># from previous slide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fl">0.4504759</span> <span class="sc">/</span> <span class="fl">0.3884703</span> <span class="co"># from previous slide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.159615</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">riskratio</span>(tabl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">riskratio</span>(tabl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$data
        
@@ -509,14 +533,14 @@ attr(,"method")
 </div>
 </div>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-2-2">
 <p>The <strong>odds</strong> of a delay with DL are 1.29x higher with DL than with AA</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fl">0.8197563</span> <span class="sc">/</span> <span class="fl">0.6352436</span> <span class="co"># from previous slide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fl">0.8197563</span> <span class="sc">/</span> <span class="fl">0.6352436</span> <span class="co"># from previous slide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.29046</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">oddsratio</span>(tabl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">oddsratio</span>(tabl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$data
        
@@ -548,13 +572,13 @@ attr(,"method")
 </div>
 </div>
 </section>
-<section id="effect-sizes-for-the-test-of-independence-2" class="slide level2">
+<section id="effect-sizes-for-the-test-of-independence-3" class="slide level2">
 <h2>Effect Sizes for the Test of Independence</h2>
 <p>From before, <span class="math inline">\(\chi^2 = 410.66\)</span></p>
 <p><span class="math inline">\(W\)</span> coefficient (very small effect size):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>N <span class="ot">&lt;-</span> <span class="fu">sum</span>(tabl) <span class="co"># total sample size</span></span>
-<span id="cb35-2"><a href=""></a><span class="fu">sqrt</span>(<span class="fl">410.66</span> <span class="sc">/</span> N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>N <span class="ot">&lt;-</span> <span class="fu">sum</span>(tabl) <span class="co"># total sample size</span></span>
+<span id="cb36-2"><a href=""></a><span class="fu">sqrt</span>(<span class="fl">410.66</span> <span class="sc">/</span> N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.06206843</code></pre>
 </div>
@@ -564,8 +588,8 @@ attr(,"method")
 <li><span class="math inline">\(k\)</span> is the smaller of # rows and # columns</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb37-2"><a href=""></a><span class="fu">sqrt</span>(<span class="fl">410.66</span> <span class="sc">/</span> (N <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb38-2"><a href=""></a><span class="fu">sqrt</span>(<span class="fl">410.66</span> <span class="sc">/</span> (N <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.06206843</code></pre>
 </div>
@@ -589,7 +613,7 @@ attr(,"method")
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">fisher.test</span>(tabl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">fisher.test</span>(tabl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Fisher's Exact Test for Count Data
@@ -612,7 +636,7 @@ odds ratio
 <ul>
 <li>For example: <code>$\chi^2$</code> renders as <span class="math inline">\(\chi^2\)</span></li>
 <li>The backslash <code>\</code> precedes a special character, such as a Greek letter</li>
-<li>See for a list of the most useful characters</li>
+<li>See <a href="https://latexmathsymbols.com/" class="uri">https://latexmathsymbols.com/</a> for a list of the most useful characters</li>
 <li>You can also look at the <code>.qmd</code> version of the lab slides for examples</li>
 </ul>
 <p>For centered equations, put the expression between double $ signs:</p>
