@@ -16,8 +16,6 @@ library(effectsize)
 
 ## Overview
 
-Tests, Functions, & Arguments
-
 The primary function for conducting $t$-tests in `R` is `t.test()`
 
 * One sample $t$-test: `t.test(..., mu = #)`
@@ -52,7 +50,7 @@ dat %>% glimpse
 
 ## One-Sample $t$-test
 
-Let us test that the mean `Food_Rating` is significantly different from the middle scale value of 3. To conduct the one-sample $t$-test: 
+Let us test whether the mean `Food_Rating` is different from the middle scale value of 3. To conduct the one-sample $t$-test: 
 
 * The first argument is the vector of scores
 * `mu = 3` gives the null mean
@@ -112,15 +110,23 @@ Output on next slides.
 
 Why do these give the same result? 
 
+::: panel-tabset
+
+## Way 1
+
 ```{r}
 t.test(dat$Service_Rating, dat$Food_Rating, 
        paired = TRUE, alternative = "two.sided")
 ```
 
+## Way 2
+
 ```{r}
-t.test(dat$Service_Rating - dat$Food_Rating, alternative = "two.sided")
+t.test(dat$Service_Rating - dat$Food_Rating, 
+       alternative = "two.sided")
 ```
 
+:::
 
 ## Paired-Samples $t$-test
 
@@ -343,11 +349,23 @@ This test only applies for independent samples data.
 
 We can do Levene's test in two ways and get the same results.
 
+::: panel-tabset
+
+## Way 1
+
 ```{r}
 library(car) # note that car's "recode" function overwrites dplyr's version! 
 leveneTest(y = dat$Overall_Rating, group = dat$Gender)
+```
+
+## Way 2
+
+```{r}
+library(car) # note that car's "recode" function overwrites dplyr's version! 
 leveneTest(Overall_Rating ~ Gender, data = dat)
 ```
+
+:::
 
 We reject Levene's test, so we definitely want to use the Welch-Satterthwaite correction.
 
@@ -355,17 +373,21 @@ We reject Levene's test, so we definitely want to use the Welch-Satterthwaite co
 
 Let's do the Welch-Satterthwaite correction. This is the default with `t.test`, so we get the same results if we don't specify `var.equal = FALSE`.
 
-* Way 1:
+::: panel-tabset
+
+## Way 1
 
 ```{r}
 t.test(dat$Overall_Rating ~ dat$Gender, var.equal = FALSE)
 ```
 
-* Way 2:
+## Way 2
 
 ```{r}
 t.test(Overall_Rating ~ Gender, dat)
 ```
+
+:::
 
 ## Wilcoxon Signed-Rank Tests
 

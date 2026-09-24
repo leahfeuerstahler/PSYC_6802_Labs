@@ -218,7 +218,6 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
-<p>Tests, Functions, &amp; Arguments</p>
 <p>The primary function for conducting <span class="math inline">\(t\)</span>-tests in <code>R</code> is <code>t.test()</code></p>
 <ul>
 <li><p>One sample <span class="math inline">\(t\)</span>-test: <code>t.test(..., mu = #)</code></p></li>
@@ -264,7 +263,7 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="one-sample-t-test-1" class="slide level2">
 <h2>One-Sample <span class="math inline">\(t\)</span>-test</h2>
-<p>Let us test that the mean <code>Food_Rating</code> is significantly different from the middle scale value of 3. To conduct the one-sample <span class="math inline">\(t\)</span>-test:</p>
+<p>Let us test whether the mean <code>Food_Rating</code> is different from the middle scale value of 3. To conduct the one-sample <span class="math inline">\(t\)</span>-test:</p>
 <ul>
 <li>The first argument is the vector of scores</li>
 <li><code>mu = 3</code> gives the null mean</li>
@@ -338,6 +337,10 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="paired-samples-t-test-1" class="slide level2">
 <h2>Paired-Samples <span class="math inline">\(t\)</span>-test</h2>
 <p>Why do these give the same result?</p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Way 1</a></li><li><a href="#tabset-1-2">Way 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating, </span>
 <span id="cb14-2"><a href=""></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -355,8 +358,11 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb15-11"><a href=""></a>           <span class="ex">0.01</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+</div>
+<div id="tabset-1-2">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating, </span>
+<span id="cb16-2"><a href=""></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a></span>
 <span id="cb17-2"><a href=""></a>    <span class="ex">One</span> Sample t-test</span>
@@ -369,6 +375,9 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb17-9"><a href=""></a><span class="ex">sample</span> estimates:</span>
 <span id="cb17-10"><a href=""></a><span class="ex">mean</span> of x </span>
 <span id="cb17-11"><a href=""></a>     <span class="ex">0.01</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -426,9 +435,9 @@ PSYC 6802: Intro to Psychological Statistics
 <li><code>var.equal = TRUE</code> means to NOT use the Welch-Sattherthwaite correction</li>
 </ul>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Way 1</a></li><li><a href="#tabset-1-2">Way 2</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Way 1</a></li><li><a href="#tabset-2-2">Way 2</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1">
+<div id="tabset-2-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Female"</span>],</span>
 <span id="cb25-2"><a href=""></a>       dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Male"</span>],</span>
@@ -448,7 +457,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-2-2">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
 <span id="cb27-2"><a href=""></a>        <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -474,9 +483,9 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Independent Samples <span class="math inline">\(t\)</span>-test</h2>
 <p>And with Welch-Sattherthwaite correction:</p>
 <div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Way 1</a></li><li><a href="#tabset-2-2">Way 2</a></li></ul>
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Way 1</a></li><li><a href="#tabset-3-2">Way 2</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1">
+<div id="tabset-3-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Female"</span>],</span>
 <span id="cb29-2"><a href=""></a>       dat<span class="sc">$</span>Overall_Rating[dat<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"Male"</span>],</span>
@@ -496,7 +505,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
-<div id="tabset-2-2">
+<div id="tabset-3-2">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat, </span>
 <span id="cb31-2"><a href=""></a>        <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -522,21 +531,21 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Testing Assumptions</h2>
 <p>Before we conduct analyses, it is best practice to evaluate test assumptions.</p>
 <div class="panel-tabset">
-<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1"><strong>One Sample <span class="math inline">\(t\)</span></strong></a></li><li><a href="#tabset-3-2"><strong>Paired Samples <span class="math inline">\(t\)</span></strong></a></li><li><a href="#tabset-3-3"><strong>Independent Samples <span class="math inline">\(t\)</span></strong></a></li></ul>
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1"><strong>One Sample <span class="math inline">\(t\)</span></strong></a></li><li><a href="#tabset-4-2"><strong>Paired Samples <span class="math inline">\(t\)</span></strong></a></li><li><a href="#tabset-4-3"><strong>Independent Samples <span class="math inline">\(t\)</span></strong></a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1">
+<div id="tabset-4-1">
 <ul>
 <li><p>Independent observations</p></li>
 <li><p>Normally distributed observations (or large <span class="math inline">\(N\)</span>), no outliers</p></li>
 </ul>
 </div>
-<div id="tabset-3-2">
+<div id="tabset-4-2">
 <ul>
 <li><p>Independent pairs of observations</p></li>
 <li><p>Normally distributed difference scores (or large <span class="math inline">\(N\)</span>), no outliers</p></li>
 </ul>
 </div>
-<div id="tabset-3-3">
+<div id="tabset-4-3">
 <ul>
 <li><p>Independent observations</p></li>
 <li><p>In each group, normally distributed difference scores (or large <span class="math inline">\(N\)</span>), no outliers</p></li>
@@ -599,9 +608,9 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Testing for Normality</h2>
 <p>Next, let’s look at histograms and kernel density plots for each group. We use the group means and standard deviations computed in the previous step. These plots also suggest minor deviations from normality, largely due to the discrete-like values.</p>
 <div class="panel-tabset">
-<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Histogram for Females</a></li><li><a href="#tabset-4-2">Histogram for Males</a></li></ul>
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Histogram for Females</a></li><li><a href="#tabset-5-2">Histogram for Males</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1">
+<div id="tabset-5-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Female"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb38-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">8</span>) <span class="sc">+</span> </span>
@@ -616,7 +625,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
-<div id="tabset-4-2">
+<div id="tabset-5-2">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Male"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb39-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">8</span>) <span class="sc">+</span> </span>
@@ -637,9 +646,9 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="testing-for-normality-2" class="slide level2">
 <h2>Testing for Normality</h2>
 <div class="panel-tabset">
-<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Kernel Density Plots for Females</a></li><li><a href="#tabset-5-2">Kernel Density Plots for Males</a></li></ul>
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Kernel Density Plots for Females</a></li><li><a href="#tabset-6-2">Kernel Density Plots for Males</a></li></ul>
 <div class="tab-content">
-<div id="tabset-5-1">
+<div id="tabset-6-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Female"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb40-2"><a href=""></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
@@ -653,7 +662,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
-<div id="tabset-5-2">
+<div id="tabset-6-2">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"Male"</span>), <span class="fu">aes</span>(Overall_Rating)) <span class="sc">+</span> </span>
 <span id="cb41-2"><a href=""></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
@@ -684,6 +693,10 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Testing for Homogeneity of Variance</h2>
 <p>This test only applies for independent samples data.</p>
 <p>We can do Levene’s test in two ways and get the same results.</p>
+<div class="panel-tabset">
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Way 1</a></li><li><a href="#tabset-7-2">Way 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">library</span>(car) <span class="co"># note that car's "recode" function overwrites dplyr's version! </span></span>
 <span id="cb43-2"><a href=""></a><span class="fu">leveneTest</span>(<span class="at">y =</span> dat<span class="sc">$</span>Overall_Rating, <span class="at">group =</span> dat<span class="sc">$</span>Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -695,7 +708,12 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb44-5"><a href=""></a><span class="st">---</span></span>
 <span id="cb44-6"><a href=""></a><span class="st">Signif. codes:  0 '</span><span class="ex">***</span><span class="st">' 0.001 '</span><span class="ex">**</span><span class="st">' 0.01 '</span><span class="ex">*</span><span class="st">' 0.05 '</span><span class="ex">.</span><span class="st">' 0.1 '</span> <span class="st">' 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">leveneTest</span>(Overall_Rating <span class="sc">~</span> Gender, <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-7-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">library</span>(car) <span class="co"># note that car's "recode" function overwrites dplyr's version! </span></span>
+<span id="cb45-2"><a href=""></a><span class="fu">leveneTest</span>(Overall_Rating <span class="sc">~</span> Gender, <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href=""></a><span class="ex">Levene</span><span class="st">'s Test for Homogeneity of Variance (center = median)</span></span>
 <span id="cb46-2"><a href=""></a><span class="st">       Df F value Pr(&gt;F)  </span></span>
@@ -705,14 +723,18 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb46-6"><a href=""></a><span class="st">Signif. codes:  0 '</span><span class="ex">***</span><span class="st">' 0.001 '</span><span class="ex">**</span><span class="st">' 0.01 '</span><span class="ex">*</span><span class="st">' 0.05 '</span><span class="ex">.</span><span class="st">' 0.1 '</span> <span class="st">' 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+</div>
+</div>
+</div>
 <p>We reject Levene’s test, so we definitely want to use the Welch-Satterthwaite correction.</p>
 </section>
 <section id="welch-satterthwaite" class="slide level2">
 <h2>Welch-Satterthwaite</h2>
 <p>Let’s do the Welch-Satterthwaite correction. This is the default with <code>t.test</code>, so we get the same results if we don’t specify <code>var.equal = FALSE</code>.</p>
-<ul>
-<li>Way 1:</li>
-</ul>
+<div class="panel-tabset">
+<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Way 1</a></li><li><a href="#tabset-8-2">Way 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Overall_Rating <span class="sc">~</span> dat<span class="sc">$</span>Gender, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -729,9 +751,8 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb48-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-<ul>
-<li>Way 2:</li>
-</ul>
+</div>
+<div id="tabset-8-2">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -748,14 +769,17 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb50-11"><a href=""></a>            <span class="ex">3.335366</span>             3.148305 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+</div>
+</div>
+</div>
 </section>
 <section id="wilcoxon-signed-rank-tests" class="slide level2">
 <h2>Wilcoxon Signed-Rank Tests</h2>
 <p>If we don’t feel comfortable with the assumptions of <span class="math inline">\(t\)</span>-tests (particularly the assumption of a normal sampling distribution), we can run Wilcoxon tests instead.</p>
 <div class="panel-tabset">
-<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">One-sample</a></li><li><a href="#tabset-6-2">Paired-samples</a></li><li><a href="#tabset-6-3">Independent samples</a></li></ul>
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">One-sample</a></li><li><a href="#tabset-9-2">Paired-samples</a></li><li><a href="#tabset-9-3">Independent samples</a></li></ul>
 <div class="tab-content">
-<div id="tabset-6-1">
+<div id="tabset-9-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
 <span id="cb51-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -769,7 +793,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
-<div id="tabset-6-2">
+<div id="tabset-9-2">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating,</span>
 <span id="cb53-2"><a href=""></a>            <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -783,7 +807,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
-<div id="tabset-6-3">
+<div id="tabset-9-3">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">wilcox.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
 <span id="cb55-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

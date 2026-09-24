@@ -1,0 +1,15 @@
+{
+  "hash": "23510d4ddfa6372de06d3ef7e289c16c",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 4 Activity\"\nformat: pdf\n---\n\n\n::: {.cell}\n\n:::\n\n\n\n## 1\n\nLoad in the `CO2` data from the `datasets` package. Look at the documentation to understand the variables in this dataset. Identify a way to analyze these data using a $t$ test (several possible choices, but `conc` probably won't be an interesting DV). Evaluate each assumption, conduct the $t$ test, compute an effect size, and interpret the results. \n\n\n::: {.cell}\n\n:::\n\n\n## 2\n\nLoad in the `sleep` data from the `datasets` package. Look at the documentation to understand the variables in this dataset (but try not to peek at the examples section of the documentation). Identify a way to analyze these data using a $t$ test. Evaluate each assumption, conduct the $t$ test, compute an effect size, and interpret the results. \n\nHint: run the following code to transform the data into \"wide\" format, which will make the dataset easier to work with:\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsleep2 <- sleep %>% \n  pivot_wider(id_cols = ID, \n              names_from = group, \n              names_prefix = \"group\",\n              values_from = extra)\n```\n:::\n\n\n\n\n::: {.cell}\n\n:::\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}
