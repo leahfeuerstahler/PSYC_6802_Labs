@@ -29,11 +29,11 @@ Most of the functions of the `pwr` structure work in the same way in that the us
 - The effect size, `d =`, in the case of *t*-tests.
 - The sample size, `n =`
 - The type I error rate, `sig.level =`
-- The power of your experiment, `power =` 
+- The desired power of your experiment, `power =` 
 
-The `pwr` functions always return the value of the one argument that you leave blank out of these four. 
+Set one of these four arguments to `NULL` to solve for that value (e.g., `n = NULL` means to solve for sample size).
 
-- These arguments may be named differently depending on the type of power analysis, so always check the function help menu. 
+- Arguments may be named differently depending on the type of power analysis, so always check the function help page. 
 
  
 ## Power for $z$-tests
@@ -51,7 +51,7 @@ pwr.norm.test(d = .5,
 
 ## Power for $z$-tests
 
-In the case of a *z*-test, to get required **sample size** given effect size, desired type I error rate, and power:
+To get required **sample size** given effect size, desired type I error rate, and power:
 
 ```{r}
 pwr.norm.test(d = .5, 
@@ -93,26 +93,43 @@ Our power was around .84. What does this mean?
 
 What if I want to repeat the previous "experiment", and I want to know the sample size that I would need to have .8, .9, and .95 power?
 
+::: panel-tabset
+
+## power = .80
+
+
 ```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .80,
            type = "one.sample", alternative = "two.sided")
+```
 
+## power = .90
+
+```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .90,
            type = "one.sample", alternative = "two.sided")
+```
 
+## power = .95
+
+```{r}
 pwr.t.test(n = NULL, d = .21, sig.level = .05, power = .95,
            type = "one.sample", alternative = "two.sided")
 ```
 
-For a priori power analysis, we want to round up, so $N = 180, 240, 297$ for 80%, 90%, and 95% power.
+:::
 
-Power analysis for a paired-sample *t*-test is the same. 
+For a priori power analysis, we want to round up, so $N = 180, 241, 297$ for 80%, 90%, and 95% power.
+
+## Paired-samples $t$-test
+
+Power analysis for a paired-sample *t*-test is the same as the one-sample $t$-test. Remember that you will output the number of **pairs** that you need. 
 
 ## Independent-samples $t$-test
 
 For the independent samples $t$-test, we can use `pwr.t.test` if we have equal sample sizes, or `pwr.t2n.test` for unequal sample sizes. 
 
-In the case of lab 4, where we were testing whether males ($n_{1} = 112$) and females ($n_{2} = 82$) were significantly different on average food rating. the estimate effect was $d = .17$, but the difference was not significant $p = .224$:
+In the case of lab 4, where we were testing whether males ($n_{1} = 112$) and females ($n_{2} = 82$) were significantly different on average food rating. the estimate effect was $d = .17$, but the difference was not significant, $p = .224$:
 
 ```{r}
 pwr.t2n.test(n1 = 112, n2 = 82, d = .17, sig.level = .05,
@@ -123,17 +140,32 @@ In retrospect, their power to detect an effect was only .21!
 
 ## Independent-samples $t$-test
 
-When planning data collection, you ideally want to plan for groups to have an equal size if possible. So, we can calculate a priori power assuming equal sample sizes and $d = .17$ as an effect size estimate. 
+When planning data collection, plan for equally sized groups if possible because this maximizes power. Let's calculate a priori power assuming equal sample sizes and $d = .17$. 
+
+::: panel-tabset
+
+## power = .80
 
 ```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .80,
            type = "two.sample", alternative = "two.sided")
+```
+
+## power = .90
+
+```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .90,
            type = "two.sample", alternative = "two.sided")
+```
+
+## power = .95
+
+```{r, eval = TRUE}
 pwr.t.test(n = NULL, d = .17, sig.level = .05, power = .95,
            type = "two.sample", alternative = "two.sided")
-
 ```
+
+:::
 
 It turns out that $n$ = 545, 729, and 901 (quite large!) are the minimum sample sizes **in each group** for 80%, 90%, and 95% power.
 
@@ -141,26 +173,41 @@ It turns out that $n$ = 545, 729, and 901 (quite large!) are the minimum sample 
 
 We can do the same for $\chi^2$ tests using the `pwr.chi.test` function. The test does not distinguish between $\chi^2$ goodness-of-fit and $\chi^2$ test of independence. 
 
-Let's use the airplane delays example from Lab 3. $\chi^2(1) = 410.66$ with $N = 106596$. Our $W$ coefficient was $.06$. 
+Let's use the airplane delays example from Lab 3. $\chi^2(1) = 4.2$ with $N = 1100$. Our $W$ coefficient was $.06$. 
 
 ```{r}
-pwr.chisq.test(w = .06, N = 106596, df = 1, sig.level = .05, power = NULL)
+pwr.chisq.test(w = .06, N = 1100, df = 1, sig.level = .05, power = NULL)
 ```
 
-Power is essentially 1, we are guaranteed to always reject the null hypothesis under these circumstances. 
+Power is about .51 to detect such a small effect. 
 
 ## Power for $\chi^2$ tests
 
-Next, let's conduct a priori power for this study.
+Finally, let's conduct a priori power for this study.
+
+::: panel-tabset 
+
+## power = 80
 
 ```{r}
 pwr.chisq.test(w = .06, N = NULL, df = 1, 
                sig.level = .05, power = .80)
+```
+
+## power = .90
+
+```{r}
 pwr.chisq.test(w = .06, N = NULL, df = 1, 
                sig.level = .05, power = .90)
+```
+
+## power = .95 
+
+```{r}
 pwr.chisq.test(w = .06, N = NULL, df = 1, 
                sig.level = .05, power = .95)
 ```
 
-For this effect size, we would just need $N = 2181, 2919, 3610$ for 80%, 90%, and 95% power.
+:::
+For this effect size, we would need data on $N = 2181, 2919, 3610$ flights for 80%, 90%, and 95% power.
 

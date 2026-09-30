@@ -208,13 +208,6 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 
-</section><section id="TOC">
-<nav role="doc-toc"> 
-<h2 id="toc-title">Agenda</h2>
-<ul>
-<li><a href="#/my-quarto-file-wont-compile" id="/toc-my-quarto-file-wont-compile">My Quarto file Won’t Compile :(</a></li>
-</ul>
-</nav>
 </section>
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install If Needed)</h2>
@@ -241,11 +234,11 @@ PSYC 6802: Intro to Psychological Statistics
 <li>The effect size, <code>d =</code>, in the case of <em>t</em>-tests.</li>
 <li>The sample size, <code>n =</code></li>
 <li>The type I error rate, <code>sig.level =</code></li>
-<li>The power of your experiment, <code>power =</code></li>
+<li>The desired power of your experiment, <code>power =</code></li>
 </ul>
-<p>The <code>pwr</code> functions always return the value of the one argument that you leave blank out of these four.</p>
+<p>Set one of these four arguments to <code>NULL</code> to solve for that value (e.g., <code>n = NULL</code> means to solve for sample size).</p>
 <ul>
-<li>These arguments may be named differently depending on the type of power analysis, so always check the function help menu.</li>
+<li>Arguments may be named differently depending on the type of power analysis, so always check the function help page.</li>
 </ul>
 </section>
 <section id="power-for-z-tests" class="slide level2">
@@ -271,7 +264,7 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="power-for-z-tests-1" class="slide level2">
 <h2>Power for <span class="math inline">\(z\)</span>-tests</h2>
-<p>In the case of a <em>z</em>-test, to get required <strong>sample size</strong> given effect size, desired type I error rate, and power:</p>
+<p>To get required <strong>sample size</strong> given effect size, desired type I error rate, and power:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">pwr.norm.test</span>(<span class="at">d =</span> .<span class="dv">5</span>, </span>
 <span id="cb4-2"><a href=""></a>              <span class="at">n =</span> <span class="cn">NULL</span>, </span>
@@ -328,6 +321,10 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="one-sample-t-test-1" class="slide level2">
 <h2>One-sample <span class="math inline">\(t\)</span>-test</h2>
 <p>What if I want to repeat the previous “experiment”, and I want to know the sample size that I would need to have .8, .9, and .95 power?</p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">power = .80</a></li><li><a href="#tabset-1-2">power = .90</a></li><li><a href="#tabset-1-3">power = .95</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>,</span>
 <span id="cb9-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -341,6 +338,10 @@ PSYC 6802: Intro to Psychological Statistics
           power = 0.8
     alternative = two.sided</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>,</span>
 <span id="cb11-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -353,6 +354,10 @@ PSYC 6802: Intro to Psychological Statistics
           power = 0.9
     alternative = two.sided</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-1-3">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">21</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>,</span>
 <span id="cb13-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -366,13 +371,19 @@ PSYC 6802: Intro to Psychological Statistics
     alternative = two.sided</code></pre>
 </div>
 </div>
-<p>For a priori power analysis, we want to round up, so <span class="math inline">\(N = 180, 240, 297\)</span> for 80%, 90%, and 95% power.</p>
-<p>Power analysis for a paired-sample <em>t</em>-test is the same.</p>
+</div>
+</div>
+</div>
+<p>For a priori power analysis, we want to round up, so <span class="math inline">\(N = 180, 241, 297\)</span> for 80%, 90%, and 95% power.</p>
+</section>
+<section id="paired-samples-t-test" class="slide level2">
+<h2>Paired-samples <span class="math inline">\(t\)</span>-test</h2>
+<p>Power analysis for a paired-sample <em>t</em>-test is the same as the one-sample <span class="math inline">\(t\)</span>-test. Remember that you will output the number of <strong>pairs</strong> that you need.</p>
 </section>
 <section id="independent-samples-t-test" class="slide level2">
 <h2>Independent-samples <span class="math inline">\(t\)</span>-test</h2>
 <p>For the independent samples <span class="math inline">\(t\)</span>-test, we can use <code>pwr.t.test</code> if we have equal sample sizes, or <code>pwr.t2n.test</code> for unequal sample sizes.</p>
-<p>In the case of lab 4, where we were testing whether males (<span class="math inline">\(n_{1} = 112\)</span>) and females (<span class="math inline">\(n_{2} = 82\)</span>) were significantly different on average food rating. the estimate effect was <span class="math inline">\(d = .17\)</span>, but the difference was not significant <span class="math inline">\(p = .224\)</span>:</p>
+<p>In the case of lab 4, where we were testing whether males (<span class="math inline">\(n_{1} = 112\)</span>) and females (<span class="math inline">\(n_{2} = 82\)</span>) were significantly different on average food rating. the estimate effect was <span class="math inline">\(d = .17\)</span>, but the difference was not significant, <span class="math inline">\(p = .224\)</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">pwr.t2n.test</span>(<span class="at">n1 =</span> <span class="dv">112</span>, <span class="at">n2 =</span> <span class="dv">82</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>,</span>
 <span id="cb15-2"><a href=""></a>             <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -392,7 +403,11 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="independent-samples-t-test-1" class="slide level2">
 <h2>Independent-samples <span class="math inline">\(t\)</span>-test</h2>
-<p>When planning data collection, you ideally want to plan for groups to have an equal size if possible. So, we can calculate a priori power assuming equal sample sizes and <span class="math inline">\(d = .17\)</span> as an effect size estimate.</p>
+<p>When planning data collection, plan for equally sized groups if possible because this maximizes power. Let’s calculate a priori power assuming equal sample sizes and <span class="math inline">\(d = .17\)</span>.</p>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">power = .80</a></li><li><a href="#tabset-2-2">power = .90</a></li><li><a href="#tabset-2-3">power = .95</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>,</span>
 <span id="cb17-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -408,6 +423,10 @@ PSYC 6802: Intro to Psychological Statistics
 
 NOTE: n is number in *each* group</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>,</span>
 <span id="cb19-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -422,6 +441,10 @@ NOTE: n is number in *each* group</code></pre>
 
 NOTE: n is number in *each* group</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-2-3">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>,</span>
 <span id="cb21-2"><a href=""></a>           <span class="at">type =</span> <span class="st">"two.sample"</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -437,32 +460,39 @@ NOTE: n is number in *each* group</code></pre>
 NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
 <p>It turns out that <span class="math inline">\(n\)</span> = 545, 729, and 901 (quite large!) are the minimum sample sizes <strong>in each group</strong> for 80%, 90%, and 95% power.</p>
 </section>
 <section id="power-for-chi2-tests" class="slide level2">
 <h2>Power for <span class="math inline">\(\chi^2\)</span> tests</h2>
 <p>We can do the same for <span class="math inline">\(\chi^2\)</span> tests using the <code>pwr.chi.test</code> function. The test does not distinguish between <span class="math inline">\(\chi^2\)</span> goodness-of-fit and <span class="math inline">\(\chi^2\)</span> test of independence.</p>
-<p>Let’s use the airplane delays example from Lab 3. <span class="math inline">\(\chi^2(1) = 410.66\)</span> with <span class="math inline">\(N = 106596\)</span>. Our <span class="math inline">\(W\)</span> coefficient was <span class="math inline">\(.06\)</span>.</p>
+<p>Let’s use the airplane delays example from Lab 3. <span class="math inline">\(\chi^2(1) = 4.2\)</span> with <span class="math inline">\(N = 1100\)</span>. Our <span class="math inline">\(W\)</span> coefficient was <span class="math inline">\(.06\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="dv">106596</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="dv">1100</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Chi squared power calculation 
 
               w = 0.06
-              N = 106596
+              N = 1100
              df = 1
       sig.level = 0.05
-          power = 1
+          power = 0.5120099
 
 NOTE: N is the number of observations</code></pre>
 </div>
 </div>
-<p>Power is essentially 1, we are guaranteed to always reject the null hypothesis under these circumstances.</p>
+<p>Power is about .51 to detect such a small effect.</p>
 </section>
 <section id="power-for-chi2-tests-1" class="slide level2">
 <h2>Power for <span class="math inline">\(\chi^2\)</span> tests</h2>
-<p>Next, let’s conduct a priori power for this study.</p>
+<p>Finally, let’s conduct a priori power for this study.</p>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">power = 80</a></li><li><a href="#tabset-3-2">power = .90</a></li><li><a href="#tabset-3-3">power = .95</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
 <span id="cb25-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -478,6 +508,10 @@ NOTE: N is the number of observations</code></pre>
 
 NOTE: N is the number of observations</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
 <span id="cb27-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -492,6 +526,10 @@ NOTE: N is the number of observations</code></pre>
 
 NOTE: N is the number of observations</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-3-3">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> .<span class="dv">06</span>, <span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="dv">1</span>, </span>
 <span id="cb29-2"><a href=""></a>               <span class="at">sig.level =</span> .<span class="dv">05</span>, <span class="at">power =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -507,53 +545,12 @@ NOTE: N is the number of observations</code></pre>
 NOTE: N is the number of observations</code></pre>
 </div>
 </div>
-<p>For this effect size, we would just need <span class="math inline">\(N = 2181, 2919, 3610\)</span> for 80%, 90%, and 95% power.</p>
-</section>
-<section>
-<section id="my-quarto-file-wont-compile" class="title-slide slide level1 center">
-<h1>My Quarto file Won’t Compile :(</h1>
+</div>
+</div>
+</div>
+<p>For this effect size, we would need data on <span class="math inline">\(N = 2181, 2919, 3610\)</span> flights for 80%, 90%, and 95% power.</p>
 
 </section>
-<section id="lets-work-together" class="slide level2">
-<h2>Let’s work together</h2>
-<p>On Blackboard, there is a Quarto file that contains errors that will cause it not to render. Download the <code>Debugging_Quarto.qmd</code> file and let’s try to solve the errors together until the file renders!</p>
-<ul>
-<li><p>We will also need the <code>sat_data.csv</code> dataset to run the code.</p></li>
-<li><p>Don’t worry too much about understanding the <em>content</em> of the document, focus on trying to get the output to render and look as it should</p></li>
-</ul>
-<p>The following slides are not very detailed, as the process of solving rendering issues varies greatly.</p>
-</section>
-<section id="step-1-make-sure-r-code-works" class="slide level2">
-<h2>Step 1: Make sure R code works</h2>
-<p>Before you even attempt to render the document, it is good practice to clean your environment and run all your R code chunks sequentially.</p>
-<ul>
-<li>To quickly run all the code chunks either navigate to the <code>run</code> option in the to right of the source pane and click <code>Run All</code>, or use the shortcut <code>CMD + Option + R</code> on MAC or <code>CTRL + Alt + R</code> on Windows</li>
-</ul>
-<p>Let’s solve the code errors until all the chunks run sequentially.</p>
-</section>
-<section id="step-2-render-and-solve-latex-errors" class="slide level2">
-<h2>Step 2: Render and solve LaTeX errors</h2>
-<p>If all your R chunks run fine and your document still does not render, there is probably some problem with other parts of your text.</p>
-<p>Read the error messages, but know that some messages are more helpful than others.</p>
-<ul>
-<li><p>Some error messages reference lines in your .qmd file</p></li>
-<li><p>Some error messages reference lines in a .tex or .log file</p></li>
-</ul>
-<p>If your Quarto file fails to render, you may find a <strong>.tex</strong> file and/or a <strong>.log</strong> file in the same folder as the .qmd document.</p>
-<ul>
-<li>Don’t edit the .tex file directly, but inspecting this file may give you more information about what causes the problem</li>
-</ul>
-</section>
-<section id="some-more-debugging-strategies" class="slide level2">
-<h2>Some More Debugging Strategies</h2>
-<ul>
-<li><p>Pay attention to which file that the error message references - line numbers will be the line number in that file</p></li>
-<li><p>Do an internet search for the error message</p></li>
-<li><p>Run smaller parts of the document to help diagnose where the problem lies (delete or comment out other sections)</p></li>
-<li><p><strong>Persevere!</strong> Take breaks, give yourself enough time to deal with these potential logistical problems. Debugging often takes longer than you think that it should</p></li>
-</ul>
-
-</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
