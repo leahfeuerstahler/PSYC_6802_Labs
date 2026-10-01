@@ -773,51 +773,92 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </section>
-<section id="wilcoxon-signed-rank-tests" class="slide level2">
-<h2>Wilcoxon Signed-Rank Tests</h2>
-<p>If we don’t feel comfortable with the assumptions of <span class="math inline">\(t\)</span>-tests (particularly the assumption of a normal sampling distribution), we can run Wilcoxon tests instead.</p>
+<section id="effect-sizes" class="slide level2">
+<h2>Effect Sizes</h2>
+<p>As before, we can use the <code>effectsize</code> package for Cohen’s <span class="math inline">\(d\)</span> effect sizes:</p>
 <div class="panel-tabset">
-<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">One-sample</a></li><li><a href="#tabset-9-2">Paired-samples</a></li><li><a href="#tabset-9-3">Independent samples</a></li></ul>
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Pooled SD</a></li><li><a href="#tabset-9-2">Using One Group’s SD</a></li></ul>
 <div class="tab-content">
 <div id="tabset-9-1">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
-<span id="cb51-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>Overall_Rating <span class="sc">~</span> dat<span class="sc">$</span>Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href=""></a></span>
-<span id="cb52-2"><a href=""></a>    <span class="ex">Wilcoxon</span> signed rank test with continuity correction</span>
-<span id="cb52-3"><a href=""></a></span>
-<span id="cb52-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Food_Rating</span></span>
-<span id="cb52-5"><a href=""></a><span class="ex">V</span> = 7205, p-value = 0.02113</span>
-<span id="cb52-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location is not equal to 3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href=""></a><span class="ex">Cohen</span><span class="st">'s d |        95% CI</span></span>
+<span id="cb52-2"><a href=""></a><span class="st">-------------------------</span></span>
+<span id="cb52-3"><a href=""></a><span class="st">0.17      | [-0.11, 0.46]</span></span>
+<span id="cb52-4"><a href=""></a></span>
+<span id="cb52-5"><a href=""></a><span class="st">- Estimated using pooled SD.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <div id="tabset-9-2">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating,</span>
-<span id="cb53-2"><a href=""></a>            <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">glass_delta</span>(dat<span class="sc">$</span>Overall_Rating <span class="sc">~</span> dat<span class="sc">$</span>Gender, </span>
+<span id="cb53-2"><a href=""></a>            <span class="at">reference =</span> <span class="st">"Male"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href=""></a></span>
-<span id="cb54-2"><a href=""></a>    <span class="ex">Wilcoxon</span> signed rank test with continuity correction</span>
-<span id="cb54-3"><a href=""></a></span>
-<span id="cb54-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Service_Rating</span> and dat<span class="va">$Food_Rating</span></span>
-<span id="cb54-5"><a href=""></a><span class="ex">V</span> = 5370.5, p-value = 0.8771</span>
-<span id="cb54-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href=""></a><span class="ex">Glass</span><span class="st">' delta (adj.) |        95% CI</span></span>
+<span id="cb54-2"><a href=""></a><span class="st">-----------------------------------</span></span>
+<span id="cb54-3"><a href=""></a><span class="st">0.19                | [-0.13, 0.50]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-</div>
-<div id="tabset-9-3">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">wilcox.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
-<span id="cb55-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">glass_delta</span>(dat<span class="sc">$</span>Overall_Rating <span class="sc">~</span> dat<span class="sc">$</span>Gender, </span>
+<span id="cb55-2"><a href=""></a>            <span class="at">reference =</span> <span class="st">"Female"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href=""></a></span>
-<span id="cb56-2"><a href=""></a>    <span class="ex">Wilcoxon</span> rank sum test with continuity correction</span>
-<span id="cb56-3"><a href=""></a></span>
-<span id="cb56-4"><a href=""></a><span class="ex">data:</span>  Overall_Rating by Gender</span>
-<span id="cb56-5"><a href=""></a><span class="ex">W</span> = 5277.5, p-value = 0.2704</span>
-<span id="cb56-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href=""></a><span class="ex">Glass</span><span class="st">' delta (adj.) |        95% CI</span></span>
+<span id="cb56-2"><a href=""></a><span class="st">-----------------------------------</span></span>
+<span id="cb56-3"><a href=""></a><span class="st">-0.16               | [-0.42, 0.11]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="wilcoxon-signed-rank-tests" class="slide level2">
+<h2>Wilcoxon Signed-Rank Tests</h2>
+<p>If we don’t feel comfortable with the assumptions of <span class="math inline">\(t\)</span>-tests (particularly the assumption of a normal sampling distribution), we can run Wilcoxon tests instead.</p>
+<div class="panel-tabset">
+<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">One-sample</a></li><li><a href="#tabset-10-2">Paired-samples</a></li><li><a href="#tabset-10-3">Independent samples</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Food_Rating, <span class="at">mu =</span> <span class="dv">3</span>,</span>
+<span id="cb57-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href=""></a></span>
+<span id="cb58-2"><a href=""></a>    <span class="ex">Wilcoxon</span> signed rank test with continuity correction</span>
+<span id="cb58-3"><a href=""></a></span>
+<span id="cb58-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Food_Rating</span></span>
+<span id="cb58-5"><a href=""></a><span class="ex">V</span> = 7205, p-value = 0.02113</span>
+<span id="cb58-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location is not equal to 3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div id="tabset-10-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="fu">wilcox.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating,</span>
+<span id="cb59-2"><a href=""></a>            <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href=""></a></span>
+<span id="cb60-2"><a href=""></a>    <span class="ex">Wilcoxon</span> signed rank test with continuity correction</span>
+<span id="cb60-3"><a href=""></a></span>
+<span id="cb60-4"><a href=""></a><span class="ex">data:</span>  dat<span class="va">$Service_Rating</span> and dat<span class="va">$Food_Rating</span></span>
+<span id="cb60-5"><a href=""></a><span class="ex">V</span> = 5370.5, p-value = 0.8771</span>
+<span id="cb60-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div id="tabset-10-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">wilcox.test</span>(Overall_Rating <span class="sc">~</span> Gender, dat,</span>
+<span id="cb61-2"><a href=""></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href=""></a></span>
+<span id="cb62-2"><a href=""></a>    <span class="ex">Wilcoxon</span> rank sum test with continuity correction</span>
+<span id="cb62-3"><a href=""></a></span>
+<span id="cb62-4"><a href=""></a><span class="ex">data:</span>  Overall_Rating by Gender</span>
+<span id="cb62-5"><a href=""></a><span class="ex">W</span> = 5277.5, p-value = 0.2704</span>
+<span id="cb62-6"><a href=""></a><span class="ex">alternative</span> hypothesis: true location shift is not equal to 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

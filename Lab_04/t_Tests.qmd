@@ -389,6 +389,33 @@ t.test(Overall_Rating ~ Gender, dat)
 
 :::
 
+## Effect Sizes
+
+As before, we can use the `effectsize` package for Cohen's $d$ effect sizes:
+
+
+::: panel-tabset 
+
+## Pooled SD
+
+```{r}
+cohens_d(dat$Overall_Rating ~ dat$Gender)
+```
+## Using One Group's SD
+
+
+```{r}
+glass_delta(dat$Overall_Rating ~ dat$Gender, 
+            reference = "Male")
+```
+
+```{r}
+glass_delta(dat$Overall_Rating ~ dat$Gender, 
+            reference = "Female")
+```
+
+:::
+
 ## Wilcoxon Signed-Rank Tests
 
 If we don't feel comfortable with the assumptions of $t$-tests (particularly the assumption of a normal sampling distribution), we can run Wilcoxon tests instead.
