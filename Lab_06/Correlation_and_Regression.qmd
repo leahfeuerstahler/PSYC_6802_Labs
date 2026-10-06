@@ -17,9 +17,7 @@ library(readxl)
 library(psych)
 ```
 
-## Overview
-
-Functions: 
+## Functions Overview
 
 * `cor()` and `cov()`: compute covariance/correlation with arguments:
   + `use`: how to treat missing data, specify "everything", "complete.obs", "pairwise.complete.obs"
@@ -32,6 +30,8 @@ Functions:
 * `lm()`: fit a linear regression model
 
 * `scale()`: standardize a variable
+
+## Functions Overview (cont.)
 
 * `cor.test()`: hypothesis test for the correlation coefficient ("nil" hypothesis)
 
@@ -131,7 +131,7 @@ Most R functions **will not** handle missing values automatically (it is a good 
 ```{r}
 cor(dat$`No. Baths`, dat$`Building $`)
 ```
-- the `No. Baths` variable has a missing value, so we need to include the `use =` argument to tell the `cor()` function what to do when missing data is encountered:
+- the `No. Baths` variable has a missing value, so we need to include the `use =` argument to tell the `cor()` function what to do when missing data is encountered. `use = "complete.obs"` says to calculate the correlation based on all complete pairs of observations:
 
 ```{r}
 cor(dat$`No. Baths`, dat$`Building $`, 
@@ -169,7 +169,7 @@ cor(dat[,1:4])
 
 ## Other correlation coefficients
 
-For the sake of illustration, let's dichotomize
+For the sake of illustration, let's dichotomize:
 
 - `No. Baths` variable to above vs. at/below 2
 - `Building $` above and at/below the median price
@@ -218,10 +218,17 @@ biserial(dat$`Building $`, dat$`No. Baths_binary`)
 
 Finally, let's run a linear regression with `Building $` as the DV and `Sq. Ft.` as the IV. This will give us the equation for the linear best-fit line that we drew on the scatterplot earlier. 
 
-Linear regression in `R` is done with the `lm` function. `lm` takes as input a formula of the form: "DV ~ IV", and you can specify the dataset as the second argument. Usually, you will use the `summary()` function to look at your regression results.
+Linear regression in `R` is done with the `lm` function. `lm` takes as input a formula of the form: "DV ~ IV", and you can specify the dataset as the second argument. 
 
 ```{r echo = T}
 reg <- lm(`Building $` ~ `Sq. Ft.`, dat)
+```
+
+## Regression
+
+Usually, you will use the `summary()` function to look at your regression results.
+
+```{r echo = T}
 summary(reg)
 ```
 

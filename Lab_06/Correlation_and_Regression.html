@@ -218,9 +218,8 @@ PSYC 6802: Intro to Psychological Statistics
 <span id="cb1-4"><a href=""></a><span class="fu">library</span>(psych)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="overview" class="slide level2">
-<h2>Overview</h2>
-<p>Functions:</p>
+<section id="functions-overview" class="slide level2">
+<h2>Functions Overview</h2>
 <ul>
 <li><p><code>cor()</code> and <code>cov()</code>: compute covariance/correlation with arguments:</p>
 <ul>
@@ -234,6 +233,11 @@ PSYC 6802: Intro to Psychological Statistics
 </ul></li>
 <li><p><code>lm()</code>: fit a linear regression model</p></li>
 <li><p><code>scale()</code>: standardize a variable</p></li>
+</ul>
+</section>
+<section id="functions-overview-cont." class="slide level2">
+<h2>Functions Overview (cont.)</h2>
+<ul>
 <li><p><code>cor.test()</code>: hypothesis test for the correlation coefficient (“nil” hypothesis)</p></li>
 <li><p><code>pwr::pwr.r.test</code>: power analysis for correlations and simple linear regression</p></li>
 <li><p><code>poly()</code>: create polynomial formulas</p></li>
@@ -343,7 +347,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 <ul>
-<li>the <code>No. Baths</code> variable has a missing value, so we need to include the <code>use =</code> argument to tell the <code>cor()</code> function what to do when missing data is encountered:</li>
+<li>the <code>No. Baths</code> variable has a missing value, so we need to include the <code>use =</code> argument to tell the <code>cor()</code> function what to do when missing data is encountered. <code>use = "complete.obs"</code> says to calculate the correlation based on all complete pairs of observations:</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">cor</span>(dat<span class="sc">$</span><span class="st">`</span><span class="at">No. Baths</span><span class="st">`</span>, dat<span class="sc">$</span><span class="st">`</span><span class="at">Building $</span><span class="st">`</span>, </span>
@@ -411,7 +415,7 @@ PSYC 6802: Intro to Psychological Statistics
 </section>
 <section id="other-correlation-coefficients" class="slide level2">
 <h2>Other correlation coefficients</h2>
-<p>For the sake of illustration, let’s dichotomize</p>
+<p>For the sake of illustration, let’s dichotomize:</p>
 <ul>
 <li><code>No. Baths</code> variable to above vs.&nbsp;at/below 2</li>
 <li><code>Building $</code> above and at/below the median price</li>
@@ -478,34 +482,40 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="regression" class="slide level2">
 <h2>Regression</h2>
 <p>Finally, let’s run a linear regression with <code>Building $</code> as the DV and <code>Sq. Ft.</code> as the IV. This will give us the equation for the linear best-fit line that we drew on the scatterplot earlier.</p>
-<p>Linear regression in <code>R</code> is done with the <code>lm</code> function. <code>lm</code> takes as input a formula of the form: “DV ~ IV”, and you can specify the dataset as the second argument. Usually, you will use the <code>summary()</code> function to look at your regression results.</p>
+<p>Linear regression in <code>R</code> is done with the <code>lm</code> function. <code>lm</code> takes as input a formula of the form: “DV ~ IV”, and you can specify the dataset as the second argument.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, dat)</span>
-<span id="cb35-2"><a href=""></a><span class="fu">summary</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="regression-1" class="slide level2">
+<h2>Regression</h2>
+<p>Usually, you will use the <code>summary()</code> function to look at your regression results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">summary</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a></span>
-<span id="cb36-2"><a href=""></a><span class="ex">Call:</span></span>
-<span id="cb36-3"><a href=""></a><span class="ex">lm</span><span class="er">(</span><span class="ex">formula</span> = <span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`</span> ~ <span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`</span>, data = dat<span class="kw">)</span></span>
-<span id="cb36-4"><a href=""></a></span>
-<span id="cb36-5"><a href=""></a><span class="ex">Residuals:</span></span>
-<span id="cb36-6"><a href=""></a>    <span class="ex">Min</span>      1Q  Median      3Q     Max </span>
-<span id="cb36-7"><a href=""></a><span class="ex">-110291</span>  <span class="at">-16263</span>    1155   14993  188327 </span>
-<span id="cb36-8"><a href=""></a></span>
-<span id="cb36-9"><a href=""></a><span class="ex">Coefficients:</span></span>
-<span id="cb36-10"><a href=""></a>              <span class="ex">Estimate</span> Std. Error t value Pr<span class="er">(</span><span class="op">&gt;|</span>t<span class="kw">|)</span>    </span>
-<span id="cb36-11"><a href=""></a><span class="kw">(</span><span class="ex">Intercept</span><span class="kw">)</span> <span class="ex">-52468.433</span>   9500.629  <span class="at">-5.523</span> 2.74e-07 <span class="pp">***</span></span>
-<span id="cb36-12"><a href=""></a><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`</span>      107.177      5.076  21.116  <span class="op">&lt;</span> 2e-16 <span class="pp">***</span></span>
-<span id="cb36-13"><a href=""></a><span class="ex">---</span></span>
-<span id="cb36-14"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span>
-<span id="cb36-15"><a href=""></a></span>
-<span id="cb36-16"><a href=""></a><span class="ex">Residual</span> standard error: 36330 on 98 degrees of freedom</span>
-<span id="cb36-17"><a href=""></a><span class="ex">Multiple</span> R-squared:  0.8198,    Adjusted R-squared:  0.818 </span>
-<span id="cb36-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href=""></a></span>
+<span id="cb37-2"><a href=""></a><span class="ex">Call:</span></span>
+<span id="cb37-3"><a href=""></a><span class="ex">lm</span><span class="er">(</span><span class="ex">formula</span> = <span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`</span> ~ <span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`</span>, data = dat<span class="kw">)</span></span>
+<span id="cb37-4"><a href=""></a></span>
+<span id="cb37-5"><a href=""></a><span class="ex">Residuals:</span></span>
+<span id="cb37-6"><a href=""></a>    <span class="ex">Min</span>      1Q  Median      3Q     Max </span>
+<span id="cb37-7"><a href=""></a><span class="ex">-110291</span>  <span class="at">-16263</span>    1155   14993  188327 </span>
+<span id="cb37-8"><a href=""></a></span>
+<span id="cb37-9"><a href=""></a><span class="ex">Coefficients:</span></span>
+<span id="cb37-10"><a href=""></a>              <span class="ex">Estimate</span> Std. Error t value Pr<span class="er">(</span><span class="op">&gt;|</span>t<span class="kw">|)</span>    </span>
+<span id="cb37-11"><a href=""></a><span class="kw">(</span><span class="ex">Intercept</span><span class="kw">)</span> <span class="ex">-52468.433</span>   9500.629  <span class="at">-5.523</span> 2.74e-07 <span class="pp">***</span></span>
+<span id="cb37-12"><a href=""></a><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`</span>      107.177      5.076  21.116  <span class="op">&lt;</span> 2e-16 <span class="pp">***</span></span>
+<span id="cb37-13"><a href=""></a><span class="ex">---</span></span>
+<span id="cb37-14"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span>
+<span id="cb37-15"><a href=""></a></span>
+<span id="cb37-16"><a href=""></a><span class="ex">Residual</span> standard error: 36330 on 98 degrees of freedom</span>
+<span id="cb37-17"><a href=""></a><span class="ex">Multiple</span> R-squared:  0.8198,    Adjusted R-squared:  0.818 </span>
+<span id="cb37-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(t\)</span>-test for the regression slope and the <span class="math inline">\(F\)</span>-test for <span class="math inline">\(R^2\)</span> is the exact same test in two different forms. The <span class="math inline">\(p\)</span>-value is <em>exactly</em> the same, and <span class="math inline">\(t^2 = 21.116^2 = 445.9 = F\)</span>.</p>
 </section>
-<section id="regression-1" class="slide level2">
+<section id="regression-2" class="slide level2">
 <h2>Regression</h2>
 <p>The output tells us that <span class="math inline">\(\widehat{\mathrm{Build.price}} = -52468.43 + 107.18\times \mathrm{Sq.Ft}\)</span>.</p>
 <ul>
@@ -518,26 +528,26 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Standardized Regression Coefficients</h2>
 <p>We can find standardized regression coefficients by using <code>scale()</code> to standardize each of the variables we input into <code>lm()</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">lm</span>(<span class="fu">scale</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span>) <span class="sc">~</span> <span class="fu">scale</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>), dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">lm</span>(<span class="fu">scale</span>(<span class="st">`</span><span class="at">Building $</span><span class="st">`</span>) <span class="sc">~</span> <span class="fu">scale</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>), dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href=""></a></span>
-<span id="cb38-2"><a href=""></a><span class="ex">Call:</span></span>
-<span id="cb38-3"><a href=""></a><span class="ex">lm</span><span class="er">(</span><span class="ex">formula</span> = scale<span class="er">(</span><span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`)</span> <span class="ex">~</span> scale<span class="er">(</span><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`)</span><span class="ex">,</span> data = dat<span class="kw">)</span></span>
-<span id="cb38-4"><a href=""></a></span>
-<span id="cb38-5"><a href=""></a><span class="ex">Residuals:</span></span>
-<span id="cb38-6"><a href=""></a>     <span class="ex">Min</span>       1Q   Median       3Q      Max </span>
-<span id="cb38-7"><a href=""></a><span class="ex">-1.29515</span> <span class="at">-0.19098</span>  0.01356  0.17607  2.21153 </span>
-<span id="cb38-8"><a href=""></a></span>
-<span id="cb38-9"><a href=""></a><span class="ex">Coefficients:</span></span>
-<span id="cb38-10"><a href=""></a>                   <span class="ex">Estimate</span> Std. Error t value Pr<span class="er">(</span><span class="op">&gt;|</span>t<span class="kw">|)</span>    </span>
-<span id="cb38-11"><a href=""></a><span class="kw">(</span><span class="ex">Intercept</span><span class="kw">)</span>      <span class="ex">-8.215e-18</span>  4.267e-02    0.00        1    </span>
-<span id="cb38-12"><a href=""></a><span class="ex">scale</span><span class="er">(</span><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`)</span>  <span class="ex">9.054e-01</span>  4.288e-02   21.12   <span class="op">&lt;</span>2e-16 <span class="pp">***</span></span>
-<span id="cb38-13"><a href=""></a><span class="ex">---</span></span>
-<span id="cb38-14"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span>
-<span id="cb38-15"><a href=""></a></span>
-<span id="cb38-16"><a href=""></a><span class="ex">Residual</span> standard error: 0.4267 on 98 degrees of freedom</span>
-<span id="cb38-17"><a href=""></a><span class="ex">Multiple</span> R-squared:  0.8198,    Adjusted R-squared:  0.818 </span>
-<span id="cb38-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href=""></a></span>
+<span id="cb39-2"><a href=""></a><span class="ex">Call:</span></span>
+<span id="cb39-3"><a href=""></a><span class="ex">lm</span><span class="er">(</span><span class="ex">formula</span> = scale<span class="er">(</span><span class="kw">`</span><span class="ex">Building</span> $<span class="kw">`)</span> <span class="ex">~</span> scale<span class="er">(</span><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`)</span><span class="ex">,</span> data = dat<span class="kw">)</span></span>
+<span id="cb39-4"><a href=""></a></span>
+<span id="cb39-5"><a href=""></a><span class="ex">Residuals:</span></span>
+<span id="cb39-6"><a href=""></a>     <span class="ex">Min</span>       1Q   Median       3Q      Max </span>
+<span id="cb39-7"><a href=""></a><span class="ex">-1.29515</span> <span class="at">-0.19098</span>  0.01356  0.17607  2.21153 </span>
+<span id="cb39-8"><a href=""></a></span>
+<span id="cb39-9"><a href=""></a><span class="ex">Coefficients:</span></span>
+<span id="cb39-10"><a href=""></a>                   <span class="ex">Estimate</span> Std. Error t value Pr<span class="er">(</span><span class="op">&gt;|</span>t<span class="kw">|)</span>    </span>
+<span id="cb39-11"><a href=""></a><span class="kw">(</span><span class="ex">Intercept</span><span class="kw">)</span>      <span class="ex">-8.215e-18</span>  4.267e-02    0.00        1    </span>
+<span id="cb39-12"><a href=""></a><span class="ex">scale</span><span class="er">(</span><span class="kw">`</span><span class="ex">Sq.</span> Ft.<span class="kw">`)</span>  <span class="ex">9.054e-01</span>  4.288e-02   21.12   <span class="op">&lt;</span>2e-16 <span class="pp">***</span></span>
+<span id="cb39-13"><a href=""></a><span class="ex">---</span></span>
+<span id="cb39-14"><a href=""></a><span class="ex">Signif.</span> codes:  0 <span class="st">'***'</span> 0.001 <span class="st">'**'</span> 0.01 <span class="st">'*'</span> 0.05 <span class="st">'.'</span> 0.1 <span class="st">' '</span> 1</span>
+<span id="cb39-15"><a href=""></a></span>
+<span id="cb39-16"><a href=""></a><span class="ex">Residual</span> standard error: 0.4267 on 98 degrees of freedom</span>
+<span id="cb39-17"><a href=""></a><span class="ex">Multiple</span> R-squared:  0.8198,    Adjusted R-squared:  0.818 </span>
+<span id="cb39-18"><a href=""></a><span class="ex">F-statistic:</span> 445.9 on 1 and 98 DF,  p-value: <span class="op">&lt;</span> 2.2e-16</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Is the output what you expect? What pieces are redundant with output we found earlier?</p>
@@ -546,27 +556,27 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Regression Assumptions</h2>
 <p>To be careful about our hypothesis test conclusions, we will want to evaluate our assumptions. With regression, most of our assumptions are about the <strong>residuals</strong>. We can find residuals from the output of <code>lm()</code> using the <code>residuals</code> function. It can be useful to add these directly to the original data set.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(reg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(reg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="evaluting-homoscedasticity" class="slide level2">
 <h2>Evaluting Homoscedasticity</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb40-2"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
-<span id="cb40-3"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="st">`</span><span class="at">Sq. Ft.</span><span class="st">`</span>, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb41-2"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb41-3"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+<img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
 <section id="evaluating-normality" class="slide level2">
 <h2>Evaluating Normality</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">sample =</span> residuals)) <span class="sc">+</span> </span>
-<span id="cb41-2"><a href=""></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">sample =</span> residuals)) <span class="sc">+</span> </span>
+<span id="cb42-2"><a href=""></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 
-<img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
+<img data-src="Correlation_and_Regression_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

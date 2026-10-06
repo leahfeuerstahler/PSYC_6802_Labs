@@ -1,0 +1,15 @@
+{
+  "hash": "5fca6440483170244056274213130747",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 6 Activity\"\nformat: pdf\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n```\n:::\n\n\n\n## 1\n\nIn this activity, we will work with the `Prestige` data in the `carData` package.\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndata(\"Prestige\", package = \"carData\")\n```\n:::\n\n\n\nLook at the help page to better understand these data. Here, we want to predict the `income` of occupational incumbents from the average `education` of occupational incumbents. Use `ggplot` to create a scatterplot with one or more best-fit curves. What type of relationship do you think best characterizes the relationship between these variables?\n\n\n::: {.cell}\n\n:::\n\n\n## 2\n\nFit a simple linear regression model predicting `income` from `education` and evaluate assumptions. What do you conclude?\n\n\n::: {.cell}\n\n:::\n\n\n## 3\n\nLooking ahead: the `lm` function takes formula input like we used with `geom_smooth()`. Fit a regression equation for the best-fit quadratic/cubic curve predicting `income` from `education`. You can find the model residuals in the same way as we did for the linear model. Do the quadratic or cubic models do a better job meeting our assumptions about residuals? If not, can you think of what might be a better solution?\n\n\n::: {.cell}\n\n:::\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}
