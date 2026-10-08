@@ -383,7 +383,7 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="independent-samples-t-test" class="slide level2">
 <h2>Independent-samples <span class="math inline">\(t\)</span>-test</h2>
 <p>For the independent samples <span class="math inline">\(t\)</span>-test, we can use <code>pwr.t.test</code> if we have equal sample sizes, or <code>pwr.t2n.test</code> for unequal sample sizes.</p>
-<p>In the case of lab 4, where we were testing whether males (<span class="math inline">\(n_{1} = 112\)</span>) and females (<span class="math inline">\(n_{2} = 82\)</span>) were significantly different on average food rating. the estimate effect was <span class="math inline">\(d = .17\)</span>, but the difference was not significant, <span class="math inline">\(p = .224\)</span>:</p>
+<p>In the case of lab 4, where we were testing whether males (<span class="math inline">\(n_{1} = 112\)</span>) and females (<span class="math inline">\(n_{2} = 82\)</span>) were significantly different on average food rating. the estimate effect was <span class="math inline">\(d = .17\)</span>, but the difference was not significant, <span class="math inline">\(p = .224\)</span>. In retrospect, their power to detect an effect was only .21!</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">pwr.t2n.test</span>(<span class="at">n1 =</span> <span class="dv">112</span>, <span class="at">n2 =</span> <span class="dv">82</span>, <span class="at">d =</span> .<span class="dv">17</span>, <span class="at">sig.level =</span> .<span class="dv">05</span>,</span>
 <span id="cb15-2"><a href=""></a>             <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -399,7 +399,6 @@ PSYC 6802: Intro to Psychological Statistics
     alternative = two.sided</code></pre>
 </div>
 </div>
-<p>In retrospect, their power to detect an effect was only .21!</p>
 </section>
 <section id="independent-samples-t-test-1" class="slide level2">
 <h2>Independent-samples <span class="math inline">\(t\)</span>-test</h2>

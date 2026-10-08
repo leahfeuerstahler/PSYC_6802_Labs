@@ -129,14 +129,14 @@ Power analysis for a paired-sample *t*-test is the same as the one-sample $t$-te
 
 For the independent samples $t$-test, we can use `pwr.t.test` if we have equal sample sizes, or `pwr.t2n.test` for unequal sample sizes. 
 
-In the case of lab 4, where we were testing whether males ($n_{1} = 112$) and females ($n_{2} = 82$) were significantly different on average food rating. the estimate effect was $d = .17$, but the difference was not significant, $p = .224$:
+In the case of lab 4, where we were testing whether males ($n_{1} = 112$) and females ($n_{2} = 82$) were significantly different on average food rating. the estimate effect was $d = .17$, but the difference was not significant, $p = .224$. In retrospect, their power to detect an effect was only .21! 
 
 ```{r}
 pwr.t2n.test(n1 = 112, n2 = 82, d = .17, sig.level = .05,
              power = NULL, alternative = "two.sided")
 ```
 
-In retrospect, their power to detect an effect was only .21! 
+
 
 ## Independent-samples $t$-test
 
