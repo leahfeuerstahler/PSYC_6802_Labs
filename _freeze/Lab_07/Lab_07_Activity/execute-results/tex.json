@@ -1,0 +1,15 @@
+{
+  "hash": "271f96d04343b2721ffb7d2ae4da0fdb",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 7 Activity\"\nformat: pdf\n---\n\n## 1\n\nLoad in the `PlantGrowth` data from the `datasets` package. You can do so by running:\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndata(\"PlantGrowth\", package = \"datasets\")\n```\n:::\n\n\nThese are the data discussed in the first part of the one-way ANOVA lecture. The IV is `group` and the DV is `weight`.\n\n## 2\n\nTest the assumptions of your ANOVA using the methods we learned in earlier weeks to test assumptions about normality and outliers.\n\n\n::: {.cell}\n\n:::\n\n\n\n## 3 \n\nRun an ANOVA that is appropriate for these data using the package of your choice, and compute an effect size. \n\n\n::: {.cell}\n\n:::\n\n\n## 4\n\nIdentify an *a priori* contrast to test on the `PlantGrowth` data, and test it in `R`.\n\n\n::: {.cell}\n\n:::\n\n\n## 5\n\nConduct post-hoc tests of your choosing on the `PlantGrowth` data. What groups are significantly different from each other with your choice of adjustment for multiple comparisons? In real life, would you recommend conducting these post-hoc tests, and why?\n\n\n::: {.cell}\n\n:::\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

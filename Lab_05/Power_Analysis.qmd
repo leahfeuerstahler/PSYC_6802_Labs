@@ -137,7 +137,6 @@ pwr.t2n.test(n1 = 112, n2 = 82, d = .17, sig.level = .05,
 ```
 
 
-
 ## Independent-samples $t$-test
 
 When planning data collection, plan for equally sized groups if possible because this maximizes power. Let's calculate a priori power assuming equal sample sizes and $d = .17$. 
