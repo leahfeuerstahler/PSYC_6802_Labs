@@ -319,7 +319,8 @@ rating  Comedy Drama Sci-fi
 dat$boxOfficeMil 
        0.2164347 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">boxOffice_transformed =</span> <span class="fu">bcPower</span>(boxOfficeMil, <span class="at">lambda =</span> <span class="fl">0.2164347</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">boxOffice_transformed =</span> </span>
+<span id="cb11-2"><a href=""></a>               <span class="fu">bcPower</span>(boxOfficeMil, <span class="at">lambda =</span> <span class="fl">0.2164347</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>With this transformation, we lose the ability to easily interpret the metric of the DV in favor of better meeting our test assumptions.</p></li>
@@ -342,7 +343,9 @@ dat$boxOfficeMil
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>dat_means <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href=""></a>  <span class="fu">group_by</span>(rating, genre) <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">mean_boxOffice_transformed =</span> <span class="fu">mean</span>(boxOffice_transformed), <span class="at">.groups =</span> <span class="st">"keep"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">mean_boxOffice_transformed =</span> </span>
+<span id="cb13-4"><a href=""></a>              <span class="fu">mean</span>(boxOffice_transformed), </span>
+<span id="cb13-5"><a href=""></a>            <span class="at">.groups =</span> <span class="st">"keep"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="interaction-plot-1" class="slide level2">
@@ -364,12 +367,12 @@ dat$boxOfficeMil
 <ul>
 <li><p>A longer way to write the same formula is <code>DV ~ IV1 + IV2 + IV1:IV2</code>.</p></li>
 <li><p>The formula <code>DV ~ IV1:IV2</code> includes only the interaction, not the main effects.</p></li>
-<li><p>The “*” notation implies all lower-order terms, and the “:” notation implies only the interaction effect.</p></li>
+<li><p>The “<code>*</code>” notation implies all lower-order terms, and the “<code>:</code>” notation implies only the interaction effect.</p></li>
 </ul>
 </section>
 <section id="two-way-anova-with-aov" class="slide level2">
 <h2>Two-Way ANOVA with <code>aov</code></h2>
-<p><strong>Warning</strong>: Don’t try this at home if you have unbalanced data!</p>
+<p><strong>Warning</strong>: Don’t try this if you have unbalanced data!</p>
 <ul>
 <li>If data are unbalanced, the main effects results depend on the order of the variables. Compare the two solutions:</li>
 </ul>
@@ -458,12 +461,15 @@ $`Levene's Test for Homogeneity of Variance`
 <span id="cb23-2"><a href=""></a>  <span class="fu">group_by</span>(genre, rating) <span class="sc">%&gt;%</span></span>
 <span id="cb23-3"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">weight =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">var</span>(boxOffice_transformed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Run WLS ANOVA:</p>
+</section>
+<section id="two-way-anova-with-aov-2" class="slide level2">
+<h2>Two-Way ANOVA with <code>aov</code></h2>
+<p>After calculating weights, we can run WLS ANOVA:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>res_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre <span class="sc">*</span> rating, </span>
 <span id="cb24-2"><a href=""></a>               dat, <span class="at">weights =</span> weight)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Because we have unbalanced data, we want to print type 2 or 3 sums of squares. Below, we find type 2 sums of squares using the <code>Anova</code> function from the <code>car</code> package. Note that we do <strong>not</strong> want to use this function to find type 3 sums of squares (use <code>ezAnova</code> instead).</p>
+<p>Because we have unbalanced data, we want to print type 2 or 3 sums of squares. Below, we find type 2 sums of squares using the <code>Anova</code> function from the <code>car</code> package. Note that we do <strong>not</strong> want to use this function to find type 3 sums of squares (use <code>ezANOVA</code> (with White’s adjustment) instead).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">Anova</span>(res_aov, <span class="at">type =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -484,10 +490,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h2><span class="math inline">\(r\)</span>-Family Effect Sizes</h2>
 <p>Now that we have more effects in our ANOVA model, calculating effect size becomes more nuanced. <strong>Partial</strong> effect sizes enter the picture.</p>
 <ul>
-<li>normally, <span class="math inline">\(\eta^2\)</span> and <span class="math inline">\(\omega^2\)</span> compare the variance explained of one of the ANOVA effects against the total variance.</li>
-<li><em>partial</em> <span class="math inline">\(\eta^2\)</span> and <span class="math inline">\(\omega^2\)</span> compare the variance explained of one of the ANOVA effects against the total variance <em>after</em> removing the variance already explained by other terms.</li>
+<li><span class="math inline">\(\eta^2\)</span> and <span class="math inline">\(\omega^2\)</span> quantify the variance explained of one of the ANOVA effects relative to the total variance.</li>
+<li><em>Partial</em> <span class="math inline">\(\eta^2\)</span> and <span class="math inline">\(\omega^2\)</span> quantify the variance explained of one of the ANOVA effects relative to the total variance <em>after</em> removing the variance already explained by other terms.</li>
 </ul>
-<p>In practice, the numerator of the formula remains the same, but the denominator is always smaller for partial measures of effect sizes. This means that partial measures are <em>always</em> larger than their counterparts.</p>
+<p>In practice, the numerator of the formula remains the same, but the denominator is always smaller for partial measures of effect sizes. This means that <strong>partial measures are <em>always</em> larger than their counterparts</strong>.</p>
 </section>
 <section id="effect-sizes" class="slide level2">
 <h2>Effect Sizes</h2>
@@ -526,6 +532,10 @@ etasq |         term |    sumsq |   df |  meansq | statistic | p.value | power
 <section id="simple-main-effects-by-rating-category-1" class="slide level2">
 <h2>Simple Main Effects by Rating Category</h2>
 <p>Next, conduct a one-way ANOVA for each sub-data set.</p>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">PG Ratings</a></li><li><a href="#tabset-2-2">PG-13 Ratings</a></li><li><a href="#tabset-2-3">R Ratings</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre, dat_pg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -535,6 +545,10 @@ Residuals   323 2967.1    9.19
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre, dat_pg13))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
@@ -543,6 +557,10 @@ Residuals   748   6563     8.8
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-2-3">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre, dat_r))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
@@ -550,6 +568,9 @@ genre         2    440  220.13   20.26 2.58e-09 ***
 Residuals   824   8955   10.87                     
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <ul>
@@ -567,47 +588,62 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb36-3"><a href=""></a>F_r <span class="ot">&lt;-</span> <span class="fl">220.13</span> <span class="sc">/</span> <span class="fl">9.8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To find <span class="math inline">\(p\)</span>-values, find the proportion of the <span class="math inline">\(F\)</span> distribution above each <span class="math inline">\(F\)</span> test statistic. Be sure to use <span class="math inline">\(dfB\)</span> from the sub-dataset and <span class="math inline">\(dfW\)</span> from the original dataset.</p>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">PG Ratings</a></li><li><a href="#tabset-3-2">PG-13 Ratings</a></li><li><a href="#tabset-3-3">R Ratings</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">pf</span>(F_pg, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">1895</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>F_pg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15.06531</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">pf</span>(F_pg, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">1895</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.226199e-07</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">pf</span>(F_pg13, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">1895</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>F_pg13</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56.33673</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">pf</span>(F_pg13, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">1895</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.710162e-24</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">pf</span>(F_r, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">1895</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-3-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>F_r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22.46224</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">pf</span>(F_r, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">1895</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.283538e-10</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <p>At <span class="math inline">\(\alpha = .05\)</span>, there are significant differences in genre at all three rating categories.</p>
 </section>
 <section id="simple-main-effects-using-joint_tests" class="slide level2">
 <h2>Simple Main Effects Using <code>joint_tests()</code></h2>
-<p>An easier way to do these tests imply is to use the <code>joint_tests()</code> function from the <code>emmeans</code> package. First we define an object using the <code>emmeans()</code> function with both grouping variables under <code>specs</code></p>
+<p>An easier way to do these tests is to use the <code>joint_tests()</code> function from the <code>emmeans</code> package. First we define an object using the <code>emmeans()</code> function with both grouping variables under <code>specs</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="co"># simple main effects calculation with the aov class results</span></span>
-<span id="cb43-2"><a href=""></a>em1 <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(aov_res, <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">"genre"</span>,<span class="st">"rating"</span>))</span>
-<span id="cb43-3"><a href=""></a></span>
-<span id="cb43-4"><a href=""></a><span class="co"># simple main effects calculation from the ezANOVA output</span></span>
-<span id="cb43-5"><a href=""></a>ez_res <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> dat, <span class="at">dv =</span> boxOffice_transformed,</span>
-<span id="cb43-6"><a href=""></a>            <span class="at">between =</span> <span class="fu">c</span>(genre, rating), <span class="at">wid =</span> id,</span>
-<span id="cb43-7"><a href=""></a>            <span class="at">type =</span> <span class="dv">3</span>, <span class="at">white.adjust =</span> <span class="cn">TRUE</span>, <span class="at">return_aov =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb43-8"><a href=""></a><span class="fu">emmeans</span>(ez_res<span class="sc">$</span>aov, <span class="at">specs =</span> <span class="st">"rating"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> rating emmean    SE   df lower.CL upper.CL
- PG       5.79 0.275 1895     5.25     6.33
- PG-13    5.75 0.123 1895     5.51     5.99
- R        3.72 0.172 1895     3.38     4.05
-
-Results are averaged over the levels of: genre 
-Confidence level used: 0.95 </code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="co"># simple main effects calculation with the aov class results</span></span>
+<span id="cb49-2"><a href=""></a>em1 <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(aov_res, <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">"genre"</span>,<span class="st">"rating"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-<p>Then we can use <code>joint_tests()</code> to test whether the effect of <code>rating</code> is significant <code>by</code> the different levels of `rating``</p>
+<p>Then we can use <code>joint_tests()</code> to test whether the effect of <code>rating</code> is significant <code>by</code> the different levels of <code>rating</code>. Results shown on the next slide.</p>
+</section>
+<section id="simple-main-effects-using-joint_tests-1" class="slide level2">
+<h2>Simple Main Effects Using <code>joint_tests()</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">joint_tests</span>(em1, <span class="at">by =</span> <span class="st">"rating"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">joint_tests</span>(em1, <span class="at">by =</span> <span class="st">"rating"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>rating = PG:
  model term df1  df2 F.ratio p.value
@@ -628,7 +664,7 @@ rating = R:
 <h2>Post-Hoc Tests for Simple Main Effects</h2>
 <p>If there are 3 or more levels of the IV for simple effects, we can do post-hoc or a priori analyses like we learned about for the one-way ANOVA. For example, we can do Tukey’s HSD for each rating separately.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">pairs</span>(em1, <span class="at">by =</span> <span class="st">"rating"</span>, <span class="at">adjust =</span> <span class="st">"tukey"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">pairs</span>(em1, <span class="at">by =</span> <span class="st">"rating"</span>, <span class="at">adjust =</span> <span class="st">"tukey"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>rating = PG:
  contrast          estimate    SE   df t.ratio p.value
@@ -661,8 +697,12 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </section>
 <section id="calculations-pg-example" class="slide level2">
 <h2>Calculations: PG Example</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Sub-Data for PG</a></li><li><a href="#tabset-4-2">Full Model</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre, dat_pg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre, dat_pg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 genre         2  295.3  147.64   16.07 2.22e-07 ***
@@ -671,9 +711,11 @@ Residuals   323 2967.1    9.19
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(N = 326\)</span>, <span class="math inline">\(SS_{simple} = 295.3\)</span>, <span class="math inline">\(MS_{simple} = 147.64\)</span> and <span class="math inline">\(df_{simple} = 2\)</span> from the sub-data set.</p>
+<p><span class="math inline">\(N = 326\)</span>, <span class="math inline">\(SSB_{simple} = 295.3\)</span>, <span class="math inline">\(MS_{simple} = 147.64\)</span> and <span class="math inline">\(df_{simple} = 2\)</span></p>
+</div>
+<div id="tabset-4-2">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre <span class="sc">*</span> rating, dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="fu">summary</span>(<span class="fu">aov</span>(boxOffice_transformed <span class="sc">~</span> genre <span class="sc">*</span> rating, dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               Df Sum Sq Mean Sq F value  Pr(&gt;F)    
 genre           2   2938  1469.0  150.60 &lt; 2e-16 ***
@@ -684,26 +726,70 @@ Residuals    1895  18484     9.8
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(SS_{W} = 18484\)</span>, <span class="math inline">\(df_{W} = 1895\)</span>, <span class="math inline">\(MS_{W} = 9.8\)</span>, and <span class="math inline">\(SS_{T} = 2938 + 1759 + 140 + 18484 = 23321\)</span></p>
+<p><span class="math inline">\(SS_{W} = 18484\)</span>, <span class="math inline">\(df_{W} = 1895\)</span>, <span class="math inline">\(MS_{W} = 9.8\)</span>, <span class="math inline">\(SS_{T} = 2938 + 1759 + 140 + 18484 = 23321\)</span></p>
+</div>
+</div>
+</div>
+<div class="panel-tabset">
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1"><span class="math inline">\(\eta^2\)</span></a></li><li><a href="#tabset-5-2">Partial <span class="math inline">\(\eta^2\)</span></a></li><li><a href="#tabset-5-3"><span class="math inline">\(\omega^2\)</span></a></li><li><a href="#tabset-5-4">Partial <span class="math inline">\(\omega^2\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1">
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[\frac{SSB_{simple}}{SST}\]</span></p>
+</div><div class="column">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fl">295.3</span> <span class="sc">/</span> <span class="dv">23321</span> <span class="co"># eta-squared</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fl">295.3</span> <span class="sc">/</span> <span class="dv">23321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.01266241</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fl">295.3</span> <span class="sc">/</span> (<span class="fl">295.3</span> <span class="sc">+</span> <span class="dv">18484</span>) <span class="co"># partial eta-squared</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+</div>
+<div id="tabset-5-2">
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[\frac{SSB_{simple}}{SSB_{simple} + SSW}\]</span></p>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fl">295.3</span> <span class="sc">/</span> (<span class="fl">295.3</span> <span class="sc">+</span> <span class="dv">18484</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.01572476</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="fl">147.64</span> <span class="sc">-</span> <span class="fl">9.8</span>) <span class="sc">/</span> (<span class="dv">23321</span> <span class="sc">+</span> <span class="fl">9.8</span>) <span class="co"># omega-squared</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+</div>
+<div id="tabset-5-3">
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[\frac{dfB(MSB_{simple} - MSW)}{SST + MSW}\]</span></p>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="fl">147.64</span> <span class="sc">-</span> <span class="fl">9.8</span>) <span class="sc">/</span> </span>
+<span id="cb62-2"><a href=""></a>  (<span class="dv">23321</span> <span class="sc">+</span> <span class="fl">9.8</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.01181614</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="fl">147.64</span> <span class="sc">-</span> <span class="fl">9.8</span>) <span class="sc">/</span> (<span class="fl">295.3</span> <span class="sc">+</span> (<span class="dv">326</span> <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="fl">9.8</span>)  <span class="co"># partial omega-squared</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+</div>
+<div id="tabset-5-4">
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[\frac{dfB(MSB_{simple} - MSW)}{SSB_{simple} + (N - dfB)MSW}\]</span></p>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="fl">147.64</span> <span class="sc">-</span> <span class="fl">9.8</span>) <span class="sc">/</span> </span>
+<span id="cb64-2"><a href=""></a>  (<span class="fl">295.3</span> <span class="sc">+</span> (<span class="dv">326</span> <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="fl">9.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.07943524</code></pre>
 </div>
 </div>
+</div></div>
 
+</div>
+</div>
+</div>
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">

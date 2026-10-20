@@ -65,7 +65,8 @@ We see (as we might have anticipated), a large number of positive outliers. This
 ```{r}
 car::powerTransform(dat$boxOfficeMil)
 
-dat <- dat %>% mutate(boxOffice_transformed = bcPower(boxOfficeMil, lambda = 0.2164347))
+dat <- dat %>% mutate(boxOffice_transformed = 
+               bcPower(boxOfficeMil, lambda = 0.2164347))
 ```
 
 * With this transformation, we lose the ability to easily interpret the metric of the DV in favor of better meeting our test assumptions.
@@ -91,7 +92,9 @@ The easiest way to make an interaction plot with `ggplot` is to create a new dat
 ```{r}
 dat_means <- dat %>% 
   group_by(rating, genre) %>%
-  summarize(mean_boxOffice_transformed = mean(boxOffice_transformed), .groups = "keep")
+  summarize(mean_boxOffice_transformed = 
+              mean(boxOffice_transformed), 
+            .groups = "keep")
 ```
 
 ## Interaction Plot
@@ -116,11 +119,11 @@ We can also use `DV ~ IV1 * IV2` to include both main effects and an interaction
 
 * The formula `DV ~ IV1:IV2` includes only the interaction, not the main effects.
 
-* The "*" notation implies all lower-order terms, and the ":" notation implies only the interaction effect. 
+* The "`*`" notation implies all lower-order terms, and the "`:`" notation implies only the interaction effect. 
 
 ## Two-Way ANOVA with `aov`
 
-**Warning**: Don't try this at home if you have unbalanced data!
+**Warning**: Don't try this if you have unbalanced data!
 
 * If data are unbalanced, the main effects results depend on the order of the variables. Compare the two solutions:
 
@@ -177,7 +180,9 @@ dat <- dat %>%
   mutate(weight = 1 / var(boxOffice_transformed))
 ```
 
-Run WLS ANOVA:
+## Two-Way ANOVA with `aov`
+
+After calculating weights, we can run WLS ANOVA:
 
 ```{r}
 res_aov <- aov(boxOffice_transformed ~ genre * rating, 
@@ -185,7 +190,7 @@ res_aov <- aov(boxOffice_transformed ~ genre * rating,
 
 ```
 
-Because we have unbalanced data, we want to print type 2 or 3 sums of squares. Below, we find type 2 sums of squares using the `Anova` function from the `car` package. Note that we do **not** want to use this function to find type 3 sums of squares (use `ezAnova` instead).
+Because we have unbalanced data, we want to print type 2 or 3 sums of squares. Below, we find type 2 sums of squares using the `Anova` function from the `car` package. Note that we do **not** want to use this function to find type 3 sums of squares (use `ezANOVA` (with White's adjustment) instead).
 
 ```{r}
 Anova(res_aov, type = 2)
@@ -195,10 +200,10 @@ Anova(res_aov, type = 2)
 
 Now that we have more effects in our ANOVA model, calculating effect size becomes more nuanced. **Partial** effect sizes enter the picture.
 
-- normally, $\eta^2$ and $\omega^2$ compare the variance explained of one of the ANOVA effects against the total variance.
-- *partial* $\eta^2$ and $\omega^2$ compare the variance explained of one of the ANOVA effects against the total variance *after* removing the variance already explained by other terms. 
+- $\eta^2$ and $\omega^2$ quantify the variance explained of one of the ANOVA effects relative to the total variance.
+- *Partial* $\eta^2$ and $\omega^2$ quantify the variance explained of one of the ANOVA effects relative to the total variance *after* removing the variance already explained by other terms. 
 
-In practice, the numerator of the formula remains the same, but the denominator is always smaller for partial measures of effect sizes. This means that partial measures are *always* larger than their counterparts. 
+In practice, the numerator of the formula remains the same, but the denominator is always smaller for partial measures of effect sizes. This means that **partial measures are *always* larger than their counterparts**. 
 
 ## Effect Sizes 
 
@@ -228,11 +233,27 @@ Next, we want the $MSW$ and $dfW$ from the original model. From before, $MSW = 9
 
 Next, conduct a one-way ANOVA for each sub-data set.
 
+::: {.panel-tabset}
+
+## PG Ratings
+
 ```{r}
 summary(aov(boxOffice_transformed ~ genre, dat_pg))
+```
+
+## PG-13 Ratings
+
+```{r}
 summary(aov(boxOffice_transformed ~ genre, dat_pg13))
+```
+
+## R Ratings
+
+```{r}
 summary(aov(boxOffice_transformed ~ genre, dat_r))
 ```
+
+:::
 
 * For the PG rated movies, $MSB = 147.64$ and $dfB = 2$.
 
@@ -252,32 +273,47 @@ F_r <- 220.13 / 9.8
 
 To find $p$-values, find the proportion of the $F$ distribution above each $F$ test statistic. Be sure to use $dfB$ from the sub-dataset and $dfW$ from the original dataset.
 
+::: {.panel-tabset}
+
+## PG Ratings
+
 ```{r}
+F_pg
 pf(F_pg, df1 = 2, df2 = 1895, lower.tail = FALSE)
+```
+
+## PG-13 Ratings
+
+```{r}
+F_pg13
 pf(F_pg13, df1 = 2, df2 = 1895, lower.tail = FALSE)
+```
+
+## R Ratings
+
+```{r}
+F_r
 pf(F_r, df1 = 2, df2 = 1895, lower.tail = FALSE)
 ```
+
+:::
 
 At $\alpha = .05$, there are significant differences in genre at all three rating categories.
 
 
 ## Simple Main Effects Using `joint_tests()`
 
-An easier way to do these tests imply is to use the `joint_tests()` function from the `emmeans` package. First we define an object using the `emmeans()` function with both grouping variables under `specs`
-
+An easier way to do these tests is to use the `joint_tests()` function from the `emmeans` package. First we define an object using the `emmeans()` function with both grouping variables under `specs`.
 
 ```{r}
 # simple main effects calculation with the aov class results
 em1 <- emmeans(aov_res, specs = c("genre","rating"))
-
-# simple main effects calculation from the ezANOVA output
-ez_res <- ezANOVA(data = dat, dv = boxOffice_transformed,
-            between = c(genre, rating), wid = id,
-            type = 3, white.adjust = TRUE, return_aov = TRUE)
-emmeans(ez_res$aov, specs = "rating")
 ```
 
-Then we can use `joint_tests()` to test whether the effect of `rating` is significant `by` the different levels of `rating``
+
+Then we can use `joint_tests()` to test whether the effect of `rating` is significant `by` the different levels of `rating`. Results shown on the next slide. 
+
+## Simple Main Effects Using `joint_tests()`
 
 ```{r}
 joint_tests(em1, by = "rating")
@@ -306,22 +342,99 @@ $$\omega^2_{simple} = \frac{dfB(MSB_{simple} - MSW)}{SST + MSW}$$
 
 ## Calculations: PG Example
 
+::: {.panel-tabset}
+
+## Sub-Data for PG
+
 ```{r}
 summary(aov(boxOffice_transformed ~ genre, dat_pg))
 ```
 
-$N = 326$, $SS_{simple} = 295.3$, $MS_{simple} = 147.64$ and $df_{simple} = 2$ from the sub-data set. 
+$N = 326$, $SSB_{simple} = 295.3$, $MS_{simple} = 147.64$ and $df_{simple} = 2$
+
+
+## Full Model
 
 ```{r}
 summary(aov(boxOffice_transformed ~ genre * rating, dat))
 ```
 
+$SS_{W} = 18484$, $df_{W} = 1895$, $MS_{W} = 9.8$, $SS_{T} = 2938 + 1759 + 140 + 18484 = 23321$
 
-$SS_{W} = 18484$, $df_{W} = 1895$, $MS_{W} = 9.8$, and $SS_{T} = 2938 + 1759 + 140 + 18484 = 23321$
+
+:::
+
+::: {.panel-tabset}
+
+## $\eta^2$
+
+:::: columns
+::: column
+
+$$\frac{SSB_{simple}}{SST}$$
+
+:::
+::: column
 
 ```{r}
-295.3 / 23321 # eta-squared
-295.3 / (295.3 + 18484) # partial eta-squared
-2 * (147.64 - 9.8) / (23321 + 9.8) # omega-squared
-2 * (147.64 - 9.8) / (295.3 + (326 - 2) * 9.8)  # partial omega-squared
+295.3 / 23321
 ```
+
+:::
+::::
+
+
+## Partial $\eta^2$
+
+:::: columns
+::: column
+
+$$\frac{SSB_{simple}}{SSB_{simple} + SSW}$$
+
+:::
+::: column
+
+
+```{r}
+295.3 / (295.3 + 18484) 
+```
+
+:::
+::::
+
+## $\omega^2$
+
+:::: columns
+::: column
+
+$$\frac{dfB(MSB_{simple} - MSW)}{SST + MSW}$$
+
+:::
+::: column
+
+```{r}
+2 * (147.64 - 9.8) / 
+  (23321 + 9.8) 
+```
+
+:::
+::::
+
+## Partial $\omega^2$
+
+:::: columns
+::: column
+
+
+$$\frac{dfB(MSB_{simple} - MSW)}{SSB_{simple} + (N - dfB)MSW}$$
+
+:::
+::: column
+
+```{r}
+2 * (147.64 - 9.8) / 
+  (295.3 + (326 - 2) * 9.8)
+```
+
+:::
+::::

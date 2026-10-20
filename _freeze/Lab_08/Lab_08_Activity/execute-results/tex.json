@@ -1,0 +1,15 @@
+{
+  "hash": "d4ddf6411d2d8903827160a445e39880",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 8 Activity\"\nformat: pdf\n---\n\n## 1\n\nLoad in the `Ornstein` data from the `carData` package, along with the `tidyverse` package. Read the help page for the `Ornstein` data to better understand these data.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\ndata(\"Ornstein\", package = \"carData\")\n```\n:::\n\n\nFor today, we will use `interlocks` as the DV, and `sector` and `nation` as IVs. However, we are only interested in whether the nation is Canada or not, so we want to combine the `OTH`, `UK`, and `US` factor levels. One way to accomplish this is to run the following code. (Then use `canada` as an IV instead of `nation`).\n\n\n::: {.cell}\n\n```{.r .cell-code}\nOrnstein <- Ornstein %>%\n  mutate(canada = factor(nation == \"CAN\"))\n```\n:::\n\n\nFinally, we will omit data from the \"BNK\", \"CON\", and \"HLD\" levels of `sector` because they have relatively few observations.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nOrnstein <- Ornstein %>%\n  filter(!sector %in% c(\"BNK\", \"CON\", \"HLD\"), .preserve = FALSE) %>%\n  mutate(sector = factor(sector))\n```\n:::\n\n\n\n## 2\n\nConduct graphical and numerical exploratory analyses on these data. How do these analyses inform how you set up the ANOVA and what results you expect to find?\n\n\n::: {.cell}\n\n:::\n\n\n## 3\n\nConduct a two-way ANOVA on these data using options informed by the previous step, and calculate effect sizes. What do you find?\n\n\n::: {.cell}\n\n:::\n\n\n## 4\n\nBased on your results in the previous part, calculate either simple main effects or ordinary main effects. What do you conclude?\n\n\n::: {.cell}\n\n:::\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}
