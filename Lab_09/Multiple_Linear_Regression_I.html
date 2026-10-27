@@ -6,8 +6,8 @@
 <script src="Multiple_Linear_Regression_I_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Multiple_Linear_Regression_I_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Multiple_Linear_Regression_I_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Multiple_Linear_Regression_I_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+<link href="Multiple_Linear_Regression_I_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 9: Multiple Linear Regression I</title>
@@ -20,10 +20,13 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -203,7 +206,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802: Intro to Psychological Statistics 
+PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
@@ -212,17 +215,17 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install if Needed)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href=""></a><span class="fu">library</span>(GGally) <span class="co"># used for pairs plots</span></span>
-<span id="cb1-4"><a href=""></a><span class="fu">library</span>(gridExtra) <span class="co"># used to plot multiple graphs simultaneously</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="fu">library</span>(GGally) <span class="co"># used for pairs plots</span></span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">library</span>(gridExtra) <span class="co"># used to plot multiple graphs simultaneously</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="data-for-today" class="slide level2">
 <h2>Data for Today</h2>
 <p>Today, we’ll work with a dataset that includes a large number of assorted variables associated with the 50 U.S. States (including the educational expenditures and SAT information that we worked with in lecture).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"States.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"States.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The second sheet of the Excel file includes more details about each of the variables in the dataset. Take a few minutes to glance through this dataset.</p>
 </section>
@@ -230,7 +233,7 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Fitting a Linear Regression Model</h2>
 <p>The syntax for fitting a regression model is:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">lm</span>(DV <span class="sc">~</span> IV1 <span class="sc">+</span> IV2 <span class="sc">+</span> IV3, dataset)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">lm</span>(DV <span class="sc">~</span> IV1 <span class="sc">+</span> IV2 <span class="sc">+</span> IV3, dataset)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Replace “DV” and “IV”s with column names from the dataset</li>
@@ -243,15 +246,15 @@ PSYC 6802: Intro to Psychological Statistics
 <p>Example:</p>
 <p>Suppose we hypothesize that the number of airports in a state is primarily a function of the size of the state and its population.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Nairports <span class="sc">~</span> TotalSqMiles <span class="sc">+</span> Population, dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Nairports <span class="sc">~</span> TotalSqMiles <span class="sc">+</span> Population, dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>There is no printed output from running this code, we have only saved the regression results as a new object in our environment.</p>
+<p>There is no printed output from running this code, we have only saved the regression results as a new object named <code>mod1</code>.</p>
 </section>
 <section id="fitting-the-regression-model-1" class="slide level2">
 <h2>Fitting the Regression Model</h2>
-<p>To extract the estimated model coefficients, use the <code>coef()</code> function around the <code>lm()</code> output. It can sometimes help to round these values to 3, 4, or 5 decimal points.</p>
+<p>To extract the estimated model coefficients, use the <code>coef()</code> function around the <code>lm()</code> output. It can sometimes help to round these values. Here, we round to 7 decimal places to better interpret the <code>Population</code> and <code>TotalSqMiles</code> coefficients.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">round</span>(<span class="fu">coef</span>(mod1), <span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">round</span>(<span class="fu">coef</span>(mod1), <span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> (Intercept) TotalSqMiles   Population 
    2.9877042    0.0000318    0.0000005 </code></pre>
@@ -259,7 +262,7 @@ PSYC 6802: Intro to Psychological Statistics
 </div>
 <p>The predicted # of airports = 2.99 + 0.00003TotalSqMiles + .0000005Population</p>
 <ul>
-<li>2.99 is the predicted number of airports for a state with no land or water area (impossible) and no population (also somewhat impossible).</li>
+<li>2.99 is the predicted number of airports for a state with no land or water area (impossible) and no population (also impossible).</li>
 <li>For every additional square mile in a state, we expect .00003 more airports, <em>holding population constant</em>.</li>
 <li>For every additional person in a state, we expect .0000005 more airports, <em>holding area constant</em>.</li>
 </ul>
@@ -268,7 +271,7 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Fitting the Regression Model</h2>
 <p>A more detailed summary of the model is given by the <code>summary()</code> command. This gives the model coefficients, <span class="math inline">\(t\)</span>-tests for each coefficient, <span class="math inline">\(R^2\)</span>, adjusted <span class="math inline">\(R^2\)</span>, and the omnibus <span class="math inline">\(F\)</span>-test.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">summary</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -293,17 +296,16 @@ F-statistic: 123.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>The omnibus <span class="math inline">\(F\)</span> test is significant, and each coefficient is significantly different than zero according to the <span class="math inline">\(t\)</span>-tests. The multiple <span class="math inline">\(R^2 = .8403\)</span> (adjusted = .8335), indicating very high predictive accuracy.</p>
 </section>
-<section id="fitting-the-standardized-regression-model" class="slide level2">
-<h2>Fitting the Standardized Regression Model</h2>
+<section id="standardized-regression" class="slide level2">
+<h2>Standardized Regression</h2>
 <p>The result on the previous slides may seem a little strange in that both the coefficient for <code>TotalSqMiles</code> and the coefficient for <code>Population</code> are nearly zero. This has to do with the scale of the variables.</p>
 <ul>
 <li>One way to put variables “on the same scale” is to fit the standardized regression model. To do this, we can standardize each variable using the <code>scale()</code> function.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Nairports) <span class="sc">~</span> <span class="fu">scale</span>(TotalSqMiles) <span class="sc">+</span> </span>
-<span id="cb9-2"><a href=""></a>             <span class="fu">scale</span>(Population), dat)</span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="fu">round</span>(<span class="fu">coef</span>(mod2), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Nairports) <span class="sc">~</span> <span class="fu">scale</span>(TotalSqMiles) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="" aria-label="2"></a>             <span class="fu">scale</span>(Population), dat)</span>
+<span id="cb9-3"><a href="" aria-label="3"></a><span class="fu">round</span>(<span class="fu">coef</span>(mod2), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        (Intercept) scale(TotalSqMiles)   scale(Population) 
              0.0000              0.5814              0.6374 </code></pre>
@@ -314,10 +316,10 @@ F-statistic: 123.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>For every <em>standard deviation increase</em> in population, we expect a .64 standard deviation in the number of airports, holding area constant.</li>
 </ul>
 </section>
-<section id="fitting-the-standardized-regression-model-1" class="slide level2">
-<h2>Fitting the Standardized Regression Model</h2>
+<section id="standardized-regression-1" class="slide level2">
+<h2>Standardized Regression</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">summary</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -345,9 +347,9 @@ F-statistic: 123.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="exploring-data" class="slide level2">
 <h2>Exploring Data</h2>
-<p>Let’s now do what we should have done in the first place - explore the data graphically! A “pairs plot”, or scatterplot matrix, is particularly useful for this purpose. The <code>ggpairs()</code> function in the <code>GGally</code> package allows us to do this.</p>
+<p>Let’s now do what we should have done in the first place—explore the data graphically! A “pairs plot”, or scatterplot matrix, is particularly useful for this purpose. The <code>ggpairs()</code> function in the <code>GGally</code> package allows us to do this.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">ggpairs</span>(dat[, <span class="fu">c</span>(<span class="st">"Nairports"</span>, <span class="st">"TotalSqMiles"</span>, <span class="st">"Population"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-label="1"></a><span class="fu">ggpairs</span>(dat[, <span class="fu">c</span>(<span class="st">"Nairports"</span>, <span class="st">"TotalSqMiles"</span>, <span class="st">"Population"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Multiple_Linear_Regression_I_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"><p>All variables have high positive skew!</p>
@@ -356,17 +358,17 @@ F-statistic: 123.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Exploring Data</h2>
 <p>There are some outliers, and potential nonlinearities in these data. Perhaps if we take the natural logs of <code>Nairports</code>, <code>TotalSquareMiles</code> and <code>Population</code>, these variable will be more linearly related.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">logNairports =</span> <span class="fu">log</span>(Nairports),</span>
-<span id="cb14-3"><a href=""></a>         <span class="at">logTotalSqMiles =</span> <span class="fu">log</span>(TotalSqMiles),</span>
-<span id="cb14-4"><a href=""></a>         <span class="at">logPopulation =</span> <span class="fu">log</span>(Population))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">logNairports =</span> <span class="fu">log</span>(Nairports),</span>
+<span id="cb14-3"><a href="" aria-label="3"></a>         <span class="at">logTotalSqMiles =</span> <span class="fu">log</span>(TotalSqMiles),</span>
+<span id="cb14-4"><a href="" aria-label="4"></a>         <span class="at">logPopulation =</span> <span class="fu">log</span>(Population))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="exploring-data-2" class="slide level2">
 <h2>Exploring Data</h2>
 <p>Then, make the pairs plot again:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">ggpairs</span>(dat[,<span class="fu">c</span>(<span class="st">"logNairports"</span>, <span class="st">"logTotalSqMiles"</span>, <span class="st">"logPopulation"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-label="1"></a><span class="fu">ggpairs</span>(dat[,<span class="fu">c</span>(<span class="st">"logNairports"</span>, <span class="st">"logTotalSqMiles"</span>, <span class="st">"logPopulation"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Multiple_Linear_Regression_I_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"><p>Not only does the skewness of our variables change, but the correlations among the variables also change when taking logs (this will happen with any nonlinear transformation).</p>
@@ -375,8 +377,8 @@ F-statistic: 123.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Fitting the Regression Model</h2>
 <p>Let’s next fit the model with the transformed variables.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>mod3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(logNairports <span class="sc">~</span> logTotalSqMiles <span class="sc">+</span> logPopulation, dat)</span>
-<span id="cb16-2"><a href=""></a><span class="fu">summary</span>(mod3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(logNairports <span class="sc">~</span> logTotalSqMiles <span class="sc">+</span> logPopulation, dat)</span>
+<span id="cb16-2"><a href="" aria-label="2"></a><span class="fu">summary</span>(mod3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -400,10 +402,13 @@ Multiple R-squared:  0.6549,    Adjusted R-squared:  0.6402
 F-statistic:  44.6 on 2 and 47 DF,  p-value: 1.385e-11</code></pre>
 </div>
 </div>
+</section>
+<section id="fitting-the-regression-model-4" class="slide level2">
+<h2>Fitting the Regression Model</h2>
 <p>Notice that the multiple <span class="math inline">\(R^2\)</span> is now much lower. All 3 estimated regression coefficients have also changed substantially.</p>
 <ul>
 <li><p>Even though <span class="math inline">\(R^2\)</span> is lower, this model may be preferable (e.g., more generalizable) than the previous model.</p></li>
-<li><p>Part of the reason why has to do with the effects of outliers, which we’ll focus on next week.</p></li>
+<li><p>Part of the reason why has to do with the effects of outliers, which we’ll discuss more next week.</p></li>
 <li><p>We should also consider model assumptions before trusting these results too much (also next week).</p></li>
 </ul>
 </section>
@@ -412,12 +417,13 @@ F-statistic:  44.6 on 2 and 47 DF,  p-value: 1.385e-11</code></pre>
 <p>For another example, let’s explore what happens when we use categorical variables as IVs. In the dataset, there are three dummy-coded variables (<code>RegionNortheast</code>, <code>RegionSouth</code>, and <code>RegionNorthCentral</code> corresponding to four regions of the U.S (Northeast, South, NorthCentral, and West).</p>
 <p>First, run the following to create a new factor-type variable named <code>Region</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Region =</span> <span class="fu">case_when</span>(RegionNorthEast <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Northeast"</span>,</span>
-<span id="cb18-3"><a href=""></a>                            RegionSouth <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"South"</span>,</span>
-<span id="cb18-4"><a href=""></a>                            RegionNorthCentral <span class="sc">==</span> <span class="dv">1</span>  <span class="sc">~</span> <span class="st">"NorthCentral"</span>,</span>
-<span id="cb18-5"><a href=""></a>                            <span class="co"># next line says that 3 0s indicates "West"</span></span>
-<span id="cb18-6"><a href=""></a>                            <span class="at">.default =</span> <span class="st">"West"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">Region =</span> <span class="fu">case_when</span>(RegionNorthEast <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Northeast"</span>,</span>
+<span id="cb18-3"><a href="" aria-label="3"></a>                            RegionSouth <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"South"</span>,</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>                            RegionNorthCentral <span class="sc">==</span> <span class="dv">1</span>  <span class="sc">~</span> <span class="st">"NorthCentral"</span>,</span>
+<span id="cb18-5"><a href="" aria-label="5"></a>                            <span class="co"># If a value isn't in the NortEast, South,</span></span>
+<span id="cb18-6"><a href="" aria-label="6"></a>                            <span class="co"># or NorthCentral, it must be "West"</span></span>
+<span id="cb18-7"><a href="" aria-label="7"></a>                            <span class="at">.default =</span> <span class="st">"West"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="regression-model" class="slide level2">
@@ -431,8 +437,8 @@ F-statistic:  44.6 on 2 and 47 DF,  p-value: 1.385e-11</code></pre>
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>mod4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(HighestElevation <span class="sc">~</span> Region, dat)</span>
-<span id="cb19-2"><a href=""></a><span class="fu">summary</span>(mod4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(HighestElevation <span class="sc">~</span> Region, dat)</span>
+<span id="cb19-2"><a href="" aria-label="2"></a><span class="fu">summary</span>(mod4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -459,9 +465,9 @@ F-statistic: 75.46 on 3 and 46 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>mod4b <span class="ot">&lt;-</span> <span class="fu">lm</span>(HighestElevation <span class="sc">~</span> RegionNorthEast <span class="sc">+</span> </span>
-<span id="cb21-2"><a href=""></a>              RegionSouth <span class="sc">+</span> RegionNorthCentral, dat)</span>
-<span id="cb21-3"><a href=""></a><span class="fu">summary</span>(mod4b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a>mod4b <span class="ot">&lt;-</span> <span class="fu">lm</span>(HighestElevation <span class="sc">~</span> RegionNorthEast <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="" aria-label="2"></a>              RegionSouth <span class="sc">+</span> RegionNorthCentral, dat)</span>
+<span id="cb21-3"><a href="" aria-label="3"></a><span class="fu">summary</span>(mod4b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -494,9 +500,13 @@ F-statistic: 75.46 on 3 and 46 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Categorical Variables</h2>
 <p>Because our only IV is discrete with 4 cateogries, we might instead think to run an ANOVA.</p>
 <p>A one-way ANOVA predicting the highest elevation by region is identical to a regression model on dummy variables. To see, why let’s run both models.</p>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">ANOVA</a></li><li><a href="#tabset-2-2">Regression</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>mod5 <span class="ot">&lt;-</span> <span class="fu">aov</span>(HighestElevation <span class="sc">~</span> Region, dat)</span>
-<span id="cb23-2"><a href=""></a><span class="fu">summary</span>(mod5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">aov</span>(HighestElevation <span class="sc">~</span> Region, dat)</span>
+<span id="cb23-2"><a href="" aria-label="2"></a><span class="fu">summary</span>(mod5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df    Sum Sq   Mean Sq F value Pr(&gt;F)    
 Region       3 1.054e+09 351351539   75.46 &lt;2e-16 ***
@@ -505,11 +515,41 @@ Residuals   46 2.142e+08   4656250
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a><span class="fu">summary</span>(mod4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = HighestElevation ~ Region, data = dat)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -3453  -1239   -389   1045   6426 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)       2828.2      622.9   4.540 4.04e-05 ***
+RegionNortheast    838.0      951.5   0.881    0.383    
+RegionSouth        969.8      824.0   1.177    0.245    
+RegionWest       11055.9      863.8  12.799  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2158 on 46 degrees of freedom
+Multiple R-squared:  0.8311,    Adjusted R-squared:  0.8201 
+F-statistic: 75.46 on 3 and 46 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <p>The <span class="math inline">\(F\)</span> test for the main effect of region in the ANOVA is identical to the omnibus <span class="math inline">\(F\)</span> test in the regression model!</p>
 </section>
 <section id="categorical-variables-2" class="slide level2">
 <h2>Categorical Variables</h2>
-<p>The main “difference” (not a real difference) between the two models is how the results are analyzed. ANOVA models mostly focus on proportion of variance explained, while regression models put more emphasis on regression coefficients.</p>
+<p>The main “difference” between the two models is how the results are analyzed. ANOVA models focus on proportion of variance explained, while regression models put more emphasis on regression coefficients.</p>
 <p>In the fitted regression model,</p>
 <p>Predicted highest elevation = 2828.2 + 838 <span class="math inline">\(\times\)</span> <code>NorthEast</code> + 969.8 <span class="math inline">\(\times\)</span> <code>South</code> + 11055.9 <span class="math inline">\(\times\)</span> <code>West</code></p>
 <ul>
@@ -524,9 +564,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>It is good to double check that what we are doing makes sense, even if it is something pretty simple.</p>
 <p>Here are the means calculated from the data, which matches the model-predicted averages:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>dat <span class="sc">%&gt;%</span> </span>
-<span id="cb25-2"><a href=""></a>  <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-3"><a href=""></a>    <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(HighestElevation))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-label="1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="" aria-label="2"></a>  <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="" aria-label="3"></a>    <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(HighestElevation))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   Region         mean
@@ -730,7 +770,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

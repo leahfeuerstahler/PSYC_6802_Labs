@@ -1,0 +1,15 @@
+{
+  "hash": "0fa7ee3485b52188db20aea3d978fe98",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 9 Activity\"\nformat: pdf\n---\n\nPick a variable in the `States` dataset to be the DV. Build a model with 3-5 predictors that you think does a good job predicting the criterion while avoiding redundancies. Graphically explore the data to see whether you want to do any transformations or whether any outliers might exist. Be sure to save your final model and show the TA---you will use this again next week. You may work alone or with a small group.\n\n\n::: {.cell}\n\n:::\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

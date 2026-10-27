@@ -43,11 +43,11 @@ Suppose we hypothesize that the number of airports in a state is primarily a fun
 mod1 <- lm(Nairports ~ TotalSqMiles + Population, dat)
 ```
 
-There is no printed output from running this code, we have only saved the regression results as a new object in our environment.
+There is no printed output from running this code, we have only saved the regression results as a new object named `mod1`.
 
 ## Fitting the Regression Model
 
-To extract the estimated model coefficients, use the `coef()` function around the `lm()` output. It can sometimes help to round these values to 3, 4, or 5 decimal points.
+To extract the estimated model coefficients, use the `coef()` function around the `lm()` output. It can sometimes help to round these values. Here, we round to 7 decimal places to better interpret the `Population` and `TotalSqMiles` coefficients. 
 
 ```{r}
 round(coef(mod1), 7)
@@ -55,7 +55,7 @@ round(coef(mod1), 7)
 
 The predicted # of airports = 2.99 + 0.00003TotalSqMiles + .0000005Population
 
-* 2.99 is the predicted number of airports for a state with no land or water area (impossible) and no population (also somewhat impossible).
+* 2.99 is the predicted number of airports for a state with no land or water area (impossible) and no population (also impossible).
 * For every additional square mile in a state, we expect .00003 more airports, *holding population constant*.
 * For every additional person in a state, we expect .0000005 more airports, *holding area constant*.
 
@@ -69,7 +69,7 @@ summary(mod1)
 
 The omnibus $F$ test is significant, and each coefficient is significantly different than zero according to the $t$-tests. The multiple $R^2 = .8403$ (adjusted = .8335), indicating very high predictive accuracy. 
 
-## Fitting the Standardized Regression Model
+## Standardized Regression
 
 The result on the previous slides may seem a little strange in that both the coefficient for `TotalSqMiles` and the coefficient for `Population` are nearly zero. This has to do with the scale of the variables. 
 
@@ -78,14 +78,13 @@ The result on the previous slides may seem a little strange in that both the coe
 ```{r}
 mod2 <- lm(scale(Nairports) ~ scale(TotalSqMiles) + 
              scale(Population), dat)
-
 round(coef(mod2), 4)
 ```
 
 * For every *standard deviation increase* in total square miles, we expect a .58 standard deviation increase in the number of airports, holding population constant.
 * For every *standard deviation increase* in population, we expect a .64 standard deviation in the number of airports, holding area constant.
 
-## Fitting the Standardized Regression Model
+## Standardized Regression
 
 ```{r}
 summary(mod2)
@@ -95,7 +94,7 @@ The model fit ($t$-tests, omnibus $F$-test, $R^2$, adjusted $R^2$) is identical 
 
 ## Exploring Data
 
-Let's now do what we should have done in the first place - explore the data graphically! A "pairs plot", or scatterplot matrix, is particularly useful for this purpose. The `ggpairs()` function in the `GGally` package allows us to do this.
+Let's now do what we should have done in the first place---explore the data graphically! A "pairs plot", or scatterplot matrix, is particularly useful for this purpose. The `ggpairs()` function in the `GGally` package allows us to do this.
 
 ```{r}
 ggpairs(dat[, c("Nairports", "TotalSqMiles", "Population")])
@@ -134,11 +133,13 @@ mod3 <- lm(logNairports ~ logTotalSqMiles + logPopulation, dat)
 summary(mod3)
 ```
 
+## Fitting the Regression Model
+
 Notice that the multiple $R^2$ is now much lower. All 3 estimated regression coefficients have also changed substantially.
 
 * Even though $R^2$ is lower, this model may be preferable (e.g., more generalizable) than the previous model.
 
-* Part of the reason why has to do with the effects of outliers, which we'll focus on next week.
+* Part of the reason why has to do with the effects of outliers, which we'll discuss more next week.
 
 * We should also consider model assumptions before trusting these results too much (also next week).
 
@@ -153,7 +154,8 @@ dat <- dat %>%
   mutate(Region = case_when(RegionNorthEast == 1 ~ "Northeast",
                             RegionSouth == 1 ~ "South",
                             RegionNorthCentral == 1  ~ "NorthCentral",
-                            # next line says that 3 0s indicates "West"
+                            # If a value isn't in the NortEast, South,
+                            # or NorthCentral, it must be "West"
                             .default = "West"))
 ```
 
@@ -189,15 +191,29 @@ Because our only IV is discrete with 4 cateogries, we might instead think to run
 
 A one-way ANOVA predicting the highest elevation by region is identical to a regression model on dummy variables. To see, why let's run both models.
 
+::: {.panel-tabset}
+
+## ANOVA
+
 ```{r}
 mod5 <- aov(HighestElevation ~ Region, dat)
 summary(mod5)
 ```
+
+## Regression
+
+```{r}
+summary(mod4)
+```
+
+
+:::
+
 The $F$ test for the main effect of region in the ANOVA is identical to the omnibus $F$ test in the regression model!
 
 ## Categorical Variables
 
-The main "difference" (not a real difference) between the two models is how the results are analyzed. ANOVA models mostly focus on proportion of variance explained, while regression models put more emphasis on regression coefficients. 
+The main "difference" between the two models is how the results are analyzed. ANOVA models focus on proportion of variance explained, while regression models put more emphasis on regression coefficients. 
 
 In the fitted regression model, 
 
