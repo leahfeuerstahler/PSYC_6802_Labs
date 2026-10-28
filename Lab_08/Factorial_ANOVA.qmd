@@ -25,7 +25,6 @@ Rotten Tomatoes Data
 
 ```{r}
 dat <- read_csv("rotten_tomatoes_clean.csv")
-
 dat %>% summary
 ```
 
@@ -312,7 +311,7 @@ em1 <- emmeans(aov_res, specs = c("genre","rating"))
 ```
 
 
-Then we can use `joint_tests()` to test whether the effect of `rating` is significant `by` the different levels of `rating`. Results shown on the next slide. 
+Then we can use `joint_tests()` to test whether the effect of `genre` is significant `by` the different levels of `rating`. Results shown on the next slide. 
 
 ## Simple Main Effects Using `joint_tests()`
 

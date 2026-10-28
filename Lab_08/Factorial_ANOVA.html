@@ -234,8 +234,7 @@ PSYC 6802: Intro to Psychological Statistics
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"rotten_tomatoes_clean.csv"</span>)</span>
-<span id="cb2-2"><a href="" aria-label="2"></a></span>
-<span id="cb2-3"><a href="" aria-label="3"></a>dat <span class="sc">%&gt;%</span> summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="" aria-label="2"></a>dat <span class="sc">%&gt;%</span> summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         id             title      audienceScore    tomatoMeter   
  Length   :1910   Length   :1910   Min.   :12.00   Min.   : 0.00  
@@ -641,7 +640,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-label="1"></a><span class="co"># simple main effects calculation with the aov class results</span></span>
 <span id="cb49-2"><a href="" aria-label="2"></a>em1 <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(aov_res, <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">"genre"</span>,<span class="st">"rating"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Then we can use <code>joint_tests()</code> to test whether the effect of <code>rating</code> is significant <code>by</code> the different levels of <code>rating</code>. Results shown on the next slide.</p>
+<p>Then we can use <code>joint_tests()</code> to test whether the effect of <code>genre</code> is significant <code>by</code> the different levels of <code>rating</code>. Results shown on the next slide.</p>
 </section>
 <section id="simple-main-effects-using-joint_tests-1" class="slide level2">
 <h2>Simple Main Effects Using <code>joint_tests()</code></h2>
