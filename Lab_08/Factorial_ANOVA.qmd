@@ -207,15 +207,15 @@ In practice, the numerator of the formula remains the same, but the denominator 
 
 ## Effect Sizes 
 
-The `sjstats` package includes the `anova_stats` function for calculating $r$-family effect sizes. This is especially useful when you have multiple main effects and interaction effects:
+The `sjstats` package includes the `anova_stats` function for calculating $r$-family effect sizes. This is especially useful when you have multiple main effects and interaction effects.
+
+For the interaction effect, $\eta^2 = .006$, partial $\eta^2 = .007$, $\omega^2 = .004$, and partial $\omega^2 = .005$.
 
 ```{r}
 anova_stats(res_aov)
 ```
 
-For the interaction effect, $\eta^2 = .006$, partial $\eta^2 = .007$, $\omega^2 = .004$, and partial $\omega^2 = .005$.
-
-## Simple Main Effects by Rating Category
+## Simple Main Effects by Rating
 
 We found that the interaction effect is statistically significant at $\alpha = .05$. To better understand what this result means, let's calculate simple main effects. You should *always* do this whenever an interaction in your model is significant. (If the interaction is **not** significant, look at the ordinary main effects in the ANOVA table instead.)
 
@@ -229,7 +229,7 @@ dat_r <- dat %>% filter(rating == "R")
 
 Next, we want the $MSW$ and $dfW$ from the original model. From before, $MSW = 9.8$ and $dfW = 1895$. (Note that the type of SS doesn't affect these numbers.)
 
-## Simple Main Effects by Rating Category
+## Simple Main Effects by Rating
 
 Next, conduct a one-way ANOVA for each sub-data set.
 
@@ -261,7 +261,7 @@ summary(aov(boxOffice_transformed ~ genre, dat_r))
 
 * For the R rated movies, $MSB = 220.13$ and $dfB = 2$.
 
-## Simple Main Effects by Rating Category
+## Simple Main Effects by Rating
 
 The $F$ test statistic equals $MSB/MSW$, where $MSB$ is from the sub-data sets, and $MSW$ is from the original ANOVA.
 
@@ -272,6 +272,8 @@ F_r <- 220.13 / 9.8
 ```
 
 To find $p$-values, find the proportion of the $F$ distribution above each $F$ test statistic. Be sure to use $dfB$ from the sub-dataset and $dfW$ from the original dataset.
+
+At $\alpha = .05$, there are significant differences in genre at all three rating categories.
 
 ::: {.panel-tabset}
 
@@ -298,7 +300,6 @@ pf(F_r, df1 = 2, df2 = 1895, lower.tail = FALSE)
 
 :::
 
-At $\alpha = .05$, there are significant differences in genre at all three rating categories.
 
 
 ## Simple Main Effects Using `joint_tests()`
@@ -323,12 +324,11 @@ The problem with this approach is we get much less detail in the output, some of
 
 ## Post-Hoc Tests for Simple Main Effects
 
-If there are 3 or more levels of the IV for simple effects, we can do post-hoc or a priori analyses like we learned about for the one-way ANOVA. For example, we can do Tukey's HSD for each rating separately.
+If there are 3 or more levels of the IV for simple effects, we can do post-hoc or a priori analyses like we learned about for the one-way ANOVA. For example, we can do Tukey's HSD for each rating separately. All pairwise comparisons are statistically significant except for comedy and sci-fi movies with a PG rating.
 
 ```{r}
 pairs(em1, by = "rating", adjust = "tukey") 
 ```
-All pairwise comparisons are statistically significant except for comedy and sci-fi movies with a PG rating.
 
 ## Effect Sizes for Simple Main Effects
 
