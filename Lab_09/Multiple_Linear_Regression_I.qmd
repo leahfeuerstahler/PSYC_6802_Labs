@@ -13,7 +13,7 @@ library(gridExtra) # used to plot multiple graphs simultaneously
 
 ## Data for Today
 
-Today, we'll work with a dataset that includes a large number of assorted variables associated with the 50 U.S. States (including the educational expenditures and SAT information that we worked with in lecture). 
+Today, we'll work with a dataset that includes a large number of assorted variables associated with the 50 U.S. States. 
 
 ```{r}
 dat <- read_xlsx("States.xlsx", sheet = 1)
