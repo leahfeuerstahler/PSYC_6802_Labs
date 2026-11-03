@@ -6,8 +6,8 @@
 <script src="Multiple_Linear_Regression_II_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Multiple_Linear_Regression_II_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Multiple_Linear_Regression_II_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Multiple_Linear_Regression_II_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+<link href="Multiple_Linear_Regression_II_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="PSYC 6802: Intro to Psychological Statistics">
   <title>Lab 10: Multiple Linear Regression II</title>
@@ -20,10 +20,13 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -203,7 +206,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-PSYC 6802: Intro to Psychological Statistics 
+PSYC 6802: Intro to Psychological Statistics
 </div>
 </div>
 </div>
@@ -212,11 +215,11 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="packages-for-today-install-if-needed" class="slide level2">
 <h2>Packages for Today (Install if Needed)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href=""></a><span class="fu">library</span>(ppcor)</span>
-<span id="cb1-4"><a href=""></a><span class="fu">library</span>(car)</span>
-<span id="cb1-5"><a href=""></a><span class="fu">library</span>(gridExtra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="fu">library</span>(ppcor)</span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-5"><a href="" aria-label="5"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -240,14 +243,14 @@ PSYC 6802: Intro to Psychological Statistics
 <h2>Data</h2>
 <p>We’ll work with the States data again today.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"States.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"States.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Last week, we predicted the number of airports from total square miles and population. We found that our variables are somewhat more normally distributed with fewer outliers if we take logs of each variable.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">logNairports =</span> <span class="fu">log</span>(Nairports),</span>
-<span id="cb3-3"><a href=""></a>         <span class="at">logTotalSqMiles =</span> <span class="fu">log</span>(TotalSqMiles),</span>
-<span id="cb3-4"><a href=""></a>         <span class="at">logPopulation =</span> <span class="fu">log</span>(Population))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">logNairports =</span> <span class="fu">log</span>(Nairports),</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>         <span class="at">logTotalSqMiles =</span> <span class="fu">log</span>(TotalSqMiles),</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>         <span class="at">logPopulation =</span> <span class="fu">log</span>(Population))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="types-of-correlations" class="slide level2">
@@ -262,10 +265,10 @@ PSYC 6802: Intro to Psychological Statistics
 <section id="bivariate-pearson-correlations" class="slide level2">
 <h2>Bivariate Pearson Correlations</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>pears_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(dat[, <span class="fu">c</span>(<span class="st">"logNairports"</span>, </span>
-<span id="cb4-2"><a href=""></a>                         <span class="st">"logTotalSqMiles"</span>, </span>
-<span id="cb4-3"><a href=""></a>                         <span class="st">"logPopulation"</span>)])</span>
-<span id="cb4-4"><a href=""></a>pears_cor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a>pears_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(dat[, <span class="fu">c</span>(<span class="st">"logNairports"</span>, </span>
+<span id="cb4-2"><a href="" aria-label="2"></a>                         <span class="st">"logTotalSqMiles"</span>, </span>
+<span id="cb4-3"><a href="" aria-label="3"></a>                         <span class="st">"logPopulation"</span>)])</span>
+<span id="cb4-4"><a href="" aria-label="4"></a>pears_cor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                logNairports logTotalSqMiles logPopulation
 logNairports       1.0000000       0.7141517     0.5216795
@@ -279,10 +282,10 @@ logPopulation      0.5216795       0.2092757     1.0000000</code></pre>
 <h2>Partial Correlations</h2>
 <p>Partial and semi-partial correlations can be computed in R using the <code>ppcor</code> package. The function <code>pcor()</code> function calculates partial correlations, and the function <code>spcor()</code> function calculates semi-partial correlations.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>partial_cor <span class="ot">&lt;-</span> <span class="fu">pcor</span>(dat[, <span class="fu">c</span>(<span class="st">"logNairports"</span>, </span>
-<span id="cb6-2"><a href=""></a>                            <span class="st">"logTotalSqMiles"</span>, </span>
-<span id="cb6-3"><a href=""></a>                            <span class="st">"logPopulation"</span>)])</span>
-<span id="cb6-4"><a href=""></a>partial_cor<span class="sc">$</span>estimate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a>partial_cor <span class="ot">&lt;-</span> <span class="fu">pcor</span>(dat[, <span class="fu">c</span>(<span class="st">"logNairports"</span>, </span>
+<span id="cb6-2"><a href="" aria-label="2"></a>                            <span class="st">"logTotalSqMiles"</span>, </span>
+<span id="cb6-3"><a href="" aria-label="3"></a>                            <span class="st">"logPopulation"</span>)])</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>partial_cor<span class="sc">$</span>estimate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                logNairports logTotalSqMiles logPopulation
 logNairports       1.0000000       0.7251744     0.5437983
@@ -295,10 +298,10 @@ logPopulation      0.5437983      -0.2734176     1.0000000</code></pre>
 <section id="semi-partial-correlations" class="slide level2">
 <h2>Semi-partial Correlations</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>semipartial_cor <span class="ot">&lt;-</span> <span class="fu">spcor</span>(dat[, <span class="fu">c</span>(<span class="st">"logNairports"</span>, </span>
-<span id="cb8-2"><a href=""></a>                                 <span class="st">"logTotalSqMiles"</span>, </span>
-<span id="cb8-3"><a href=""></a>                                 <span class="st">"logPopulation"</span>)])</span>
-<span id="cb8-4"><a href=""></a>semipartial_cor<span class="sc">$</span>estimate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>semipartial_cor <span class="ot">&lt;-</span> <span class="fu">spcor</span>(dat[, <span class="fu">c</span>(<span class="st">"logNairports"</span>, </span>
+<span id="cb8-2"><a href="" aria-label="2"></a>                                 <span class="st">"logTotalSqMiles"</span>, </span>
+<span id="cb8-3"><a href="" aria-label="3"></a>                                 <span class="st">"logPopulation"</span>)])</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>semipartial_cor<span class="sc">$</span>estimate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                logNairports logTotalSqMiles logPopulation
 logNairports       1.0000000       0.6186764     0.3806539
@@ -312,17 +315,17 @@ logPopulation      0.5317568      -0.2332639     1.0000000</code></pre>
 <h2>Comparing Three Types of Correlations</h2>
 <p>Considering the three types of correlations, treating <code>logNairports</code> as the DV.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>pears_cor[<span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a>pears_cor[<span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>logTotalSqMiles   logPopulation 
       0.7141517       0.5216795 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>partial_cor<span class="sc">$</span>estimate[<span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-label="1"></a>partial_cor<span class="sc">$</span>estimate[<span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>logTotalSqMiles   logPopulation 
       0.7251744       0.5437983 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>semipartial_cor<span class="sc">$</span>estimate[<span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a>semipartial_cor<span class="sc">$</span>estimate[<span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>logTotalSqMiles   logPopulation 
       0.6186764       0.3806539 </code></pre>
@@ -337,13 +340,13 @@ logPopulation      0.5317568      -0.2332639     1.0000000</code></pre>
 <h2>Variance Inflation Factor</h2>
 <p>At this point, we’ll add the two-digit state abbreviation as row names to the dataset. Although the tidyverse doesn’t particularly like the use of row names, these will help us make sense of our regression diagnostics later.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href=""></a>  <span class="fu">column_to_rownames</span>(<span class="st">"Abbreviation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="" aria-label="2"></a>  <span class="fu">column_to_rownames</span>(<span class="st">"Abbreviation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We will next fit the regression model (without taking logs) from last week.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Nairports <span class="sc">~</span> TotalSqMiles <span class="sc">+</span> Population, dat)</span>
-<span id="cb17-2"><a href=""></a><span class="fu">vif</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Nairports <span class="sc">~</span> TotalSqMiles <span class="sc">+</span> Population, dat)</span>
+<span id="cb17-2"><a href="" aria-label="2"></a><span class="fu">vif</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TotalSqMiles   Population 
     1.017082     1.017082 </code></pre>
@@ -355,9 +358,9 @@ logPopulation      0.5317568      -0.2332639     1.0000000</code></pre>
 <h2>Variance Inflation Factor</h2>
 <p>As a second example, suppose we think incarceration rates are related to religious and political views.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(IncarcerationRate2018 <span class="sc">~</span> PctIrreligion <span class="sc">+</span> </span>
-<span id="cb19-2"><a href=""></a>             PctHarris2024 <span class="sc">+</span> PctTrump2024, dat)</span>
-<span id="cb19-3"><a href=""></a><span class="fu">summary</span>(mod2)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(IncarcerationRate2018 <span class="sc">~</span> PctIrreligion <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="" aria-label="2"></a>             PctHarris2024 <span class="sc">+</span> PctTrump2024, dat)</span>
+<span id="cb19-3"><a href="" aria-label="3"></a><span class="fu">summary</span>(mod2)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Estimate Std. Error    t value  Pr(&gt;|t|)
 (Intercept)   -2801.40283 2943.00473 -0.9518853 0.3461302
@@ -365,7 +368,7 @@ PctIrreligion    -6.96092    4.75179 -1.4649049 0.1497486
 PctHarris2024    40.34467   29.51451  1.3669436 0.1782866
 PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">vif</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">vif</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>PctIrreligion PctHarris2024  PctTrump2024 
      1.700883    206.830480    198.217952 </code></pre>
@@ -374,10 +377,10 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 </section>
 <section id="variance-inflation-factor-2" class="slide level2">
 <h2>Variance Inflation Factor</h2>
-<p>(Because the U.S. doesn’t have viable third parties,) <code>PctHarris2024</code> and <code>PctTrump2024</code> are highly (negatively) correlated. As a result, we don’t gain much predictive power from including both, and we lose a lot in terms of power, as reflected by the increased standard errors of the estimated coefficients.</p>
+<p>(Because the U.S. doesn’t have robust third parties), <code>PctHarris2024</code> and <code>PctTrump2024</code> are highly (negatively) correlated. As a result, we don’t gain much predictive power from including both, and we lose a lot in terms of power, as reflected by the increased standard errors of the estimated coefficients.</p>
 <p><code>mod2</code> has moderate predictive power.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">summary</span>(mod2)<span class="sc">$</span>r.squared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a><span class="fu">summary</span>(mod2)<span class="sc">$</span>r.squared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4624605</code></pre>
 </div>
@@ -397,7 +400,7 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Evaluating Model Residuals</h2>
 <p>To analyze residuals graphically, it is convenient to add model residuals to the data. Here, we return to predicting airports.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>dat2 <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(mod1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a>dat2 <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(mod1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="evaluating-model-residuals-2" class="slide level2">
@@ -407,27 +410,28 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <li>Whether the residuals are centered at the 0 line.</li>
 <li>Whether the residuals are evenly distributed across all levels of each predictor.</li>
 </ul>
+<p>Plots on the next slide.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-label="1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat2, <span class="fu">aes</span>(logTotalSqMiles, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb26-2"><a href="" aria-label="2"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
+<span id="cb26-3"><a href="" aria-label="3"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span>
+<span id="cb26-4"><a href="" aria-label="4"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat2, <span class="fu">aes</span>(logPopulation, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb26-5"><a href="" aria-label="5"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
+<span id="cb26-6"><a href="" aria-label="6"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span>
+<span id="cb26-7"><a href="" aria-label="7"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot1, plot2, <span class="at">nrow =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="evaluating-model-residuals-3" class="slide level2">
 <h2>Evaluating Model Residuals</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat2, <span class="fu">aes</span>(logTotalSqMiles, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb26-2"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb26-3"><a href=""></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span>
-<span id="cb26-4"><a href=""></a>plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat2, <span class="fu">aes</span>(logPopulation, residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb26-5"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb26-6"><a href=""></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span>
-<span id="cb26-7"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot1, plot2, <span class="at">nrow =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
-</div>
 <img data-src="Multiple_Linear_Regression_II_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"><p>For both variables, positive residuals have somewhat larger magnitudes than negative residuals. Heteroscedasticity is harder to ascertain because there are only so many data points, but there are no major signs of concern (maybe slightly less variance at low square mileages?)</p>
 </section>
 <section id="evaluating-model-residuals-4" class="slide level2">
 <h2>Evaluating Model Residuals</h2>
 <p>We can also evaluate the normality of residuals using our usual methods such as qq plots.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">ggplot</span>(dat2, <span class="fu">aes</span>(<span class="at">sample =</span> residuals)) <span class="sc">+</span> </span>
-<span id="cb27-2"><a href=""></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(dat2, <span class="fu">aes</span>(<span class="at">sample =</span> residuals)) <span class="sc">+</span> </span>
+<span id="cb27-2"><a href="" aria-label="2"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Multiple_Linear_Regression_II_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"><p>There is some deviation from normality, possibly caused by the remaining outliers in the data (which we will evaluate next).</p>
@@ -436,11 +440,11 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Leverage</h2>
 <p>For leverage values, we want to take a closer look at values greater than <span class="math inline">\(3(p+1) / N = 9 / 50 = .18\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>leverage <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-label="1"></a>leverage <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It can be difficult to visually identify individual values. Instead, we pick out leverage values greater than the cutoff for each model.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>leverage[leverage <span class="sc">&gt;</span> .<span class="dv">18</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-label="1"></a>leverage[leverage <span class="sc">&gt;</span> .<span class="dv">18</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       AK        CA        TX 
 0.8201085 0.4222764 0.2596144 </code></pre>
@@ -453,10 +457,10 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <p>Distance measures consider unusual values of the criterion given the predictors.</p>
 <p>For externally studentized residuals, we want to take a closer look at values greater than 2.5.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>distance <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>distance[distance <span class="sc">&gt;</span> <span class="fl">2.5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-label="1"></a>distance[distance <span class="sc">&gt;</span> <span class="fl">2.5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      FL       MI 
 2.631865 2.643957 </code></pre>
@@ -479,15 +483,15 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Influence</h2>
 <p>Let’s look at DFFITS first, which looks at the standardized change in predicted scores. We want to flag observations higher than <span class="math inline">\(2\sqrt{(p+1)/N} = 2\sqrt{.06} = .49\)</span> for large sample sizes, and higher than 1 for moderate sample sizes. I consider 50 to be closer to “moderate” than “large”, but let’s explore both cutoffs.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>dffits_mod1 <span class="ot">&lt;-</span> <span class="fu">dffits</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-label="1"></a>dffits_mod1 <span class="ot">&lt;-</span> <span class="fu">dffits</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>dffits_mod1[<span class="fu">abs</span>(dffits_mod1) <span class="sc">&gt;</span> .<span class="dv">49</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-label="1"></a>dffits_mod1[<span class="fu">abs</span>(dffits_mod1) <span class="sc">&gt;</span> .<span class="dv">49</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        AK         CA         FL 
 -1.1021537 -2.3368975  0.9012201 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>dffits_mod1[<span class="fu">abs</span>(dffits_mod1) <span class="sc">&gt;</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-label="1"></a>dffits_mod1[<span class="fu">abs</span>(dffits_mod1) <span class="sc">&gt;</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       AK        CA 
 -1.102154 -2.336897 </code></pre>
@@ -499,10 +503,10 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Influence</h2>
 <p>Next, let’s look at DFBETAS, which looks at the standardized change in regression coefficients. We want to flag observations with absolute values higher than <span class="math inline">\(2/\sqrt{N} = 2/\sqrt{50} = .28\)</span> for large samples, and &gt; 1 for moderate samples. This measure considers each regression coefficient separately.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>dfbetas_mod1 <span class="ot">&lt;-</span> <span class="fu">dfbetas</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-label="1"></a>dfbetas_mod1 <span class="ot">&lt;-</span> <span class="fu">dfbetas</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>dfbetas_mod1[<span class="fu">apply</span>(<span class="fu">abs</span>(dfbetas_mod1[, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">&gt;</span> .<span class="dv">28</span>, <span class="dv">1</span>, any), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-label="1"></a>dfbetas_mod1[<span class="fu">apply</span>(<span class="fu">abs</span>(dfbetas_mod1[, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">&gt;</span> .<span class="dv">28</span>, <span class="dv">1</span>, any), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   (Intercept) TotalSqMiles Population
 AK  0.28947720   -1.0799105  0.2763140
@@ -518,10 +522,10 @@ TX -0.19416086    0.1660704  0.2902327</code></pre>
 <h2>Influence</h2>
 <p>Next, let’s apply Cook’s distance, which looks at the standardized <em>squared</em> difference in predicted scores. Here, we use a cutoff of 1.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>cook <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-label="1"></a>cook <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>cook[cook <span class="sc">&gt;</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-label="1"></a>cook[cook <span class="sc">&gt;</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      CA 
 1.600053 </code></pre>
@@ -533,8 +537,8 @@ TX -0.19416086    0.1660704  0.2902327</code></pre>
 <h2>Influence</h2>
 <p>Finally, let’s look at COVRATIO, which looks at the change in the standard errors of regression coefficients. Here, we use a cutoff of |COVRATIO-1| <span class="math inline">\(\geq 3p/N\)</span>, and because our COVRATIO values are positive, this translates to a cutoff of 1.12. Alaska, California, and Texas are again identified.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>covratio_mod1 <span class="ot">&lt;-</span> <span class="fu">covratio</span>(mod1)</span>
-<span id="cb45-2"><a href=""></a>covratio_mod1[covratio_mod1 <span class="sc">&gt;</span> <span class="fl">1.12</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-label="1"></a>covratio_mod1 <span class="ot">&lt;-</span> <span class="fu">covratio</span>(mod1)</span>
+<span id="cb45-2"><a href="" aria-label="2"></a>covratio_mod1[covratio_mod1 <span class="sc">&gt;</span> <span class="fl">1.12</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      AK       CA       TX 
 5.827528 1.175462 1.404572 </code></pre>
@@ -738,7 +742,7 @@ TX -0.19416086    0.1660704  0.2902327</code></pre>
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

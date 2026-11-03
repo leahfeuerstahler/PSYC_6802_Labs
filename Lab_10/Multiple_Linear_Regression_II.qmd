@@ -138,7 +138,7 @@ vif(mod2)
 
 ## Variance Inflation Factor
 
-(Because the U.S. doesn't have viable third parties,) `PctHarris2024` and `PctTrump2024` are highly (negatively) correlated. As a result, we don't gain much predictive power from including both, and we lose a lot in terms of power, as reflected by the increased standard errors of the estimated coefficients.
+(Because the U.S. doesn't have robust third parties), `PctHarris2024` and `PctTrump2024` are highly (negatively) correlated. As a result, we don't gain much predictive power from including both, and we lose a lot in terms of power, as reflected by the increased standard errors of the estimated coefficients.
 
 `mod2` has moderate predictive power. 
 
@@ -173,10 +173,22 @@ To evaluate homoscedasticity, we can plot the residuals against each predictor. 
 * Whether the residuals are centered at the 0 line.
 * Whether the residuals are evenly distributed across all levels of each predictor.
 
+Plots on the next slide.
+
+```{r .smaller, eval = FALSE}
+plot1 <- ggplot(dat2, aes(logTotalSqMiles, residuals)) + geom_point() + 
+  geom_smooth(method = loess, se = TRUE, formula = y ~ x) + 
+  scale_x_log10() + geom_hline(yintercept = 0)
+plot2 <- ggplot(dat2, aes(logPopulation, residuals)) + geom_point() + 
+  geom_smooth(method = loess, se = TRUE, formula = y ~ x) + 
+  scale_x_log10() + geom_hline(yintercept = 0)
+gridExtra::grid.arrange(plot1, plot2, nrow = 1)
+```
+
 ## Evaluating Model Residuals
 
 
-```{r}
+```{r echo = FALSE}
 plot1 <- ggplot(dat2, aes(logTotalSqMiles, residuals)) + geom_point() + 
   geom_smooth(method = loess, se = TRUE, formula = y ~ x) + 
   scale_x_log10() + geom_hline(yintercept = 0)
