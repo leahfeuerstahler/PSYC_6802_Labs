@@ -400,7 +400,8 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Evaluating Model Residuals</h2>
 <p>To analyze residuals graphically, it is convenient to add model residuals to the data. Here, we return to predicting airports.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a>dat2 <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(mod1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a>mod1b <span class="ot">&lt;-</span> <span class="fu">lm</span>(logNairports <span class="sc">~</span> logTotalSqMiles <span class="sc">+</span> logPopulation, dat)</span>
+<span id="cb25-2"><a href="" aria-label="2"></a>dat2 <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">residuals =</span> <span class="fu">residuals</span>(mod1b))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="evaluating-model-residuals-2" class="slide level2">
@@ -424,7 +425,7 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <section id="evaluating-model-residuals-3" class="slide level2">
 <h2>Evaluating Model Residuals</h2>
 
-<img data-src="Multiple_Linear_Regression_II_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"><p>For both variables, positive residuals have somewhat larger magnitudes than negative residuals. Heteroscedasticity is harder to ascertain because there are only so many data points, but there are no major signs of concern (maybe slightly less variance at low square mileages?)</p>
+<img data-src="Multiple_Linear_Regression_II_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"><p>For both variables, positive and negative residuals have about the same magnitudes. Heteroscedasticity is harder to ascertain because there are relatively few data points, but there are no major signs of concern (the quadratic-like relationship for <code>logPopulation</code> may be related to the limitations of a linear model)</p>
 </section>
 <section id="evaluating-model-residuals-4" class="slide level2">
 <h2>Evaluating Model Residuals</h2>
@@ -440,33 +441,33 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Leverage</h2>
 <p>For leverage values, we want to take a closer look at values greater than <span class="math inline">\(3(p+1) / N = 9 / 50 = .18\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-label="1"></a>leverage <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-label="1"></a>leverage <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(mod1b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It can be difficult to visually identify individual values. Instead, we pick out leverage values greater than the cutoff for each model.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-label="1"></a>leverage[leverage <span class="sc">&gt;</span> .<span class="dv">18</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       AK        CA        TX 
-0.8201085 0.4222764 0.2596144 </code></pre>
+<pre><code>       AK        RI 
+0.2379028 0.2214389 </code></pre>
 </div>
 </div>
-<p>In <code>mod1</code>, Alaska, California, and Texas (the states with the highest total square miles) have the highest leverage.</p>
+<p>In <code>mod1</code>, Alaska and Rhode Island (the states with the highest and lowest total square miles) have the highest leverage.</p>
 </section>
 <section id="distance" class="slide level2">
 <h2>Distance</h2>
 <p>Distance measures consider unusual values of the criterion given the predictors.</p>
 <p>For externally studentized residuals, we want to take a closer look at values greater than 2.5.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(mod1b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-label="1"></a>distance[distance <span class="sc">&gt;</span> <span class="fl">2.5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      FL       MI 
-2.631865 2.643957 </code></pre>
+<pre><code>      AK       HI       RI 
+2.642931 2.573633 2.802997 </code></pre>
 </div>
 </div>
-<p>Here, the first model identifies Florida and Michigan as possible outliers.</p>
+<p>Here, the first model identifiesAlaska, Hawaii, and Rhode Island as possible outliers.</p>
 </section>
 <section id="influence" class="slide level2">
 <h2>Influence</h2>
@@ -483,71 +484,74 @@ PctTrump2024     31.25470   29.56891  1.0570123 0.2960256</code></pre>
 <h2>Influence</h2>
 <p>Let’s look at DFFITS first, which looks at the standardized change in predicted scores. We want to flag observations higher than <span class="math inline">\(2\sqrt{(p+1)/N} = 2\sqrt{.06} = .49\)</span> for large sample sizes, and higher than 1 for moderate sample sizes. I consider 50 to be closer to “moderate” than “large”, but let’s explore both cutoffs.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-label="1"></a>dffits_mod1 <span class="ot">&lt;-</span> <span class="fu">dffits</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-label="1"></a>dffits_mod1 <span class="ot">&lt;-</span> <span class="fu">dffits</span>(mod1b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-label="1"></a>dffits_mod1[<span class="fu">abs</span>(dffits_mod1) <span class="sc">&gt;</span> .<span class="dv">49</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>        AK         CA         FL 
--1.1021537 -2.3368975  0.9012201 </code></pre>
+<pre><code>       AK        FL        HI        RI 
+1.4766596 0.5071895 0.6859681 1.4948694 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-label="1"></a>dffits_mod1[<span class="fu">abs</span>(dffits_mod1) <span class="sc">&gt;</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       AK        CA 
--1.102154 -2.336897 </code></pre>
+<pre><code>      AK       RI 
+1.476660 1.494869 </code></pre>
 </div>
 </div>
-<p>Again, we flag Alaska (high area state), California, and Florida (all high area and high population states).</p>
+<p>Again, we flag Alaska (high area state), Florida (high area and high population states), Rhode Island (low area state), and Hawaii (relatively low area, but more reliant on air travel).</p>
 </section>
 <section id="influence-2" class="slide level2">
 <h2>Influence</h2>
 <p>Next, let’s look at DFBETAS, which looks at the standardized change in regression coefficients. We want to flag observations with absolute values higher than <span class="math inline">\(2/\sqrt{N} = 2/\sqrt{50} = .28\)</span> for large samples, and &gt; 1 for moderate samples. This measure considers each regression coefficient separately.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-label="1"></a>dfbetas_mod1 <span class="ot">&lt;-</span> <span class="fu">dfbetas</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-label="1"></a>dfbetas_mod1 <span class="ot">&lt;-</span> <span class="fu">dfbetas</span>(mod1b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-label="1"></a>dfbetas_mod1[<span class="fu">apply</span>(<span class="fu">abs</span>(dfbetas_mod1[, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">&gt;</span> .<span class="dv">28</span>, <span class="dv">1</span>, any), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   (Intercept) TotalSqMiles Population
-AK  0.28947720   -1.0799105  0.2763140
-CA  1.09635144   -0.1699070 -2.2333479
-FL -0.14898177   -0.1461390  0.8097488
-NY -0.05079392   -0.1035019  0.4207587
-TX -0.19416086    0.1660704  0.2902327</code></pre>
+<pre><code>   (Intercept) logTotalSqMiles logPopulation
+AK   0.1834033     1.214172987    -0.9612674
+FL  -0.3744598    -0.008871632     0.4256553
+HI   0.5459502    -0.427899479    -0.2835408
+NY  -0.2832973    -0.042352743     0.3465093
+RI   1.0911211    -1.302380106    -0.2947791
+VT  -0.4036340     0.202353219     0.2899512
+WY   0.2646751     0.214444384    -0.4118267</code></pre>
 </div>
 </div>
-<p>States with the largest physical area or populations - Alaska, California, Florida, New York, and Texas - are identified as influential for either slope coefficients. Alaska is the only state to have high influence on TotSqMiles.</p>
+<p>States with extreme physical area or populations are identified as influential for either slope coefficients. Alaska, Hawaii, and Rhode Island are only states to have high influence on TotSqMiles.</p>
 </section>
 <section id="influence-3" class="slide level2">
 <h2>Influence</h2>
 <p>Next, let’s apply Cook’s distance, which looks at the standardized <em>squared</em> difference in predicted scores. Here, we use a cutoff of 1.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-label="1"></a>cook <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-label="1"></a>cook <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(mod1b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-label="1"></a>cook[cook <span class="sc">&gt;</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      CA 
-1.600053 </code></pre>
+<pre><code>named numeric(0)</code></pre>
 </div>
 </div>
-<p>Only California has high distance.</p>
+<p>No states have high distance.</p>
 </section>
 <section id="influence-4" class="slide level2">
 <h2>Influence</h2>
-<p>Finally, let’s look at COVRATIO, which looks at the change in the standard errors of regression coefficients. Here, we use a cutoff of |COVRATIO-1| <span class="math inline">\(\geq 3p/N\)</span>, and because our COVRATIO values are positive, this translates to a cutoff of 1.12. Alaska, California, and Texas are again identified.</p>
+<p>Finally, let’s look at COVRATIO, which looks at the change in the standard errors of regression coefficients. Here, we use a cutoff of |COVRATIO-1| <span class="math inline">\(\geq 3p/N\)</span>, and because our COVRATIO values are positive, this translates to a cutoff of 1.12. Similar high-area and small-area states are again identified.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-label="1"></a>covratio_mod1 <span class="ot">&lt;-</span> <span class="fu">covratio</span>(mod1)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-label="1"></a>covratio_mod1 <span class="ot">&lt;-</span> <span class="fu">covratio</span>(mod1b)</span>
 <span id="cb45-2"><a href="" aria-label="2"></a>covratio_mod1[covratio_mod1 <span class="sc">&gt;</span> <span class="fl">1.12</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      AK       CA       TX 
-5.827528 1.175462 1.404572 </code></pre>
+<pre><code>      CA       CT       DE       MA       MT       NH       NJ       SD 
+1.180613 1.158783 1.293882 1.126728 1.158153 1.139910 1.137924 1.156046 
+      TX 
+1.141941 </code></pre>
 </div>
 </div>
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
-<p>This is a tricky example case. Alaska, in particular, seems to be the most influential point. Alaska is indeed unusual in that it has a relatively small population, but it is easily the largest U.S. state and it has a large number of airports (because air travel is either the most convenient, or the only, way to arrive at many Alaskan towns). States with relatively large populations, including California, Texas, New York, and Florida, also seem to have outsized influence, so it may be worthwhile to continue exploring nonlinear transformations of the predictors.</p>
+<p>This is a tricky example case. Alaska, in particular, seems to be the most influential point. Alaska is indeed unusual in that it has a relatively small population, but it is easily the largest U.S. state and it has a large number of airports (because air travel is either the most convenient, or the only, way to arrive at many Alaskan towns). Other states with relatively large populations, including California, Texas, New York, and Florida, and small areas, including Rhode Island and Hawaii, also seem to have outsized influence, so it may be worthwhile to continue exploring nonlinear transformations of the predictors.</p>
 <p>To improve this model, we might try to identify variables to add to the model that would better reflect the reasons why Alaska is unusual. Another option we could try for modeling these data is to assume a nonlinear relationship between the number of airports and the inputted variables. More advanced generalized linear models (GLMs) such as poisson regression or negative binomial regression (not covered in detail in this course) may be more appropriate, especially because Nairports is a count variable.</p>
 
 </section>
