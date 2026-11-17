@@ -1,0 +1,15 @@
+{
+  "hash": "0fe021362e836bc1c3d247b49b591b8b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 11 Activity\"\nformat: pdf\n---\n\n\nWe will work with the same dataset that we used in the main lab. You can read in the data using the following code:\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(haven)\nlibrary(ggeffects)\nlibrary(lavaan)\ndat <- read_dta(\"Lab_11_attend.dta\")\n```\n:::\n\n\n\n## 1\n\nThe variables `frosh` and `soph` are dummy variables for the student being a freshman or sophomore (0 on both variables indicates 'other'). Run the code below to reconstruct a factor variable (with \"Other\" as the default category) from the dummy variables.\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndat <- dat %>%\n  mutate(grade = case_when(frosh == 1 ~ \"Freshman\",\n                           soph == 1 ~ \"Sophomore\",\n                           .default = \"Other\"),\n         grade = fct_relevel(grade, \"Other\"))\n```\n:::\n\n\n\n## 2 \n\nFit a model predicting final exam scores from (the centered) prior GPA with academic year as a moderator (no need to center the categorical moderator variables). Are there statistically significant moderation effects?\n\n\n\n::: {.cell}\n\n:::\n\n\n## 3\n\nConstruct plots to illustrate the moderation effect (use separate lines for different grade levels). How does this plot help you interpret your results from step 1?\n\n\n::: {.cell}\n\n:::\n\n\n## 4\n\nUsing this same data set, conduct a mediation analysis predicting final exam scores from ACT scores with `hwrte` (rate of completing homework) as a mediator (you may drop the 6 missing values of `hwrte` for this step). What do you conclude? \n\n\n::: {.cell}\n\n:::\n\n\n## 5\n\nRepeat #3 using a method that using a better method of missing data handling than listwise deletion.\n\n\n::: {.cell}\n\n:::\n\n\n\n::: {.cell}\n\n:::\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

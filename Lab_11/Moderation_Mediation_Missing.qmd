@@ -236,7 +236,7 @@ final ~ b * termgpa + c * ACT
 termgpa ~ a * ACT
 
 ind := a*b    # calculate the indirect effect
-tot := a*b+c  # calculate the direct effect
+tot := a*b+c  # calculate the total effect
 "
 ```
 
