@@ -1,0 +1,15 @@
+{
+  "hash": "0699e37c0ee9856cd0c733fcca497faf",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 12 Activity\"\nformat: pdf\n---\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n## the following code should be run first (from the main lab)\nlibrary(tidyverse)\nlibrary(haven)\nlibrary(caret)\nlibrary(psych)\nlibrary(paran)\nlibrary(lavaan)\ndat <- read_sav(\"Lab_12_Cox.sav\")\n```\n:::\n\n\n\nThe dataset that includes the Panas items also includes the Relationship Scales Questionnaire (RSQ), which includes 30 items on 5-point Likert scales (scored 1-5). Although the entire set of 30 items can be thought of as a single scale, the following subscales are also theoretically present:\n\n* RSQ items 11, 18, 21, 23, 25 : attachment avoidance\n* RSQ items 10, 12, 13, 15, 20, 24, 29, 30: attachment anxiety\n\nHere, RSQ items 12, 13, 20, 24, 29 need to be reverse coded, which can be done by running the following code:\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndat <- dat %>% mutate(RSQ12 = 6 - RSQ12, RSQ13 = 6 - RSQ13, \n                      RSQ20 = 6 - RSQ20, RSQ24 = 6 - RSQ24, \n                      RSQ29 = 6 - RSQ29)\ndat_for_fa <- dat %>% \n  dplyr::select(RSQ11, RSQ18, RSQ21, RSQ23, RSQ25,\n                RSQ10, RSQ12, RSQ13, RSQ15, RSQ20, \n                RSQ24, RSQ29, RSQ30)\n```\n:::\n\n\n1. First, split the data into a training (exploratory) set and a test (confirmatory) set. Use a different split than used in the lab slides by setting a different seed.\n\n\n::: {.cell}\n\n:::\n\n\n2. Create a scree plot and conduct parallel analysis using your exploratory data set. Based on these results, decide on the number of factors to retain.\n\n\n::: {.cell}\n\n:::\n\n\n3. Conduct an exploratory factor analysis (using the exploratory data set) with the number of factors that you identified in the previous step. Does your EFA support the theoretical dimensions?\n\n\n::: {.cell}\n\n:::\n\n\n4. What changes (if any) would you make to the EFA? Test out any changes you identify.\n\n\n::: {.cell}\n\n:::\n\n\n5. Use CFA with the confirmatory data set to test the theoretical structure of these data (outlined at the top of this assignment), and evaluate fit. Does the model fit the data well?\n\n\n::: {.cell}\n\n:::\n\n\n6. What changes (if any) would you consider making to the CFA?\n\n\n::: {.cell}\n\n:::\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

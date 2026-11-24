@@ -36,11 +36,9 @@ From `lavaan` package:
 
 Today we'll working data from a replication of the following study:
 
-Cox, C. R., Arndt, J., Pyszczynski, T., Greenberg, J., Abdollahi, A., & Solomon, S. (2008). Terror management and adults' attachment to their parents: the safe haven remains. *Journal of Personality and Social Psychology*, *94*, 696-717. 
+* Cox, C. R., Arndt, J., Pyszczynski, T., Greenberg, J., Abdollahi, A., & Solomon, S. (2008). Terror management and adults' attachment to their parents: the safe haven remains. *Journal of Personality and Social Psychology*, *94*, 696-717. 
 
-As part of this study, the "Positive and Negative Affect Schedule" (PANAS) scale was administered. Responses were on a 5-point Likert scale.
-
-The PANAS scale is supposed to have two subscales:
+As part of this study, the "Positive and Negative Affect Schedule" (PANAS) scale was administered. Responses were on two 5-point Likert scales:
 
 * positive mood scale (10 items)
 * negative mood scale (10 items)
@@ -101,7 +99,7 @@ scree(dat_efa)
 
 ## Parallel Analysis
 
-Parallel analysis is more reliable and more objective than the scree plot. Here, the default in `paran` is to do parallel analysis on the full correlation matrix. If we want to instead conduct parallel analysis on the reduced correlation matrix, we can specify `cfa = TRUE`.
+Parallel analysis is more reliable and more objective than the scree plot. Here, the default in `paran` is to do parallel analysis on the **full** correlation matrix. If we want to instead conduct parallel analysis on the **reduced** correlation matrix, we can specify `cfa = TRUE`.
 
 ```{r, eval = FALSE}
 paran(dat_efa, status = FALSE, cfa = TRUE)
@@ -113,9 +111,25 @@ Results are shown on the next slide. Again, 3 factors are suggested. The option 
 
 ```{r, echo = FALSE}
 paran(dat_efa, status = FALSE, cfa = TRUE)
-
 ```
 
+```{}
+Using eigendecomposition of correlation matrix.
+
+Results of Horn's Parallel Analysis for factor retention
+600 iterations, using the mean estimate
+
+──────────────────────────────────────────────────
+Factor      Adjusted    Unadjusted    Estimated
+            Eigenvalue  Eigenvalue    Bias
+──────────────────────────────────────────────────
+1           3.671578    4.788333      1.116754
+2           2.856292    3.781275      0.924982
+3           0.083369    0.871771      0.788402
+──────────────────────────────────────────────────
+Criterion: retain adjusted eigenvalues > 0.
+(3 factors retained)
+```
 
 
 ## Parallel Analysis
@@ -165,13 +179,22 @@ efa_res$loadings # not run
 print(efa_res$loadings, cutoff = .3)
 ```
 
-Results are shown on the next slide. All of the positive mood items loads cleanly on factor PA1. Most negative mood items load cleanly on factor PA2, but Panas2 and Panas3 load on factor PA3, and Panas6 does not have a large loading on any factor.
+Results are shown on the next slide. All of the positive mood items loads cleanly on factor PA3. Most negative mood items load cleanly on factor PA1, but Panas2 and Panas4 load on factor PA3, and Panas6 does not have a large loading on any factor.
 
 ## EFA Results
 
 ```{r, echo=FALSE}
 print(efa_res$loadings, cutoff = .3)
 ```
+
+## EFA Results
+
+It is also helpful to look at the correlations between factors:
+
+```{r}
+efa_res$Phi
+```
+Factors PA1 and PA2 are moderately to highly correlated, which makes sense because both reflect negative mood items.
 
 ## Modifying the EFA
 
@@ -222,12 +245,14 @@ cfa_res <- cfa(model = mod,
 
 ## CFA Results
 
-Because CFA is typically run on covariance matrices, we want to standardize the results to ease interpretation. This can be done with the `standardizedSolution()` function. The output is very long, but note the following:
+Because CFA is typically run on covariance matrices, we want to standardize the results to ease interpretation. This can be done with the `standardizedSolution()` function. The output is very long and shown on the next slide. Note the following:
 
 * terms separated by "=~" indicate standardized factor loadings
 * terms separated by "~~" indicate either residual variances (for Panas items), factor variances (equal to 1), or the correlation between factors
 * estimated parameters are given in the "est.std" column
 * everything to the right of the "est.std" column is a hypothesis test of the parameter against the "nil" hypothesis that the parameter is 0 in the population
+
+## CFA Results
 
 ```{r}
 standardizedSolution(cfa_res)
@@ -246,12 +271,14 @@ We can make fit evaluation simpler by only specifying certain fit measures to pr
 ```{r}
 fitMeasures(cfa_res, 
             fit.measures = c("chisq.scaled", "df.scaled", 
-                             "pvalue", "rmsea.scaled", 
+                             "pvalue.scaled", "rmsea.scaled", 
                              "srmr", "cfi.scaled", "tli.scaled"))
 ```
 
-Here, fit is a bit worse than we would usually want. 
+## Evaluating Fit
 
-RMSEA is over .07, SRMR is over .08, and CFI/TLI are both under .95. 
+For this model, fit is a bit worse than we would usually want. 
 
-The problem stems in part from using 5-point Likert data, but we may also use a combination of theory and the EFA results to consider some modifications to the CFA model.
+* RMSEA is over .07, SRMR is over .08, and CFI/TLI are both under .95. 
+
+* The problem stems in part from using 5-point Likert data, but we may also use a combination of theory and the EFA results to consider some modifications to the CFA model.
